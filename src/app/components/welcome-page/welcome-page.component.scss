@@ -1,7 +1,19 @@
+@use "styles/variables" as *;
+
 .middle{
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin-top: 15%;
+    margin-top: 12%;
+}
+p{
+    font-size: 20px;
+    color: $marine-dark;
+    text-align: center;
+}
+h1{
+    font-size: 30px;
+    color: $marine-dark;
+    text-align: center;
 }

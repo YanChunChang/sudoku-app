@@ -1,7 +1,12 @@
 <div class="middle">
-    <h1>Hallo👋</h1>
-    <h3>Du willst deine Aktivitäten eintragen?</h3>
-    <h3>👇👇👇</h3>
+    <h1>Willkommen bei Sudoku!</h1>
+    <p>Wähle deinen Schwierigkeitsgrad:</p>
+    <div class="level-selection">
+        <button [routerLink]="['/sudoku', 'easy']">Einfach</button>
+        <button [routerLink]="['/sudoku', 'medium']">Mittel</button>
+        <button [routerLink]="['/sudoku', 'hard']">Schwer</button>
+      </div>
+
 </div>
 
 <!-- <div class="middle">
