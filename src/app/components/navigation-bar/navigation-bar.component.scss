@@ -1,9 +1,11 @@
+@use "styles/variables.scss" as *;
+
 .navbar {
     background-color: white;
     padding: 20px;
     display: flex;
     align-items: center;
-    border-bottom: #6b9cbc 2px solid;
+    border-bottom: 2px solid $marine;
 }
 
 
