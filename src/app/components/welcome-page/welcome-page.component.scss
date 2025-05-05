@@ -1,0 +1,46 @@
+@use "styles/variables" as *;
+
+.middle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 12%;
+}
+
+p{
+    font-size: 25px;
+    color: $marine-dark;
+    text-align: center;
+}
+
+h1{
+    font-size: 35px;
+    color: $marine-dark;
+    text-align: center;
+}
+
+.level-selection{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+p-button{
+    margin-top: 20px;
+    color: $marine-dark;
+    text-align: center;
+    background-color: $marine;
+    border-radius: 5px;
+    padding: 15px 100px;
+    border: none;
+    cursor: pointer;
+}
+
+p-button:hover{
+    background-color: $marine-light;
+    color: white;
+}
+
+::ng-deep p-button .p-button-label {
+    font-size: 25px;
+  }

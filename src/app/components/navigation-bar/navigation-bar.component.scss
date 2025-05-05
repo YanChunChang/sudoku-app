@@ -1,9 +1,11 @@
+@use "styles/variables" as *;
+
 .navbar {
     background-color: white;
     padding: 20px;
     display: flex;
     align-items: center;
-    border-bottom: #6b9cbc 2px solid;
+    border-bottom: 2px solid $marine;
 }
 
 
@@ -38,7 +40,7 @@
     bottom: 0;
     height: 3px;
     width: 100%;
-    background-color: #2d5874;
+    background-color: $marine-dark;
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.3s ease;

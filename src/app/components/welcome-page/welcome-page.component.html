@@ -1,1 +1,9 @@
-<p>welcome-page works!</p>
+<div class="middle">
+    <h1>Willkommen bei Sudoku!</h1>
+    <p>Wähle deinen Schwierigkeitsgrad:</p>
+    <div class="level-selection">
+        <p-button label="Einfach" [routerLink]="['/sudoku', 'easy']"></p-button> 
+        <p-button label="Mittel" [routerLink]="['/sudoku', 'medium']"></p-button>
+        <p-button label="Schwer" [routerLink]="['/sudoku', 'hard']"></p-button>
+    </div>
+</div>
