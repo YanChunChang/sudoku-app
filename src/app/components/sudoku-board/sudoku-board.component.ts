@@ -32,6 +32,18 @@ export class SudokuBoardComponent {
     return board;
   }
 
+  get board(): FormArray {
+    return this.form.get('board') as FormArray;
+  }
+
+  get rowControls(): FormArray[] {
+    return (this.form.get('board') as FormArray).controls as FormArray[];
+  }
+
+  getCell(row: number, col: number): FormControl { 
+    return (this.board.at(row) as FormArray).at(col) as FormControl;
+  }
+
   sudokuBoard: number[][] = [
     [5, 3, 0, 0, 7, 0, 0, 0, 0],
     [6, 0, 0, 1, 9, 5, 0, 0, 0],

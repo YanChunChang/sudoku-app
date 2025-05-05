@@ -7,12 +7,28 @@
     </div>
 </div>
 
-<table>
-    <tbody class="grid-container">
-        <tr *ngFor="let data of sudokuBoard; let i = index">
-            <td class="grid-item" *ngFor="let cell of data">
-              {{ cell }}
-            </td>
+<!-- <form [formGroup]="form">
+    <table>
+      <tbody formArrayName="board" class="grid-container">
+        <tr *ngFor="let row of rowControls; let i = index" [formGroupName]="i">
+          <td *ngFor="let cell of (row.controls); let j = index" class="grid-item">
+            <input class="grid-input" [formControl]="getCell(i, j)" />
+          </td>
         </tr>
-    </tbody>
-</table>
+      </tbody>
+    </table>
+  </form> -->
+
+<form [formGroup]="form">
+    <div formArrayName="board" class="grid-container">
+        <div *ngFor="let row of rowControls; let i = index">
+            <div *ngFor="let cell of row.controls; let j = index" class="grid-item"
+            [ngClass]="{
+                'border-right-bold': (i + 1) % 3 === 0 && i !== 8,
+                'border-bottom-bold': (j + 1) % 3 === 0 && j !== 8
+              }">
+                <input [formControl]="getCell(i, j)" />
+            </div>
+        </div>
+    </div>
+</form>
