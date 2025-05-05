@@ -7,6 +7,7 @@ export const routes: Routes = [{
   component: WelcomePageComponent
 },
 {
-  path: 'sudoku/:level', component: SudokuBoardComponent
+  path: 'sudoku/:level', 
+  component: SudokuBoardComponent
 }
 ];
