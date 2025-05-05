@@ -1,1 +1,18 @@
-<p>sudoku-board works!</p>
+<div class="flex-container">
+    <P>Schwierigkeitsgrad:</P>
+    <div class="navbar-links">
+        <a routerLink="/easy" routerLinkActive="active">Einfach</a>
+        <a routerLink="/medium" routerLinkActive="active">Mittel</a>
+        <a routerLink="/hard" routerLinkActive="active">Schwer</a>
+    </div>
+</div>
+
+<table>
+    <tbody class="grid-container">
+        <tr *ngFor="let data of sudokuBoard; let i = index">
+            <td class="grid-item" *ngFor="let cell of data">
+              {{ cell }}
+            </td>
+        </tr>
+    </tbody>
+</table>
