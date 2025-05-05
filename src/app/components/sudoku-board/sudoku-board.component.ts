@@ -1,14 +1,37 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule, FormBuilder, FormArray, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-sudoku-board',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule,ReactiveFormsModule],
   templateUrl: './sudoku-board.component.html',
   styleUrl: './sudoku-board.component.scss'
 })
 export class SudokuBoardComponent {
+  form: FormGroup;
+
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      board: this.fb.array(this.createBoard())
+    })
+  }
+
+  createBoard(): FormArray[] {
+    const board: FormArray[] = [];
+    for(let i = 0; i < 9; i++){
+        const row: FormArray = this.fb.array([]);
+        for(let j = 0; j < 9; j++){
+          const value = this.sudokuBoard[i][j];
+          const cell: FormControl = value === 0 ? this.fb.control(null) : this.fb.control(value);
+          row.push(cell);
+        }
+        board.push(row);
+    }
+    return board;
+  }
+
   sudokuBoard: number[][] = [
     [5, 3, 0, 0, 7, 0, 0, 0, 0],
     [6, 0, 0, 1, 9, 5, 0, 0, 0],
@@ -32,4 +55,6 @@ export class SudokuBoardComponent {
     [2, 8, 7, 4, 1, 9, 6, 3, 5],
     [3, 4, 5, 2, 8, 6, 1, 7, 9]
   ];
+
+
 }
