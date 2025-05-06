@@ -27,7 +27,10 @@
                 'border-right-bold': (i + 1) % 3 === 0 && i !== 8,
                 'border-bottom-bold': (j + 1) % 3 === 0 && j !== 8
               }">
-                <input [formControl]="getCell(i, j)" />
+                <input 
+                [readonly]=" this.sudokuBoard[i][j] !== 0"
+                [attr.tabindex]="this.sudokuBoard[i][j] !== 0 ? -1 : 0" 
+                [formControl]="getCell(i, j)" />
             </div>
         </div>
     </div>

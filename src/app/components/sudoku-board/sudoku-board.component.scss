@@ -8,51 +8,19 @@
   background-color: aqua;
 }
 
-// .grid-container {
-//   display: grid;
-//   grid-template-columns: repeat(9, 1fr);
-//   grid-template-rows: repeat(9, 1fr);
-//   width: 100px; /* feste Breite */
-//   height: 100px; /* feste Höhe → quadratisch */
-//   gap: 2px;
-//   // display: grid;
-//   // gap: 0px;
-//   // background-color: $marine-dark;
-//   // grid-template-columns: repeat(9, 40px);
-//   // border-radius: 8px;
-//   // padding: 2px;
-// }
-
-// .grid-item {
-//   background-color: #f8f8f8;
-//   border: 1px solid #ccc;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   // background: #f0f0f0;
-//   // padding: 20px;
-//   // text-align: center;
-//   // border-radius: 8px;
-//   // color: $marine-dark;
-// }
-// .grid-item:nth-child(3n) {
-//   border-right: 2px solid #000; /* nach jeder 3. Spalte */
-// }
-
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(9, 56px);
-  grid-template-rows: repeat(9, 56px);
+  grid-template-columns: repeat(9, 64px);
+  // grid-template-rows: repeat(9, 64px);
   border: 2px solid $marine-dark; /* äußerer Rahmen */
   background-color: $marine-dark;
   border-radius: 8px;
-  padding: 2px;
   width: fit-content;
 }
 
 .grid-item {
-  width: 55px;
-  height: 55px;
+  width: 61px;
+  height: 61px;
   border: 1px solid #ccc;
   display: flex;
   justify-content: center;
@@ -80,4 +48,12 @@
 
 .border-bottom-bold {
   border-bottom: 2px solid $marine-dark !important;
+}
+
+input[readonly] {
+  background-color: #eee;
+  border: none;
+  pointer-events: none;
+  text-align: center;
+  font-weight: bold;
 }
