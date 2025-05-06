@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormArray, FormControl, FormGroup } from '@angular/forms';
+import { SudokuService } from '../../services/sudoku.service';
 
 @Component({
   selector: 'app-sudoku-board',
@@ -12,7 +13,7 @@ import { ReactiveFormsModule, FormBuilder, FormArray, FormControl, FormGroup } f
 export class SudokuBoardComponent {
   form: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private sudokuService: SudokuService) {
     this.form = this.fb.group({
       board: this.fb.array(this.createBoard())
     })
