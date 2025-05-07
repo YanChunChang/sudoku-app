@@ -20,7 +20,7 @@
                 [readonly]=" this.initialBoard[i][j] !== 0"
                 [attr.tabindex]="this.initialBoard[i][j] !== 0 ? -1 : 0" 
                 [formControl]="getCell(i, j)"
-                (input)="onInputChanged(i, j)"
+                (input)="checkCellAnswer(i, j)"
                 [ngClass]="getCellClass(i, j)"
                 maxlength="1"
                 (keydown)="onKeyDown($event)"
@@ -29,3 +29,4 @@
         </div>
     </div>
 </form>
+<button (click)="onClickReset()">Zurücksetzen</button>

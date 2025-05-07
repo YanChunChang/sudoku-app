@@ -15,11 +15,34 @@ export class SudokuBoardComponent {
   initialBoard!: number[][];
   solvedBoard!: number[][];
 
+  // initialBoard = [
+  //   [5, 3, 4, 6, 7, 8, 9, 1, 2],
+  //   [6, 7, 2, 1, 9, 5, 3, 4, 8],
+  //   [1, 9, 8, 3, 4, 2, 5, 6, 7],
+  //   [8, 5, 9, 7, 6, 1, 4, 2, 3],
+  //   [4, 2, 6, 8, 5, 3, 7, 9, 1],
+  //   [7, 1, 3, 9, 2, 4, 8, 5, 6],
+  //   [9, 6, 1, 5, 3, 7, 2, 8, 4],
+  //   [2, 8, 0, 4, 1, 9, 6, 3, 5],
+  //   [3, 4, 5, 2, 0, 6, 1, 7, 0] 
+  // ];
+  
+  // solvedBoard = [
+  //   [5, 3, 4, 6, 7, 8, 9, 1, 2],
+  //   [6, 7, 2, 1, 9, 5, 3, 4, 8],
+  //   [1, 9, 8, 3, 4, 2, 5, 6, 7],
+  //   [8, 5, 9, 7, 6, 1, 4, 2, 3],
+  //   [4, 2, 6, 8, 5, 3, 7, 9, 1],
+  //   [7, 1, 3, 9, 2, 4, 8, 5, 6],
+  //   [9, 6, 1, 5, 3, 7, 2, 8, 4],
+  //   [2, 8, 7, 4, 1, 9, 6, 3, 5],
+  //   [3, 4, 5, 2, 8, 6, 1, 7, 9]
+  // ];
   constructor(private fb: FormBuilder, private sudokuService: SudokuService, private route: ActivatedRoute,) {
   }
 
   ngOnInit() {
-    //subscribe necessary for route changing
+    // subscribe necessary for route changing
     this.route.paramMap.subscribe(params => {
       const level = params.get('level')
       this.sudokuService.generateSudoku(level);
@@ -33,8 +56,17 @@ export class SudokuBoardComponent {
       })
     })
 
+      // const boardArray = this.createBoard();
+      // this.form = this.fb.group({
+      //   board: this.fb.array(boardArray)
+      // })
+    
     this.form.valueChanges.subscribe(board => {
-      //todo
+      if (this.isSudokuCompleted()) {
+        setTimeout(() => {
+          alert('🎉 恭喜你完成了整個數獨！');
+        }, 100); 
+      }
     })
   }
 
@@ -66,9 +98,14 @@ export class SudokuBoardComponent {
     return (this.board.at(row) as FormArray).at(col) as FormControl;
   }
 
-  onInputChanged(row: number, col: number): boolean {
+  checkCellAnswer(row: number, col: number): boolean {
     const userValue = this.getCell(row, col).value;
     const correctValue = this.solvedBoard[row][col];
+
+    if (userValue === null || userValue === '' || isNaN(Number(userValue))) {
+      return false;
+    }
+
     return Number(userValue) === correctValue;
   }
 
@@ -80,7 +117,7 @@ export class SudokuBoardComponent {
     }else if (userValue === null) {
       return ""
     } else {
-      return this.onInputChanged(row, col) ? "correct" : "incorrect";
+      return this.checkCellAnswer(row, col) ? "correct" : "incorrect";
     }
   }
 
@@ -93,6 +130,33 @@ export class SudokuBoardComponent {
     
     if (!allowedKeys.includes(event.key)){
       event.preventDefault();
+    }
+  }
+
+  isSudokuCompleted():boolean {
+    for (let row = 0; row < 9; row++) {
+      for (let col = 0; col < 9; col++) {
+        if(!this.checkCellAnswer(row, col)){
+          return false;
+        }
+      }
+    }
+    return true
+  }
+
+  onClickReset(){
+    for (let row = 0; row < 9; row++) {
+      for (let col = 0; col < 9; col++) {
+        const userValue = this.getCell(row, col);
+        const userValueParsed = Number(userValue.value);
+        let originalValue = this.initialBoard[row][col];
+        if(originalValue === 0){
+          userValue.setValue(null);
+          console.log("orginalvalue: " + originalValue)
+        }else{
+            userValue.setValue(originalValue);
+        }
+      }
     }
   }
 
