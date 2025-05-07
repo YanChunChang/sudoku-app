@@ -15,29 +15,6 @@ export class SudokuBoardComponent {
   initialBoard!: number[][];
   solvedBoard!: number[][];
 
-  // initialBoard = [
-  //   [5, 3, 4, 6, 7, 8, 9, 1, 2],
-  //   [6, 7, 2, 1, 9, 5, 3, 4, 8],
-  //   [1, 9, 8, 3, 4, 2, 5, 6, 7],
-  //   [8, 5, 9, 7, 6, 1, 4, 2, 3],
-  //   [4, 2, 6, 8, 5, 3, 7, 9, 1],
-  //   [7, 1, 3, 9, 2, 4, 8, 5, 6],
-  //   [9, 6, 1, 5, 3, 7, 2, 8, 4],
-  //   [2, 8, 0, 4, 1, 9, 6, 3, 5],
-  //   [3, 4, 5, 2, 0, 6, 1, 7, 0] 
-  // ];
-  
-  // solvedBoard = [
-  //   [5, 3, 4, 6, 7, 8, 9, 1, 2],
-  //   [6, 7, 2, 1, 9, 5, 3, 4, 8],
-  //   [1, 9, 8, 3, 4, 2, 5, 6, 7],
-  //   [8, 5, 9, 7, 6, 1, 4, 2, 3],
-  //   [4, 2, 6, 8, 5, 3, 7, 9, 1],
-  //   [7, 1, 3, 9, 2, 4, 8, 5, 6],
-  //   [9, 6, 1, 5, 3, 7, 2, 8, 4],
-  //   [2, 8, 7, 4, 1, 9, 6, 3, 5],
-  //   [3, 4, 5, 2, 8, 6, 1, 7, 9]
-  // ];
   constructor(private fb: FormBuilder, private sudokuService: SudokuService, private route: ActivatedRoute,) {
   }
 
@@ -55,11 +32,6 @@ export class SudokuBoardComponent {
         board: this.fb.array(boardArray)
       })
     })
-
-      // const boardArray = this.createBoard();
-      // this.form = this.fb.group({
-      //   board: this.fb.array(boardArray)
-      // })
     
     this.form.valueChanges.subscribe(board => {
       if (this.isSudokuCompleted()) {
@@ -93,7 +65,7 @@ export class SudokuBoardComponent {
     return (this.form.get('board') as FormArray).controls as FormArray[];
   }
 
-  //hol einzelne Value vom 2d-Fromarray
+  //fetch single value from the 2d array
   getCell(row: number, col: number): FormControl {
     return (this.board.at(row) as FormArray).at(col) as FormControl;
   }
@@ -152,7 +124,6 @@ export class SudokuBoardComponent {
         let originalValue = this.initialBoard[row][col];
         if(originalValue === 0){
           userValue.setValue(null);
-          console.log("orginalvalue: " + originalValue)
         }else{
             userValue.setValue(originalValue);
         }
@@ -162,7 +133,6 @@ export class SudokuBoardComponent {
 
   ngOnDestroy(): void {
     this.sudokuService.clearBoards();
-    console.log("check")
   }
 
 }
