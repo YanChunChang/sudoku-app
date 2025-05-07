@@ -1,0 +1,18 @@
+@use "styles/variables" as *;
+
+.timer-display {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 32px;
+    color: $deep-blue;
+}
+::ng-deep p-button .pi{
+    color: $deep-blue;
+    font-size: 28px;
+}
+
+p{
+    font-size: 24px;
+    color: $marine-light;
+}

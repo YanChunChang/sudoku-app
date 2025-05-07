@@ -1,50 +1,35 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SudokuService } from '../../services/sudoku.service';
+import { TimerComponent } from "../timer/timer.component";
+import { ButtonModule } from 'primeng/button';
+import { Subject, takeUntil } from 'rxjs';
+
 
 @Component({
   selector: 'app-sudoku-board',
-  imports: [CommonModule, RouterModule, ReactiveFormsModule],
+  standalone: true,
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, TimerComponent, ButtonModule],
   templateUrl: './sudoku-board.component.html',
   styleUrl: './sudoku-board.component.scss'
 })
-export class SudokuBoardComponent {
+export class SudokuBoardComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   initialBoard!: number[][];
   solvedBoard!: number[][];
+  currentLevel! : string | null;
+  private destroy$ = new Subject<void>();
 
-  // initialBoard = [
-  //   [5, 3, 4, 6, 7, 8, 9, 1, 2],
-  //   [6, 7, 2, 1, 9, 5, 3, 4, 8],
-  //   [1, 9, 8, 3, 4, 2, 5, 6, 7],
-  //   [8, 5, 9, 7, 6, 1, 4, 2, 3],
-  //   [4, 2, 6, 8, 5, 3, 7, 9, 1],
-  //   [7, 1, 3, 9, 2, 4, 8, 5, 6],
-  //   [9, 6, 1, 5, 3, 7, 2, 8, 4],
-  //   [2, 8, 0, 4, 1, 9, 6, 3, 5],
-  //   [3, 4, 5, 2, 0, 6, 1, 7, 0] 
-  // ];
-  
-  // solvedBoard = [
-  //   [5, 3, 4, 6, 7, 8, 9, 1, 2],
-  //   [6, 7, 2, 1, 9, 5, 3, 4, 8],
-  //   [1, 9, 8, 3, 4, 2, 5, 6, 7],
-  //   [8, 5, 9, 7, 6, 1, 4, 2, 3],
-  //   [4, 2, 6, 8, 5, 3, 7, 9, 1],
-  //   [7, 1, 3, 9, 2, 4, 8, 5, 6],
-  //   [9, 6, 1, 5, 3, 7, 2, 8, 4],
-  //   [2, 8, 7, 4, 1, 9, 6, 3, 5],
-  //   [3, 4, 5, 2, 8, 6, 1, 7, 9]
-  // ];
   constructor(private fb: FormBuilder, private sudokuService: SudokuService, private route: ActivatedRoute,) {
   }
 
   ngOnInit() {
     // subscribe necessary for route changing
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
       const level = params.get('level')
+      this.currentLevel = level;
       this.sudokuService.generateSudoku(level);
       this.initialBoard = this.sudokuService.initialBoard;
       this.solvedBoard = this.sudokuService.solvedBoard;
@@ -56,16 +41,11 @@ export class SudokuBoardComponent {
       })
     })
 
-      // const boardArray = this.createBoard();
-      // this.form = this.fb.group({
-      //   board: this.fb.array(boardArray)
-      // })
-    
     this.form.valueChanges.subscribe(board => {
       if (this.isSudokuCompleted()) {
         setTimeout(() => {
           alert('🎉 恭喜你完成了整個數獨！');
-        }, 100); 
+        }, 100);
       }
     })
   }
@@ -93,7 +73,7 @@ export class SudokuBoardComponent {
     return (this.form.get('board') as FormArray).controls as FormArray[];
   }
 
-  //hol einzelne Value vom 2d-Fromarray
+  //fetch single value from the 2d array
   getCell(row: number, col: number): FormControl {
     return (this.board.at(row) as FormArray).at(col) as FormControl;
   }
@@ -114,7 +94,7 @@ export class SudokuBoardComponent {
 
     if (this.initialBoard[row][col] !== 0) {
       return ""
-    }else if (userValue === null) {
+    } else if (userValue === null) {
       return ""
     } else {
       return this.checkCellAnswer(row, col) ? "correct" : "incorrect";
@@ -123,20 +103,20 @@ export class SudokuBoardComponent {
 
   //Validator in Angular only check the value like e.g. control.invalid 
   //todo chinese still can be typed in cell because of composition event
-  onKeyDown(event: KeyboardEvent){
-    const allowedKeys =[
-      '1', '2', '3', '4', '5', '6', '7', '8', '9','Backspace', 'Delete',
-    'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown','Tab'];
-    
-    if (!allowedKeys.includes(event.key)){
+  onKeyDown(event: KeyboardEvent) {
+    const allowedKeys = [
+      '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Backspace', 'Delete',
+      'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Tab'];
+
+    if (!allowedKeys.includes(event.key)) {
       event.preventDefault();
     }
   }
 
-  isSudokuCompleted():boolean {
+  isSudokuCompleted(): boolean {
     for (let row = 0; row < 9; row++) {
       for (let col = 0; col < 9; col++) {
-        if(!this.checkCellAnswer(row, col)){
+        if (!this.checkCellAnswer(row, col)) {
           return false;
         }
       }
@@ -144,25 +124,37 @@ export class SudokuBoardComponent {
     return true
   }
 
-  onClickReset(){
+  onClickReset() {
     for (let row = 0; row < 9; row++) {
       for (let col = 0; col < 9; col++) {
         const userValue = this.getCell(row, col);
         const userValueParsed = Number(userValue.value);
         let originalValue = this.initialBoard[row][col];
-        if(originalValue === 0){
+        if (originalValue === 0) {
           userValue.setValue(null);
-          console.log("orginalvalue: " + originalValue)
-        }else{
-            userValue.setValue(originalValue);
+        } else {
+          userValue.setValue(originalValue);
         }
       }
     }
   }
 
+  onClickNewgame() {
+    this.sudokuService.generateSudoku(this.currentLevel);
+      this.initialBoard = this.sudokuService.initialBoard;
+      this.solvedBoard = this.sudokuService.solvedBoard;
+
+      // wait til board loads
+      const boardArray = this.createBoard();
+      this.form = this.fb.group({
+        board: this.fb.array(boardArray)
+      })
+  }
+
   ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
     this.sudokuService.clearBoards();
-    console.log("check")
   }
 
 }

@@ -8,6 +8,23 @@
   background-color: aqua;
 }
 
+.board{
+  margin-top: 100px;
+  margin-bottom: 30px;
+  justify-self: center;
+}
+
+.wrapper{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.right {
+  display: flex;
+  gap: 0.5rem; /* Abstand zwischen Buttons */
+}
+
 .grid-container {
   display: grid;
   grid-template-columns: repeat(9, 64px);

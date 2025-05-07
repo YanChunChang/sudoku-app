@@ -1,32 +1,30 @@
 <div class="flex-container">
     <P>Schwierigkeitsgrad:</P>
-    <div class="navbar-links">
-        <a routerLink="/sudoku/easy" routerLinkActive="active">Einfach</a>
-        <a routerLink="/sudoku/medium" routerLinkActive="active">Mittel</a>
-        <a routerLink="/sudoku/hard" routerLinkActive="active">Schwer</a>
-        <a routerLink="/sudoku/expert" routerLinkActive="active">Expert</a>
-    </div>
+    <a routerLink="/sudoku/easy" routerLinkActive="active">Einfach</a>
+    <a routerLink="/sudoku/medium" routerLinkActive="active">Mittel</a>
+    <a routerLink="/sudoku/hard" routerLinkActive="active">Schwer</a>
+    <a routerLink="/sudoku/expert" routerLinkActive="active">Expert</a>
 </div>
 
-<form [formGroup]="form">
+<form class="board" [formGroup]="form">
+    <div class="wrapper">
+        <app-timer></app-timer>
+        <div class="right">
+            <p-button icon="pi pi-eraser" (click)="onClickReset()" class="p-button"></p-button>
+            <p-button icon="pi pi-chevron-right" (click)="onClickNewgame()" class="p-button"></p-button>
+          </div>
+    </div>
     <div formArrayName="board" class="grid-container">
         <div *ngFor="let row of rowControls; let i = index">
-            <div *ngFor="let cell of row.controls; let j = index" class="grid-item"
-            [ngClass]="{
+            <div *ngFor="let cell of row.controls; let j = index" class="grid-item" [ngClass]="{
                 'border-right-bold': (i + 1) % 3 === 0 && i !== 8,
                 'border-bottom-bold': (j + 1) % 3 === 0 && j !== 8
               }">
-                <input 
-                [readonly]=" this.initialBoard[i][j] !== 0"
-                [attr.tabindex]="this.initialBoard[i][j] !== 0 ? -1 : 0" 
-                [formControl]="getCell(i, j)"
-                (input)="checkCellAnswer(i, j)"
-                [ngClass]="getCellClass(i, j)"
-                maxlength="1"
-                (keydown)="onKeyDown($event)"
-                />
+                <input [readonly]=" this.initialBoard[i][j] !== 0"
+                    [attr.tabindex]="this.initialBoard[i][j] !== 0 ? -1 : 0" [formControl]="getCell(i, j)"
+                    (input)="checkCellAnswer(i, j)" [ngClass]="getCellClass(i, j)" maxlength="1"
+                    (keydown)="onKeyDown($event)"/>
             </div>
         </div>
     </div>
 </form>
-<button (click)="onClickReset()">Zurücksetzen</button>
