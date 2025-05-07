@@ -12,10 +12,11 @@ export class SudokuService {
   constructor() {
   }
 
-  generateSudoku(level: any): Pick<SudokuDataParsed, 'puzzle' | 'solution'> {
+  generateSudoku(level: any): void {
     const sudokuDataRaw: SudokuDataRaw = getSudoku(level);
     const sudokuDataParsed: SudokuDataParsed =  this.parsedSudokuData(sudokuDataRaw);
-    return {puzzle: sudokuDataParsed.puzzle, solution: sudokuDataParsed.solution}
+    this.initialBoard = sudokuDataParsed.puzzle;
+    this.solvedBoard = sudokuDataParsed.solution;
   }
 
   private parsedSudokuData(sudokuDataRaw: SudokuDataRaw): SudokuDataParsed {
@@ -40,5 +41,10 @@ export class SudokuService {
       sudokuArray.push(row);
     }
     return sudokuArray;
+  }
+
+  clearBoards(): void {
+    this.initialBoard = [];
+    this.solvedBoard = [];
   }
 }
