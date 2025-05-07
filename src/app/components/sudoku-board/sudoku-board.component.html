@@ -22,6 +22,8 @@
                 [formControl]="getCell(i, j)"
                 (input)="onInputChanged(i, j)"
                 [ngClass]="getCellClass(i, j)"
+                maxlength="1"
+                (keydown)="onKeyDown($event)"
                 />
             </div>
         </div>
