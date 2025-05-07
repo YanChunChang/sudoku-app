@@ -51,7 +51,7 @@
 }
 
 input[readonly] {
-  background-color: #eee;
+  background-color: $light-gray;
   border: none;
   pointer-events: none;
   text-align: center;
@@ -59,11 +59,11 @@ input[readonly] {
 }
 
 .correct {
-  background-color: #d4edda;
-  color: #155724;
+  background-color: $correct;
+  color: $correct-text !important;
 }
 
 .incorrect {
-  background-color: #f8d7da;
-  color: #721c24;
+  background-color: $error;
+  color: $error-text !important;
 }
