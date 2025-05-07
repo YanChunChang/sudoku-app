@@ -1,0 +1,69 @@
+ @use "styles/variables" as *;
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: aqua;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(9, 64px);
+  // grid-template-rows: repeat(9, 64px);
+  border: 2px solid $marine-dark; /* äußerer Rahmen */
+  background-color: $marine-dark;
+  border-radius: 8px;
+  width: fit-content;
+}
+
+.grid-item {
+  width: 61px;
+  height: 61px;
+  border: 1px solid #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $marine-dark;
+  border-radius: 4px;
+  margin: 1px;
+}
+
+
+.grid-item input {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  border: none;
+  color: $marine-dark;
+  font-size: 25px;
+  border-radius: 2px;
+}
+
+/* Dickere Linien für Blockgrenzen */
+.border-right-bold {
+  border-right: 2px solid $marine-dark !important;
+}
+
+.border-bottom-bold {
+  border-bottom: 2px solid $marine-dark !important;
+}
+
+input[readonly] {
+  background-color: $light-gray;
+  border: none;
+  pointer-events: none;
+  text-align: center;
+  font-weight: bold;
+}
+
+.correct {
+  background-color: $correct;
+  color: $correct-text !important;
+}
+
+.incorrect {
+  background-color: $error;
+  color: $error-text !important;
+}
