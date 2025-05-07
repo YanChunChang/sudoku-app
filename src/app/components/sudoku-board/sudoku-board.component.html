@@ -1,23 +1,12 @@
 <div class="flex-container">
     <P>Schwierigkeitsgrad:</P>
     <div class="navbar-links">
-        <a routerLink="/easy" routerLinkActive="active">Einfach</a>
-        <a routerLink="/medium" routerLinkActive="active">Mittel</a>
-        <a routerLink="/hard" routerLinkActive="active">Schwer</a>
+        <a routerLink="/sudoku/easy" routerLinkActive="active">Einfach</a>
+        <a routerLink="/sudoku/medium" routerLinkActive="active">Mittel</a>
+        <a routerLink="/sudoku/hard" routerLinkActive="active">Schwer</a>
+        <a routerLink="/sudoku/expert" routerLinkActive="active">Expert</a>
     </div>
 </div>
-
-<!-- <form [formGroup]="form">
-    <table>
-      <tbody formArrayName="board" class="grid-container">
-        <tr *ngFor="let row of rowControls; let i = index" [formGroupName]="i">
-          <td *ngFor="let cell of (row.controls); let j = index" class="grid-item">
-            <input class="grid-input" [formControl]="getCell(i, j)" />
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </form> -->
 
 <form [formGroup]="form">
     <div formArrayName="board" class="grid-container">
