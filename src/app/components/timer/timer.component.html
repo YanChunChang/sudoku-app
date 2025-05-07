@@ -1,0 +1,25 @@
+<div class="timer-display">
+    <p-button icon="pi pi-stopwatch" class="p-button p-button-text"></p-button>
+    <span class="formatted-time">{{ formattedTime }}</span>
+
+    <ng-container *ngIf="!isRunning; else pauseButton">
+        <p-button 
+          icon="pi pi-play" 
+          (click)="startTimer()" 
+          class="p-button p-button-text" 
+          pTooltip="Start">
+        </p-button>
+    </ng-container>
+
+    <ng-template #pauseButton>
+        <p-button 
+          icon="pi pi-pause" 
+          (click)="stopTimer()" 
+          class="p-button p-button-text" 
+          pTooltip="Pause">
+        </p-button>
+    </ng-template>
+
+    <p-button icon="pi pi-refresh" (click)="resetTimer()" class="p-button p-button-text">
+    </p-button>
+</div>

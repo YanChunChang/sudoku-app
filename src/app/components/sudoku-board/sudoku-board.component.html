@@ -6,8 +6,14 @@
     <a routerLink="/sudoku/expert" routerLinkActive="active">Expert</a>
 </div>
 
-
 <form class="board" [formGroup]="form">
+    <div class="wrapper">
+        <app-timer></app-timer>
+        <div class="right">
+            <p-button icon="pi pi-eraser" (click)="onClickReset()" class="p-button"></p-button>
+            <p-button icon="pi pi-chevron-right" (click)="onClickNewgame()" class="p-button"></p-button>
+          </div>
+    </div>
     <div formArrayName="board" class="grid-container">
         <div *ngFor="let row of rowControls; let i = index">
             <div *ngFor="let cell of row.controls; let j = index" class="grid-item" [ngClass]="{
@@ -17,12 +23,8 @@
                 <input [readonly]=" this.initialBoard[i][j] !== 0"
                     [attr.tabindex]="this.initialBoard[i][j] !== 0 ? -1 : 0" [formControl]="getCell(i, j)"
                     (input)="checkCellAnswer(i, j)" [ngClass]="getCellClass(i, j)" maxlength="1"
-                    (keydown)="onKeyDown($event)" />
+                    (keydown)="onKeyDown($event)"/>
             </div>
         </div>
     </div>
 </form>
-<div class="row">
-    <p>Timer:</p>
-    <button (click)="onClickReset()">Zurücksetzen</button>
-</div>

@@ -14,6 +14,17 @@
   justify-self: center;
 }
 
+.wrapper{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.right {
+  display: flex;
+  gap: 0.5rem; /* Abstand zwischen Buttons */
+}
+
 .grid-container {
   display: grid;
   grid-template-columns: repeat(9, 64px);
@@ -72,25 +83,4 @@ input[readonly] {
 .incorrect {
   background-color: $error;
   color: $error-text !important;
-}
-
-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  border: none;
-  border-radius: 4px;
-  background-color: $marine-dark;
-  color: $white;
-  cursor: pointer;
-
-  &:hover {
-    background-color: $marine-light;
-    transform: translateY(-5px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-  }
-}
-
-.row{
-  display: flex;
-  justify-content: center;
 }
