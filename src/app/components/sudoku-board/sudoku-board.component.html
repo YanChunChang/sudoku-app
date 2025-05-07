@@ -19,7 +19,10 @@
                 <input 
                 [readonly]=" this.initialBoard[i][j] !== 0"
                 [attr.tabindex]="this.initialBoard[i][j] !== 0 ? -1 : 0" 
-                [formControl]="getCell(i, j)" />
+                [formControl]="getCell(i, j)"
+                (input)="onInputChanged(i, j)"
+                [ngClass]="getCellClass(i, j)"
+                />
             </div>
         </div>
     </div>

@@ -19,21 +19,26 @@ export class SudokuBoardComponent {
   }
 
   ngOnInit() {
+    //notwendig für route wechseln
     this.route.paramMap.subscribe(params => {
       const level = params.get('level')
       this.sudokuService.generateSudoku(level);
       this.initialBoard = this.sudokuService.initialBoard;
-      this.solvedBoard = this.sudokuService.initialBoard;
+      this.solvedBoard = this.sudokuService.solvedBoard;
 
       // Warten bis Boards geladen sind
       const boardArray = this.createBoard();
       this.form = this.fb.group({
         board: this.fb.array(boardArray)
       })
+    })
 
+    this.form.valueChanges.subscribe(board => {
+      //todo
     })
   }
 
+  //initialboard has 0 value, in Formcontrol is null for showing space in html
   createBoard(): FormArray[] {
     const board: FormArray[] = [];
     for (let i = 0; i < 9; i++) {
@@ -56,8 +61,32 @@ export class SudokuBoardComponent {
     return (this.form.get('board') as FormArray).controls as FormArray[];
   }
 
+  //hol einzelne Value vom 2d-Fromarray
   getCell(row: number, col: number): FormControl {
     return (this.board.at(row) as FormArray).at(col) as FormControl;
+  }
+
+  onInputChanged(row: number, col: number): boolean {
+    const userValue = this.getCell(row, col).value;
+    const correctValue = this.solvedBoard[row][col];
+    return Number(userValue) === correctValue;
+  }
+
+  getCellClass(row: number, col: number): string {
+    const userValue = this.getCell(row, col).value;
+
+    if (this.initialBoard[row][col] !== 0) {
+      return ""
+    }else if (userValue === null) {
+      return ""
+    } else {
+      return this.onInputChanged(row, col) ? "correct" : "incorrect";
+    }
+
+  }
+
+  isInitialCell(row: number, col: number): boolean {
+    return this.initialBoard[row][col] !== 0
   }
 
   ngOnDestroy(): void {
