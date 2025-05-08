@@ -47,8 +47,8 @@ export class TimerComponent {
   }
 
   get formattedTime(): string {
-    const hour = Math.floor(this.elapsedSeconds / 360);
-    let restTime = this.elapsedSeconds - hour * 360;
+    const hour = Math.floor(this.elapsedSeconds / 3600);
+    let restTime = this.elapsedSeconds - hour * 3600;
     const minutes = Math.floor(restTime / 60);
     const seconds = this.elapsedSeconds % 60;
     return `${this.pad(hour)}:${this.pad(minutes)}:${this.pad(seconds)}`;
