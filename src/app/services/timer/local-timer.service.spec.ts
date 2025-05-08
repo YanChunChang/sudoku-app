@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TimerService } from './timer.service';
+import { LocalTimerService } from './local-timer.service';
 
-describe('TimerService', () => {
-  let service: TimerService;
+describe('LocalTimerService', () => {
+  let service: LocalTimerService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(TimerService);
+    service = TestBed.inject(LocalTimerService);
   });
 
   it('should be created', () => {
