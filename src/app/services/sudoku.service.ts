@@ -25,7 +25,6 @@ export class SudokuService {
       solution: this.parseSudokuString(sudokuDataRaw.solution),
       difficulty: sudokuDataRaw.difficulty
     }
-    console.log(parsedSudokuData)
     return parsedSudokuData;
   }
 

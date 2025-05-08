@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { interval, Subscription } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
+import { LocalTimerService } from '../../services/timer/local-timer.service';
+import { TimerMode } from '../../utils/utils';
 
 @Component({
   selector: 'app-timer',
@@ -11,29 +13,36 @@ import { ButtonModule } from 'primeng/button';
   styleUrl: './timer.component.scss'
 })
 export class TimerComponent {
+  @Input() mode!: TimerMode;
+  @Input() startFrom!: number;
   elapsedSeconds: number = 0;
   timerSubscription!: Subscription;
-  isRunning: boolean = false;
+  isRunning: boolean = true;
+
+  constructor(private localTimeService: LocalTimerService){
+  }
+
+  ngOnInit() {
+    this.timerSubscription = this.localTimeService.timeObservable.subscribe((seconds: number) => {
+      this.elapsedSeconds = seconds;
+    });
+    this.startTimer();
+  }
 
   startTimer() {
-    if (this.timerSubscription?.closed === false) return;
     this.isRunning = true;
-    this.timerSubscription = interval(1000).subscribe(() => {
-      this.elapsedSeconds++;
-    });
+    this.localTimeService.start(this.mode, this.startFrom);
   }
 
   stopTimer() {
-    if (this.timerSubscription) {
-      this.timerSubscription.unsubscribe();
-    }
+    this.localTimeService.pause();
     this.isRunning = false;
   }
 
   resetTimer() {
-    this.stopTimer();
+    this.localTimeService.reset();
     this.elapsedSeconds = 0;
-    this.startTimer();
+    this.isRunning = true;
   }
 
   get formattedTime(): string {
@@ -50,6 +59,6 @@ export class TimerComponent {
   }
 
   ngOnDestroy() {
-    this.stopTimer();
+    this.timerSubscription.unsubscribe();
   }
 }

@@ -34,13 +34,14 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       this.initialBoard = this.sudokuService.initialBoard;
       this.solvedBoard = this.sudokuService.solvedBoard;
 
-      // wait til board loads
+      // wait util board loads
       const boardArray = this.createBoard();
       this.form = this.fb.group({
         board: this.fb.array(boardArray)
       })
     })
-
+    
+    //todo extra ui component for winning game
     this.form.valueChanges.subscribe(board => {
       if (this.isSudokuCompleted()) {
         setTimeout(() => {
@@ -144,7 +145,6 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       this.initialBoard = this.sudokuService.initialBoard;
       this.solvedBoard = this.sudokuService.solvedBoard;
 
-      // wait til board loads
       const boardArray = this.createBoard();
       this.form = this.fb.group({
         board: this.fb.array(boardArray)
@@ -152,8 +152,8 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this.destroy$.next(); //infrom all takeUntil to unsubscribe
+    this.destroy$.complete(); //closing subject(destroy$)
     this.sudokuService.clearBoards();
   }
 
