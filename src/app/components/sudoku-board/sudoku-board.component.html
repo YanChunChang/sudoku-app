@@ -8,11 +8,11 @@
 
 <form class="board" [formGroup]="form">
     <div class="wrapper">
-        <app-timer></app-timer>
+        <app-timer [mode]="'up'" [startFrom]="0"></app-timer>
         <div class="right">
             <p-button icon="pi pi-eraser" (click)="onClickReset()" class="p-button"></p-button>
             <p-button icon="pi pi-chevron-right" (click)="onClickNewgame()" class="p-button"></p-button>
-          </div>
+        </div>
     </div>
     <div formArrayName="board" class="grid-container">
         <div *ngFor="let row of rowControls; let i = index">
