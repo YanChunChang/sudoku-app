@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { interval, Subscription } from 'rxjs';
+import { interval, Subject, Subscription } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { LocalTimerService } from '../../services/timer/local-timer.service';
 import { TimerMode } from '../../utils/utils';
@@ -18,20 +18,21 @@ export class TimerComponent {
   elapsedSeconds: number = 0;
   timerSubscription!: Subscription;
   isRunning: boolean = true;
+  destroy$: Subject<any> = new Subject();
 
   constructor(private localTimeService: LocalTimerService){
   }
 
   ngOnInit() {
-    this.timerSubscription = this.localTimeService.timeObservable.subscribe((seconds: number) => {
-      this.elapsedSeconds = seconds;
-    });
     this.startTimer();
   }
 
   startTimer() {
-    this.isRunning = true;
     this.localTimeService.start(this.mode, this.startFrom);
+    this.isRunning = true;
+    this.timerSubscription = this.localTimeService.timeObservable.subscribe((seconds: number) => {
+      this.elapsedSeconds = seconds;
+    });
   }
 
   stopTimer() {
@@ -60,5 +61,7 @@ export class TimerComponent {
 
   ngOnDestroy() {
     this.timerSubscription.unsubscribe();
+    this.localTimeService.pause();
+    this.localTimeService.stop();
   }
 }

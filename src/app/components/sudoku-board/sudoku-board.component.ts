@@ -6,6 +6,7 @@ import { SudokuService } from '../../services/sudoku.service';
 import { TimerComponent } from "../timer/timer.component";
 import { ButtonModule } from 'primeng/button';
 import { Subject, takeUntil } from 'rxjs';
+import { LocalTimerService } from '../../services/timer/local-timer.service';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
   currentLevel! : string | null;
   private destroy$ = new Subject<void>();
 
-  constructor(private fb: FormBuilder, private sudokuService: SudokuService, private route: ActivatedRoute,) {
+  constructor(private fb: FormBuilder, private sudokuService: SudokuService, private route: ActivatedRoute, private localTimerService: LocalTimerService) {
   }
 
   ngOnInit() {
@@ -149,6 +150,8 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       this.form = this.fb.group({
         board: this.fb.array(boardArray)
       })
+      this.localTimerService.reset();
+      this.localTimerService.stop();
   }
 
   ngOnDestroy(): void {

@@ -13,6 +13,7 @@ export class LocalTimerService {
 
   start(mode: TimerMode, startFrom: number){
     if(this.subscription?.closed === false) return;
+    console.log('🚀 啟動計時器：', mode, startFrom);
     
     this.mode = mode;
     if(this.currentTime === 0){
@@ -22,6 +23,7 @@ export class LocalTimerService {
     if (mode === "up"){
       this.subscription = interval(1000).subscribe(() => {
         this.currentTime ++;
+        console.log('🔁 Tick:', this.currentTime);
         this.time$.next(this.currentTime);
       });
     }else{
@@ -39,6 +41,7 @@ export class LocalTimerService {
   pause(){
     if(this.subscription){
       this.subscription.unsubscribe();
+      this.subscription = null;
     }
   }
 
@@ -47,6 +50,12 @@ export class LocalTimerService {
     this.currentTime = this.mode === 'up'? 0 : this.currentTime;
     this.start(this.mode, this.currentTime);
   }
+
+  stop(){
+    this.currentTime = 0;
+    this.time$.next(0);
+  }
+
 
   get timeObservable(){
     return this.time$.asObservable();
