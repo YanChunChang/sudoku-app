@@ -58,4 +58,6 @@ export class LocalTimerService {
   get timeObservable(){
     return this.time$.asObservable();
   }
+
+  
 }

@@ -8,7 +8,7 @@
 
 <form class="board" [formGroup]="form">
     <div class="wrapper">
-        <app-timer [mode]="'up'" [startFrom]="0"></app-timer>
+        <app-timer [mode]="timerMode" [startFrom]="timerValue"></app-timer>
         <div class="right">
             <p-button icon="pi pi-eraser" (click)="onClickReset()" class="p-button"></p-button>
             <p-button icon="pi pi-chevron-right" (click)="onClickNewgame()" class="p-button"></p-button>

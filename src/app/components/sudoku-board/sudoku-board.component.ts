@@ -7,6 +7,7 @@ import { TimerComponent } from "../timer/timer.component";
 import { ButtonModule } from 'primeng/button';
 import { Subject, takeUntil } from 'rxjs';
 import { LocalTimerService } from '../../services/timer/local-timer.service';
+import { GameConfigService } from '../../services/game/gameconfig.service';
 
 
 @Component({
@@ -22,18 +23,30 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
   solvedBoard!: number[][];
   currentLevel! : string | null;
   private destroy$ = new Subject<void>();
+  timerMode: 'up' | 'down' = 'up';
+  timerValue: number = 0;
 
-  constructor(private fb: FormBuilder, private sudokuService: SudokuService, private route: ActivatedRoute, private localTimerService: LocalTimerService) {
+  constructor(
+    private fb: FormBuilder, 
+    private sudokuService: SudokuService, 
+    private route: ActivatedRoute, 
+    private localTimerService: LocalTimerService,
+    private gameConfigService: GameConfigService) {
   }
 
   ngOnInit() {
     // subscribe necessary for route changing
     this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
-      const level = params.get('level')
+      const level = params.get('level');
+      const mode = params.get('playmode') ?? 'normal';
+
       this.currentLevel = level;
       this.sudokuService.generateSudoku(level);
       this.initialBoard = this.sudokuService.initialBoard;
       this.solvedBoard = this.sudokuService.solvedBoard;
+
+      this.timerMode = mode === 'countdown' ? 'down' : 'up';
+      this.timerValue = mode === 'countdown' && level ? (this.gameConfigService.countdownTime.get(level) ?? 0) : 0;
 
       // wait util board loads
       const boardArray = this.createBoard();

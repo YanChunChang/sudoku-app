@@ -1,10 +1,28 @@
 <div class="middle">
     <h1>Willkommen bei Sudoku!</h1>
-    <p>Wähle deinen Schwierigkeitsgrad:</p>
-    <div class="level-selection">
-        <p-button label="Einfach" [routerLink]="['/sudoku', 'easy']"></p-button> 
-        <p-button label="Mittel" [routerLink]="['/sudoku', 'medium']"></p-button>
-        <p-button label="Schwer" [routerLink]="['/sudoku', 'hard']"></p-button>
-        <p-button label="Expert" [routerLink]="['/sudoku', 'expert']"></p-button>
-    </div>
+    <ng-container *ngIf="!currentPlayer">
+        <p>Wähle deinen Spielmodus:</p>
+        <div class="selection">
+            <p-button label="Einzelspiel" (click)="selectMode('single')"></p-button> 
+            <p-button label="Mehrspieler" (click)="selectMode('multi')"></p-button>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="currentPlayer && !currentPlaymode">
+        <p>Wähle deinen Spielart:</p>
+        <div class="selection">
+            <p-button label="Normal" (click)="selectChallenge('normal')"></p-button> 
+            <p-button label="Herausforderung" (click)="selectChallenge('countdown')"></p-button>
+            <p-button label="Zurück" (click)="resetSelectedMode()"></p-button>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="currentPlaymode">
+        <p>Wähle deinen Schwierigkeitsgrad:</p>
+        <div class="selection">
+            <p-button label="Einfach" (click)="goToGame('easy')"></p-button> 
+            <p-button label="Mittel" (click)="goToGame('medium')"></p-button>
+            <p-button label="Schwer" (click)="goToGame('hard')"></p-button>
+            <p-button label="Expert" (click)="goToGame('expert')"></p-button>
+            <p-button label="Zurück" (click)="resetSelectedChallenge()"></p-button>
+        </div>
+    </ng-container>
 </div>
