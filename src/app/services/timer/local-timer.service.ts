@@ -39,6 +39,7 @@ export class LocalTimerService {
   pause(){
     if(this.subscription){
       this.subscription.unsubscribe();
+      this.subscription = null;
     }
   }
 
@@ -48,7 +49,15 @@ export class LocalTimerService {
     this.start(this.mode, this.currentTime);
   }
 
+  stop(){
+    this.currentTime = 0;
+    this.time$.next(0);
+  }
+
+
   get timeObservable(){
     return this.time$.asObservable();
   }
+
+  
 }
