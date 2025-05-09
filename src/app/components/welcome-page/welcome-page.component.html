@@ -11,7 +11,7 @@
         <p>Wähle deinen Spielart:</p>
         <div class="selection">
             <p-button label="Normal" (click)="selectChallenge('normal')"></p-button> 
-            <p-button label="Herausforderung" (click)="selectChallenge('countdown')"></p-button>
+            <p-button icon="pi pi-stopwatch" class="p-button p-button-text" label="Herausforderung" (click)="selectChallenge('countdown')"></p-button>
             <p-button label="Zurück" (click)="resetSelectedMode()"></p-button>
         </div>
     </ng-container>
