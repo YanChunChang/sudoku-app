@@ -1,17 +1,17 @@
-<div class="flex-container">
+<!-- <div class="flex-container">
     <P>Schwierigkeitsgrad:</P>
     <a routerLink="/sudoku/easy" routerLinkActive="active">Einfach</a>
     <a routerLink="/sudoku/medium" routerLinkActive="active">Mittel</a>
     <a routerLink="/sudoku/hard" routerLinkActive="active">Schwer</a>
     <a routerLink="/sudoku/expert" routerLinkActive="active">Expert</a>
-</div>
+</div> -->
 
 <form class="board" [formGroup]="form">
     <div class="wrapper">
         <app-timer [mode]="timerMode" [startFrom]="timerValue"></app-timer>
         <div class="right">
-            <p-button icon="pi pi-eraser" (click)="onClickReset()" class="p-button"></p-button>
-            <p-button icon="pi pi-chevron-right" (click)="onClickNewgame()" class="p-button"></p-button>
+            <p-button icon="pi pi-eraser" (click)="onClickReset()"></p-button>
+            <p-button icon="pi pi-chevron-right" (click)="onClickNewgame()"></p-button>
         </div>
     </div>
     <div formArrayName="board" class="grid-container">

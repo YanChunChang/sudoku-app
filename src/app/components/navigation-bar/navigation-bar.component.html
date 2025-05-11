@@ -1,9 +1,17 @@
 <nav class="navbar">
     <div class="navbar-logo">
-        <a routerLink="/"> <img src="assets/images/sudoku_logo_new.png" alt="Sudoku_logo"/></a>
+        <a routerLink="/"> <img src="assets/images/sudoku_logo_new.png" alt="Sudoku_logo" /></a>
     </div>
     <div class="navbar-links">
         <a routerLink="/" routerLinkActive="active">Level</a>
         <a routerLink="/" routerLinkActive="active">Leaderboard</a>
     </div>
+    <p-button styleClass="moon" icon="pi pi-moon" (onClick)="toggleDarkMode()" />
+    <!-- <p-toggleButton 
+    [(ngModel)]="isDarkMode" 
+    onIcon="pi pi-moon" 
+    offIcon="pi pi-sun"
+    (onChange)="toggleDarkMode()">
+  </p-toggleButton> -->
+
 </nav>

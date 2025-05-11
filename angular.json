@@ -37,9 +37,8 @@
               }
             ],
             "styles": [
-              "src/styles/styles.scss",
               "node_modules/primeicons/primeicons.css",
-              "node_modules/primeng/resources/primeng.min.css"
+              "src/styles/styles.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
@@ -108,9 +107,9 @@
               }
             ],
             "styles": [
-              "src/styles/styles.scss",
               "node_modules/primeicons/primeicons.css",
-              "node_modules/primeng/resources/primeng.min.css"
+              "src/styles/styles.scss"
+
             ],
             "stylePreprocessorOptions": {
               "includePaths": [

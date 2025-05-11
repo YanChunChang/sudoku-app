@@ -3,7 +3,6 @@ import { Router, RouterModule, ActivatedRoute, NavigationEnd } from '@angular/ro
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 import { GameConfigService } from '../../services/game/gameconfig.service';
-import { filter } from 'rxjs';
 
 
 @Component({
@@ -70,6 +69,7 @@ export class WelcomePageComponent {
     this.gameConfigService.selectedMode = null;
     this.router.navigate(['/sudoku']);
   }
+  
   resetSelectedChallenge(): void {
     this.gameConfigService.selectedChallenge = null;
     this.router.navigate(['/sudoku', this.gameConfigService.selectedMode]);

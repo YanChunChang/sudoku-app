@@ -3,26 +3,26 @@
     <ng-container *ngIf="!currentPlayer">
         <p>Wähle deinen Spielmodus:</p>
         <div class="selection">
-            <p-button label="Einzelspiel" (click)="selectMode('single')"></p-button> 
-            <p-button label="Mehrspieler" (click)="selectMode('multi')"></p-button>
+            <p-button styleClass="label" label="Einzelspiel" (click)="selectMode('single')"></p-button> 
+            <p-button styleClass="label" label="Mehrspieler" (click)="selectMode('multi')"></p-button>
         </div>
     </ng-container>
     <ng-container *ngIf="currentPlayer && !currentPlaymode">
         <p>Wähle deinen Spielart:</p>
         <div class="selection">
-            <p-button label="Normal" (click)="selectChallenge('normal')"></p-button> 
-            <p-button icon="pi pi-stopwatch" class="p-button p-button-text" label="Herausforderung" (click)="selectChallenge('countdown')"></p-button>
-            <p-button label="Zurück" (click)="resetSelectedMode()"></p-button>
+            <p-button styleClass="label" label="Normal" (click)="selectChallenge('normal')"></p-button> 
+            <p-button styleClass="label" icon="pi pi-stopwatch" label="Herausforderung" (click)="selectChallenge('countdown')"></p-button>
+            <p-button styleClass="label" label="Zurück" (click)="resetSelectedMode()"></p-button>
         </div>
     </ng-container>
     <ng-container *ngIf="currentPlaymode">
         <p>Wähle deinen Schwierigkeitsgrad:</p>
         <div class="selection">
-            <p-button label="Einfach" (click)="goToGame('easy')"></p-button> 
-            <p-button label="Mittel" (click)="goToGame('medium')"></p-button>
-            <p-button label="Schwer" (click)="goToGame('hard')"></p-button>
-            <p-button label="Expert" (click)="goToGame('expert')"></p-button>
-            <p-button label="Zurück" (click)="resetSelectedChallenge()"></p-button>
+            <p-button styleClass="label" label="Einfach" (click)="goToGame('easy')"></p-button> 
+            <p-button styleClass="label" label="Mittel" (click)="goToGame('medium')"></p-button>
+            <p-button styleClass="label" label="Schwer" (click)="goToGame('hard')"></p-button>
+            <p-button styleClass="label" label="Expert" (click)="goToGame('expert')"></p-button>
+            <p-button styleClass="label" label="Zurück" (click)="resetSelectedChallenge()"></p-button>
         </div>
     </ng-container>
 </div>

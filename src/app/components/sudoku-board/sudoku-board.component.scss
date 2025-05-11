@@ -75,6 +75,10 @@ input[readonly] {
   font-weight: bold;
 }
 
+::ng-deep html.darkmode input {
+  background-color: var(--p-surface-700);
+}
+
 .correct {
   background-color: $correct;
   color: $correct-text !important;
