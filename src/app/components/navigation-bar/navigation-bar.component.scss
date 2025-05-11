@@ -33,7 +33,7 @@
         position: relative;
         text-decoration: none;
         font-size: 18px;
-        color: #2d5874;
+        color: $marine-dark;
         font-weight: 500;
         padding-bottom: 5px;
         gap: 20px;
@@ -58,53 +58,15 @@
     }
 }
 
-::ng-deep .moon {
-    background-color: $white !important;
-    color: $marine-dark !important;
-    border: none !important;
-    cursor: pointer !important;
-    transform: translateY(0px) !important;
-    width: fit-content !important;
-    margin-left: 25px !important;
-    margin-top: 10px  !important;
-}
-
-::ng-deep .moon:hover {
-    background-color: $white !important;
-    color: $marine-dark !important;
-    transform: translateY(0px) !important;;
-
-    // &:hover::after {
-    //     transform: scaleX(0) !important;;
-    // }
-}
-
 //dark mode
 ::ng-deep html.darkmode .navbar {
     background-color: var(--p-surface-700);
-    padding: 20px;
-    display: flex;
-    color: $white;
-    border-bottom: 2px solid $marine-light;
 }
+::ng-deep html.darkmode .navbar-links a {
+    color: var(--p-text-100) !important;
 
-::ng-deep html.darkmode .moon {
-    background-color: var(--p-surface-700)!important;
-    color: white;
-    border: none;
-    cursor: pointer !important;
-    transform: translateY(0px);
-    width: fit-content;
-    margin-left: 25px !important;
-    margin-top: 10px  !important;
-}
-
-::ng-deep .moon:hover {
-    background-color: $white !important;
-    color: $marine-dark !important;
-    transform: translateY(0px);
-
-    &:hover::after {
-        transform: scaleX(0);
+    &::after {
+        background-color: var(--p-surface-200) !important;
     }
 }
+

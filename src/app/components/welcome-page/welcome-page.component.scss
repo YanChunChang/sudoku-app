@@ -36,8 +36,8 @@ h1{
 }
 
 ::ng-deep .p-button{
-    background-color: $marine;
-    border: none;
+    background-color: $marine !important;
+    border: none !important;
     width: 270px;
     margin-bottom: 15px;
 }
@@ -60,3 +60,7 @@ h1{
 ::ng-deep html.darkmode .label {
     color: var(--text-color);
 }
+
+::ng-deep html.darkmode .p-button:hover {
+    color: var(--text-color) !important;
+  }

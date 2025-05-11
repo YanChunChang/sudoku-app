@@ -5,13 +5,10 @@
     <div class="navbar-links">
         <a routerLink="/" routerLinkActive="active">Level</a>
         <a routerLink="/" routerLinkActive="active">Leaderboard</a>
+        <p-toggleswitch [(ngModel)]="isDarkMode" (ngModelChange)="toggleDarkMode($event)">
+            <ng-template #handle let-checked="checked">
+                <i [ngClass]="['!text-xs', 'pi', checked ? 'pi-moon' : 'pi-sun']"></i>
+            </ng-template>
+        </p-toggleswitch>
     </div>
-    <p-button styleClass="moon" icon="pi pi-moon" (onClick)="toggleDarkMode()" />
-    <!-- <p-toggleButton 
-    [(ngModel)]="isDarkMode" 
-    onIcon="pi pi-moon" 
-    offIcon="pi pi-sun"
-    (onChange)="toggleDarkMode()">
-  </p-toggleButton> -->
-
 </nav>

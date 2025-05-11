@@ -1,20 +1,23 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
-import { ToggleButtonModule } from 'primeng/togglebutton';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
-import { FormsModule } from '@angular/forms'; 
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-navigation-bar',
   standalone: true,
-  imports: [RouterModule, ButtonModule, ToggleButtonModule, ToggleSwitchModule, FormsModule],
+  imports: [RouterModule, ButtonModule, ToggleSwitchModule, FormsModule, CommonModule],
   templateUrl: './navigation-bar.component.html',
   styleUrl: './navigation-bar.component.scss'
 })
 export class NavigationBarComponent {
-  toggleDarkMode() {
+  isDarkMode: boolean = false;
+
+  toggleDarkMode(event: boolean) {
+    this.isDarkMode = event;
     const element = document.querySelector('html');
-    element!.classList.toggle('darkmode');
+    element!.classList.toggle('darkmode', this.isDarkMode);
   }
 }
