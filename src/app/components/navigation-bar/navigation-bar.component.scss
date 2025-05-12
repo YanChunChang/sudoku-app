@@ -33,7 +33,7 @@
         position: relative;
         text-decoration: none;
         font-size: 18px;
-        color: #2d5874;
+        color: $marine-dark;
         font-weight: 500;
         padding-bottom: 5px;
         gap: 20px;
@@ -57,3 +57,16 @@
         }
     }
 }
+
+//dark mode
+::ng-deep html.darkmode .navbar {
+    background-color: var(--p-surface-700);
+}
+::ng-deep html.darkmode .navbar-links a {
+    color: var(--p-text-100) !important;
+
+    &::after {
+        background-color: var(--p-surface-200) !important;
+    }
+}
+

@@ -5,14 +5,46 @@
     align-items: center;
     gap: 8px;
     font-size: 32px;
-    color: $deep-blue;
+    color: $marine-dark !important;
 }
+
 ::ng-deep p-button .pi{
-    color: $deep-blue;
+    color:  $marine-dark !important;
     font-size: 28px;
 }
 
-p{
-    font-size: 24px;
-    color: $marine-light;
+::ng-deep .clock{
+    cursor: default !important;
+}
+
+
+::ng-deep .p-button{
+    border: none !important;
+    background-color: $white !important;
+    color: $marine-dark !important;
+}
+
+::ng-deep .p-button:hover {
+    background-color: var(--primary-color) !important;
+    border: none !important;
+}
+
+//darkmode
+
+::ng-deep html.darkmode .timer-display {
+    color: var(--text-color) !important;
+}
+
+::ng-deep html.darkmode .clock:hover{
+    cursor: default;
+    color: var(--text-color) !important;
+}
+
+::ng-deep html.darkmode .p-button{
+    background-color: var(--p-surface-700) !important;
+    color: var(--text-color) !important;
+}
+
+::ng-deep html.darkmode p-button .pi{
+    color: var(--text-color) !important;
 }

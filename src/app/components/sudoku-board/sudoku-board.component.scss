@@ -28,7 +28,7 @@
 .grid-container {
   display: grid;
   grid-template-columns: repeat(9, 64px);
-  // grid-template-rows: repeat(9, 64px);
+  grid-template-rows: repeat(9, 64px);
   border: 2px solid $marine-dark; /* äußerer Rahmen */
   background-color: $marine-dark;
   border-radius: 8px;
@@ -58,7 +58,7 @@
   border-radius: 2px;
 }
 
-/* Dickere Linien für Blockgrenzen */
+/* for thick  blockline */
 .border-right-bold {
   border-right: 2px solid $marine-dark !important;
 }
@@ -83,4 +83,30 @@ input[readonly] {
 .incorrect {
   background-color: $error;
   color: $error-text !important;
+}
+
+//darkmode
+::ng-deep html.darkmode input {
+  background-color: transparent !important;
+  color: var(--p-zinc-200) !important;
+}
+::ng-deep html.darkmode .grid-item.block-a {
+  background-color: var(--p-surface-800) !important;
+}
+
+::ng-deep html.darkmode .grid-item.block-b {
+  background-color: var(--p-surface-600) !important;
+}
+
+::ng-deep html.darkmode .grid-container {
+  border: 2px solid var(--p-surface-800);
+  background-color: var(--p-surface-800);
+}
+
+::ng-deep html.darkmode .border-right-bold {
+  border-right: none !important;
+}
+
+::ng-deep html.darkmode .border-bottom-bold {
+  border-bottom: none !important;
 }

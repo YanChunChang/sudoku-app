@@ -1,9 +1,15 @@
 <nav class="navbar">
     <div class="navbar-logo">
-        <a routerLink="/"> <img src="assets/images/sudoku_logo_new.png" alt="Sudoku_logo"/></a>
+        <a *ngIf="isDarkMode === false" routerLink="/"> <img src="assets/images/sudoku_logo_new.png" alt="Sudoku_logo" /></a>
+        <a *ngIf="isDarkMode === true" routerLink="/"> <img src="assets/images/sudoku_logo_new_white.png" alt="Sudoku_logo" /></a>
     </div>
     <div class="navbar-links">
         <a routerLink="/" routerLinkActive="active">Level</a>
         <a routerLink="/" routerLinkActive="active">Leaderboard</a>
+        <p-toggleswitch [(ngModel)]="isDarkMode" (ngModelChange)="toggleDarkMode($event)">
+            <ng-template #handle let-checked="checked">
+                <i [ngClass]="['!text-xs', 'pi', checked ? 'pi-moon' : 'pi-sun']"></i>
+            </ng-template>
+        </p-toggleswitch>
     </div>
 </nav>
