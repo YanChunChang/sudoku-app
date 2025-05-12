@@ -1,0 +1,8 @@
+version: "3"
+services:
+  sudoku:
+    build: .
+    ports:
+      - "8080:80"
+    container_name: sudoku-container
+    restart: unless-stopped
