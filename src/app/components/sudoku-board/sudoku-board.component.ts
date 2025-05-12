@@ -15,21 +15,21 @@ import { GameConfigService } from '../../services/game/gameconfig.service';
   standalone: true,
   imports: [CommonModule, RouterModule, ReactiveFormsModule, TimerComponent, ButtonModule],
   templateUrl: './sudoku-board.component.html',
-  styleUrl: './sudoku-board.component.scss'
+  styleUrl: './sudoku-board.component.scss',
 })
 export class SudokuBoardComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   initialBoard!: number[][];
   solvedBoard!: number[][];
-  currentLevel! : string | null;
+  currentLevel!: string | null;
   private destroy$ = new Subject<void>();
   timerMode: 'up' | 'down' = 'up';
   timerValue: number = 0;
 
   constructor(
-    private fb: FormBuilder, 
-    private sudokuService: SudokuService, 
-    private route: ActivatedRoute, 
+    private fb: FormBuilder,
+    private sudokuService: SudokuService,
+    private route: ActivatedRoute,
     private localTimerService: LocalTimerService,
     private gameConfigService: GameConfigService) {
   }
@@ -52,9 +52,9 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       const boardArray = this.createBoard();
       this.form = this.fb.group({
         board: this.fb.array(boardArray)
-      })
-    })
-    
+      });
+    });
+
     //todo extra ui component for winning game
     this.form.valueChanges.subscribe(board => {
       if (this.isSudokuCompleted()) {
@@ -85,7 +85,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
   }
 
   get rowControls(): FormArray[] {
-    return (this.form.get('board') as FormArray).controls as FormArray[];
+    return this.board.controls as FormArray[];
   }
 
   //fetch single value from the 2d array
@@ -113,18 +113,6 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       return ""
     } else {
       return this.checkCellAnswer(row, col) ? "correct" : "incorrect";
-    }
-  }
-
-  //Validator in Angular only check the value like e.g. control.invalid 
-  //todo chinese still can be typed in cell because of composition event
-  onKeyDown(event: KeyboardEvent) {
-    const allowedKeys = [
-      '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Backspace', 'Delete',
-      'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Tab'];
-
-    if (!allowedKeys.includes(event.key)) {
-      event.preventDefault();
     }
   }
 
@@ -156,15 +144,83 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
 
   onClickNewgame() {
     this.sudokuService.generateSudoku(this.currentLevel);
-      this.initialBoard = this.sudokuService.initialBoard;
-      this.solvedBoard = this.sudokuService.solvedBoard;
+    this.initialBoard = this.sudokuService.initialBoard;
+    this.solvedBoard = this.sudokuService.solvedBoard;
 
-      const boardArray = this.createBoard();
-      this.form = this.fb.group({
-        board: this.fb.array(boardArray)
-      })
-      this.localTimerService.reset();
-      this.localTimerService.stop();
+    const boardArray = this.createBoard();
+    this.form = this.fb.group({
+      board: this.fb.array(boardArray)
+    });
+    this.localTimerService.reset();
+    this.localTimerService.stop();
+  }
+
+    //Validator in Angular only check the value like e.g. control.invalid 
+  //todo chinese still can be typed in cell because of composition event
+  onKeyDown(event: KeyboardEvent, i: number, j: number) {
+    const allowedKeys = [
+      '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Backspace', 'Delete',
+      'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Tab'];
+
+
+    if (!allowedKeys.includes(event.key)) {
+      event.preventDefault();
+      return;
+    }
+
+    let nextI = i;
+    let nextJ = j;
+
+    switch (event.key) {
+      case 'ArrowUp':
+        nextI = i > 0 ? i - 1 : i;
+        break;
+      case 'ArrowDown':
+        nextI = i < 8 ? i + 1 : i;
+        break;
+      case 'ArrowLeft':
+        nextJ = j > 0 ? j - 1 : j;
+        break;
+      case 'ArrowRight':
+        nextJ = j < 8 ? j + 1 : j;
+        break;
+      default:
+        return;
+    }
+
+    // Skip readonly cells
+    let attempts = 0;
+    while (attempts < 9) {
+      const nextCell = document.getElementById(`cell-${nextI}-${nextJ}`) as HTMLInputElement;
+      if (nextCell && !nextCell.readOnly) {
+        nextCell.focus();
+        event.preventDefault();
+        return;
+      }
+
+      // Calculate the position of the next cell according to the arrow keys
+      switch (event.key) {
+        case 'ArrowUp':
+          if (nextI > 0) nextI--;
+          break;
+        case 'ArrowDown':
+          if (nextI < 8) nextI++;
+          break;
+        case 'ArrowLeft':
+          if (nextJ > 0) nextJ--;
+          break;
+        case 'ArrowRight':
+          if (nextJ < 8) nextJ++;
+          break;
+      }
+      attempts++;
+    }
+  }
+
+  getBlockClass(i: number, j: number): 'a' | 'b' {
+    const blockRow = Math.floor(i / 3);
+    const blockCol = Math.floor(j / 3);
+    return (blockRow + blockCol) % 2 === 0 ? 'a' : 'b';
   }
 
   ngOnDestroy(): void {
