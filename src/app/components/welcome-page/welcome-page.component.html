@@ -5,6 +5,7 @@
         <div class="selection">
             <p-button styleClass="label" label="Einzelspiel" (click)="selectMode('single')"></p-button> 
             <p-button styleClass="label" label="Mehrspieler" (click)="selectMode('multi')"></p-button>
+            <p-button styleClass="label" label="Einstellung" (click)="onClickSettings()"></p-button>
         </div>
     </ng-container>
     <ng-container *ngIf="currentPlayer && !currentPlaymode">

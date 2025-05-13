@@ -1,0 +1,51 @@
+@use "styles/variables" as *;
+
+.middle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 12%;
+}
+
+h1 {
+    font-size: 35px;
+    color: $marine-dark;
+    text-align: center;
+}
+
+.selection {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+::ng-deep .p-button-label {
+    font-size: 25px;
+}
+
+::ng-deep .p-button {
+    background-color: $marine !important;
+    border: none !important;
+    width: 270px;
+    margin-bottom: 15px;
+}
+
+::ng-deep .p-button:hover {
+    background-color: $marine-hover !important;
+    transform: translateY(-5px);
+    border: none !important;
+}
+
+//darkmode
+::ng-deep html.darkmode h1{
+    color: var(--text-color);
+}
+
+::ng-deep html.darkmode .label {
+    color: var(--text-color);
+}
+
+::ng-deep html.darkmode .p-button:hover {
+    color: var(--text-color) !important;
+  }
