@@ -2,6 +2,19 @@
     "SETTINGS": {
       "TITLE": "設定",
       "CHANGE_LANGUAGE": "言語を変更する",
-      "CHANGE_THEME": "テーマを変更"
+      "LANGUAGE": {
+        "ENGLISH": "English",
+        "CHINESE": "繁體中文",
+        "JAPANESE": "日本語",
+        "GERMAN": "Deutsch"
+      },
+      "CHANGE_THEME": "テーマを変更",
+      "THEME": {
+        "LIGHT": "明るい",
+        "DARK": "暗い",
+        "SYSTEM": "システム"
+      },
+      "PLACEHOLDER_LANGUAGE": "言語を選択"
+
     }
   }

@@ -1,45 +1,53 @@
 import { Component } from '@angular/core';
-import { TranslateService, TranslateModule } from '@ngx-translate/core';
-import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
-import { Router, RouterModule, ActivatedRoute } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { LanguageService } from '../../../services/language/language.service';
+import { DropdownModule } from 'primeng/dropdown';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [CommonModule, TranslateModule, ButtonModule, RouterModule],
+  imports: [CommonModule, TranslateModule, ButtonModule, RouterModule, DropdownModule, FormsModule],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.scss'
 })
 export class SettingsComponent {
-  showLangMenu = false;
+  selectedTheme: string = 'system';
+  selectedLanguage: string = 'de';
 
-  languages = ['zh-tw', 'en', 'jp', 'de'];
-
-  langLabels: Record<string, string> = {
-    'zh-tw': '繁體中文',
-    'en': 'English',
-    'jp': '日本語',
-    'de': 'Deutsch'
-  };
-
-  constructor(private translate: TranslateService, private route: ActivatedRoute, private router: Router, ) {}
-
-  toggleLanguageMenu() {
-    this.showLangMenu = !this.showLangMenu;
-  }
-
-  setLanguage(lang: string) {
-    this.translate.use(lang);
-    this.showLangMenu = false;
-  }
-
-
-  onClicktToSetLanguage() {
-    this.router.navigate(['/sudoku/language']);
-  }
+  constructor(
+    private router: Router, 
+    private LanguageService: LanguageService,  
+  ) {}
 
   onBackToStart(){
     this.router.navigate(['/sudoku']);
   }
+  
+  themeOptions = [
+    { value: 'light', label: 'SETTINGS.THEME.LIGHT' },
+    { value: 'dark', label: 'SETTINGS.THEME.DARK' },
+    { value: 'default', label: 'SETTINGS.THEME.SYSTEM'}
+  ];
+
+  languageOptions(): { code: string; label: string }[] {
+    return this.LanguageService.languageOptions;
+  }
+  
+  setLanguage(lang: string) {
+    this.selectedLanguage = lang;
+    this.LanguageService.setLanguage(lang);
+  }
+  
+  setTheme(theme: string) {
+    this.selectedTheme = theme;
+    //this..setTheme(theme); // 你可實作這個 service
+  }
+  
+
+
 }

@@ -2,6 +2,18 @@
     "SETTINGS": {
       "TITLE": "Settings",
       "CHANGE_LANGUAGE": "Change Language",
-      "CHANGE_THEME": "Change Theme"
+      "LANGUAGE": {
+        "ENGLISH": "English",
+        "CHINESE": "繁體中文",
+        "JAPANESE": "日本語",
+        "GERMAN": "Deutsch"
+      },
+      "CHANGE_THEME": "Change Theme",
+      "THEME": {
+        "LIGHT": "Light",
+        "DARK": "Dark",
+        "SYSTEM": "System"
+      },
+      "PLACEHOLDER_LANGUAGE": "Select a Language"
     }
   }

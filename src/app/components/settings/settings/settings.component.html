@@ -1,31 +1,26 @@
-<!-- 
-<button (click)="toggleLanguageMenu()">
-  {{ 'SETTINGS.CHANGE_LANGUAGE' | translate }}
-</button>
-
-<div *ngIf="showLangMenu" class="lang-menu">
-  <button *ngFor="let lang of languages" (click)="setLanguage(lang)">
-    {{ langLabels[lang] }}
-  </button>
-</div> -->
-
 <div class="middle">
     <h1>{{ 'SETTINGS.TITLE' | translate }}</h1>
         <div class="selection">
             <div class="selection-row">
                 <div class="selection-label">{{ 'SETTINGS.CHANGE_THEME' | translate }}</div>
                 <div class="selection-control">
-                  <button>
-                    {{  'SETTINGS.THEME'| translate }}
-                  </button>
+                    <p-dropdown 
+                    [options]="themeOptions" 
+                    [(ngModel)]="selectedTheme"
+                    (ngModelChange)="setTheme($event)" 
+                    optionLabel="value" 
+                    placeholder="Select a Theme" />
                 </div>
               </div>
               <div class="selection-row">
                 <div class="selection-label">{{ 'SETTINGS.CHANGE_LANGUAGE' | translate }}</div>
                 <div class="selection-control">
-                  <button>
-                    {{  'SETTINGS.THEME'| translate }}
-                  </button>
+                    <p-dropdown 
+                    [options]="languageOptions()" 
+                    [(ngModel)]="selectedLanguage"
+                    (ngModelChange)="setLanguage($event.code)" 
+                    optionLabel="label" 
+                    [placeholder]="'SETTINGS.PLACEHOLDER_LANGUAGE' | translate" />
                 </div>
               </div>
         </div>
