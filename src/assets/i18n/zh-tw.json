@@ -1,6 +1,7 @@
 {
     "SETTINGS": {
       "TITLE": "設定",
-      "CHANGE_LANGUAGE": "變更語言"
+      "CHANGE_LANGUAGE": "變更語言",
+      "CHANGE_THEME": "變更主題"
     }
   }

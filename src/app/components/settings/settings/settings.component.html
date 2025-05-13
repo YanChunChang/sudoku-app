@@ -1,5 +1,4 @@
-
-
+<!-- 
 <button (click)="toggleLanguageMenu()">
   {{ 'SETTINGS.CHANGE_LANGUAGE' | translate }}
 </button>
@@ -8,12 +7,27 @@
   <button *ngFor="let lang of languages" (click)="setLanguage(lang)">
     {{ langLabels[lang] }}
   </button>
-</div>
+</div> -->
 
 <div class="middle">
     <h1>{{ 'SETTINGS.TITLE' | translate }}</h1>
         <div class="selection">
-            <p-button styleClass="label" label="Sprache" (click)="onClicktToSetLanguage()"></p-button> 
-            <p-button styleClass="label" label="Zurück" (click)="onBackToStart()"></p-button>
+            <div class="selection-row">
+                <div class="selection-label">{{ 'SETTINGS.CHANGE_THEME' | translate }}</div>
+                <div class="selection-control">
+                  <button>
+                    {{  'SETTINGS.THEME'| translate }}
+                  </button>
+                </div>
+              </div>
+              <div class="selection-row">
+                <div class="selection-label">{{ 'SETTINGS.CHANGE_LANGUAGE' | translate }}</div>
+                <div class="selection-control">
+                  <button>
+                    {{  'SETTINGS.THEME'| translate }}
+                  </button>
+                </div>
+              </div>
         </div>
+        <p-button styleClass="label" label="Zurück" (click)="onBackToStart()"></p-button>
 </div>

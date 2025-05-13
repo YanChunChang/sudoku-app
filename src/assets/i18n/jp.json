@@ -1,6 +1,7 @@
 {
     "SETTINGS": {
       "TITLE": "設定",
-      "CHANGE_LANGUAGE": "言語を変更する"
+      "CHANGE_LANGUAGE": "言語を変更する",
+      "CHANGE_THEME": "テーマを変更"
     }
   }

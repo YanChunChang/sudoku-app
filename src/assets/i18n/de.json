@@ -1,6 +1,7 @@
 {
     "SETTINGS": {
       "TITLE": "Einstellungen",
-      "CHANGE_LANGUAGE": "Sprache ändern"
+      "CHANGE_LANGUAGE": "Sprache ändern",
+      "CHANGE_THEME": "Thema ändern"
     }
   }

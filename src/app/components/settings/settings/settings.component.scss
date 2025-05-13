@@ -20,6 +20,23 @@ h1 {
     margin-top: 20px;
 }
 
+.selection-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    width: 500px;
+    margin-bottom: 25px;
+}
+
+
+.selection-label {
+    flex: 1;
+    font-weight: bold;
+    font-size: 25px;
+    color: $marine-dark;
+  }
+
 ::ng-deep .p-button-label {
     font-size: 25px;
 }
@@ -28,7 +45,7 @@ h1 {
     background-color: $marine !important;
     border: none !important;
     width: 270px;
-    margin-bottom: 15px;
+    margin-top: 25px;
 }
 
 ::ng-deep .p-button:hover {
