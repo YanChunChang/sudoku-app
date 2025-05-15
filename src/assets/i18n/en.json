@@ -16,5 +16,12 @@
       },
       "PLACEHOLDER_LANGUAGE": "Select a Language",
       "PLACEHOLDER_THEME": "Select a Theme"
+    },
+    "NAVBAR": {
+      "LEVEL": "Level",
+      "LEADERBOARD": "Leaderboard"
+    },
+    "GENERAL":{
+      "BACK": "Back"
     }
   }

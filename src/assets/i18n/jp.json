@@ -17,5 +17,12 @@
       "PLACEHOLDER_LANGUAGE": "言語を選択",
       "PLACEHOLDER_THEME": "テーマを選択"
 
+    },
+    "NAVBAR": {
+      "LEVEL": "レベル",
+      "LEADERBOARD": "リーダーボード"
+    },
+    "GENERAL":{
+      "BACK": "戻る"
     }
   }

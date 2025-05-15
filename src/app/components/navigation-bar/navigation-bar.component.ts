@@ -6,11 +6,12 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ThemeService } from '../../services/theme/theme.service';
 import { Subscription } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-navigation-bar',
   standalone: true,
-  imports: [RouterModule, ButtonModule, ToggleSwitchModule, FormsModule, CommonModule],
+  imports: [RouterModule, ButtonModule, ToggleSwitchModule, FormsModule, CommonModule, TranslateModule],
   templateUrl: './navigation-bar.component.html',
   styleUrl: './navigation-bar.component.scss'
 })
@@ -29,5 +30,8 @@ export class NavigationBarComponent {
 
   toggleDarkMode(event: boolean) {
     this.themeService.toggleDarkMode(event);
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

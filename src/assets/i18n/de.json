@@ -16,5 +16,12 @@
       },
       "PLACEHOLDER_LANGUAGE": "Sprache auswählen",
       "PLACEHOLDER_THEME": "Thema auswählen"
+    },
+    "NAVBAR": {
+      "LEVEL": "Level",
+      "LEADERBOARD": "Rangliste"
+    },
+    "GENERAL":{
+      "BACK": "Zurück"
     }
   }
