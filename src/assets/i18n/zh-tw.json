@@ -3,10 +3,10 @@
       "TITLE": "設定",
       "CHANGE_LANGUAGE": "變更語言",
       "LANGUAGE": {
-        "ENGLISH": "English",
+        "ENGLISH": "英文",
         "CHINESE": "繁體中文",
-        "JAPANESE": "日本語",
-        "GERMAN": "Deutsch"
+        "JAPANESE": "日文",
+        "GERMAN": "德文"
       },
       "CHANGE_THEME": "變更主題",
       "THEME": {
@@ -14,6 +14,7 @@
         "DARK": "深色",
         "SYSTEM": "系統"
       },
-      "PLACEHOLDER_LANGUAGE": "選擇語言"
+      "PLACEHOLDER_LANGUAGE": "選擇語言",
+      "PLACEHOLDER_THEME": "選擇主題"
     }
   }

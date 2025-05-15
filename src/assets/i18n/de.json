@@ -3,9 +3,9 @@
       "TITLE": "Einstellungen",
       "CHANGE_LANGUAGE": "Sprache ändern",
       "LANGUAGE": {
-        "ENGLISH": "English",
-        "CHINESE": "繁體中文",
-        "JAPANESE": "日本語",
+        "ENGLISH": "Englisch",
+        "CHINESE": "Trad. Chinesisch",
+        "JAPANESE": "Japanisch",
         "GERMAN": "Deutsch"
       },
       "CHANGE_THEME": "Thema ändern",
@@ -14,6 +14,7 @@
         "DARK": "Dunkel",
         "SYSTEM": "System"
       },
-      "PLACEHOLDER_LANGUAGE": "Sprache auswählen"
+      "PLACEHOLDER_LANGUAGE": "Sprache auswählen",
+      "PLACEHOLDER_THEME": "Thema auswählen"
     }
   }

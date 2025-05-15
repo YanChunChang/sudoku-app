@@ -4,22 +4,24 @@
             <div class="selection-row">
                 <div class="selection-label">{{ 'SETTINGS.CHANGE_THEME' | translate }}</div>
                 <div class="selection-control">
-                    <p-dropdown 
-                    [options]="themeOptions" 
-                    [(ngModel)]="selectedTheme"
+                    <p-select 
+                    [options]="themeOptions()" 
+                    [ngModel]="selectedTheme"
                     (ngModelChange)="setTheme($event)" 
-                    optionLabel="value" 
-                    placeholder="Select a Theme" />
+                    optionLabel="label"
+                    optionValue="value"
+                    [placeholder]="'SETTINGS.PLACEHOLDER_THEME' | translate" />
                 </div>
               </div>
               <div class="selection-row">
                 <div class="selection-label">{{ 'SETTINGS.CHANGE_LANGUAGE' | translate }}</div>
                 <div class="selection-control">
-                    <p-dropdown 
+                    <p-select 
                     [options]="languageOptions()" 
                     [(ngModel)]="selectedLanguage"
-                    (ngModelChange)="setLanguage($event.code)" 
-                    optionLabel="label" 
+                    (ngModelChange)="setLanguage($event)" 
+                    optionLabel="label"
+                    optionValue="code"
                     [placeholder]="'SETTINGS.PLACEHOLDER_LANGUAGE' | translate" />
                 </div>
               </div>

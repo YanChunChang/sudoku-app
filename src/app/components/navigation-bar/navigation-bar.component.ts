@@ -4,6 +4,7 @@ import { ButtonModule } from 'primeng/button';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ThemeService } from '../../services/theme/theme.service';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -15,9 +16,11 @@ import { CommonModule } from '@angular/common';
 export class NavigationBarComponent {
   isDarkMode: boolean = false;
 
+  constructor(private themeService: ThemeService) {
+  }
+
   toggleDarkMode(event: boolean) {
     this.isDarkMode = event;
-    const element = document.querySelector('html');
-    element!.classList.toggle('darkmode', this.isDarkMode);
+    this.themeService.toggleDarkMode(this.isDarkMode);
   }
 }
