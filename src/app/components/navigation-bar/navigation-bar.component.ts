@@ -5,6 +5,7 @@ import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ThemeService } from '../../services/theme/theme.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -15,12 +16,18 @@ import { ThemeService } from '../../services/theme/theme.service';
 })
 export class NavigationBarComponent {
   isDarkMode: boolean = false;
+  private subscription: Subscription = new Subscription();
 
   constructor(private themeService: ThemeService) {
   }
 
+  ngOnInit() {
+    this.subscription = this.themeService.darkMode$.subscribe(mode => {
+      this.isDarkMode = mode;
+    });
+  }
+
   toggleDarkMode(event: boolean) {
-    this.isDarkMode = event;
-    this.themeService.toggleDarkMode(this.isDarkMode);
+    this.themeService.toggleDarkMode(event);
   }
 }
