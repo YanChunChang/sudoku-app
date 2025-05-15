@@ -3,12 +3,13 @@ import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 import { GameConfigService } from '../../services/game/gameconfig.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @Component({
   selector: 'app-welcome-page',
   standalone: true,
-  imports: [RouterModule, ButtonModule, CommonModule],
+  imports: [RouterModule, ButtonModule, CommonModule, TranslateModule],
   templateUrl: './welcome-page.component.html',
   styleUrl: './welcome-page.component.scss'
 })

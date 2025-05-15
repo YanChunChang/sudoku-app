@@ -1,29 +1,29 @@
 <div class="middle">
-    <h1>Willkommen bei Sudoku!</h1>
+    <h1>{{ 'WELCOMEPAGE.TITLE' | translate }}</h1>
     <ng-container *ngIf="!currentPlayer">
-        <p>Wähle deinen Spielmodus:</p>
+        <p>{{ 'WELCOMEPAGE.PLAYMODE' | translate }}</p>
         <div class="selection">
-            <p-button styleClass="label" label="Einzelspiel" (click)="selectMode('single')"></p-button> 
-            <p-button styleClass="label" label="Mehrspieler" (click)="selectMode('multi')"></p-button>
-            <p-button styleClass="label" label="Einstellung" (click)="onClickSettings()"></p-button>
+            <p-button styleClass="label" [label]="'WELCOMEPAGE.SINGLEPLAYER' | translate" (click)="selectMode('single')"></p-button> 
+            <p-button styleClass="label" [label]="'WELCOMEPAGE.MULTIPLAYER' | translate" (click)="selectMode('multi')"></p-button>
+            <p-button styleClass="label" [label]="'WELCOMEPAGE.SETTINGS' | translate" (click)="onClickSettings()"></p-button>
         </div>
     </ng-container>
     <ng-container *ngIf="currentPlayer && !currentPlaymode">
-        <p>Wähle deinen Spielart:</p>
+        <p>{{ 'WELCOMEPAGE.PLAYSTYLE' | translate }}</p>
         <div class="selection">
-            <p-button styleClass="label" label="Normal" (click)="selectChallenge('normal')"></p-button> 
-            <p-button styleClass="label" icon="pi pi-stopwatch" label="Herausforderung" (click)="selectChallenge('countdown')"></p-button>
-            <p-button styleClass="label" label="Zurück" (click)="resetSelectedMode()"></p-button>
+            <p-button styleClass="label" [label]="'WELCOMEPAGE.CLASSIC' | translate" (click)="selectChallenge('normal')"></p-button> 
+            <p-button styleClass="label" [label]="'WELCOMEPAGE.CHALLENGE' | translate" icon="pi pi-stopwatch" (click)="selectChallenge('countdown')"></p-button>
+            <p-button styleClass="label" [label]="'GENERAL.BACK' | translate" (click)="resetSelectedMode()"></p-button>
         </div>
     </ng-container>
     <ng-container *ngIf="currentPlaymode">
-        <p>Wähle deinen Schwierigkeitsgrad:</p>
+        <p>{{ 'WELCOMEPAGE.DIFFICULTY' | translate }}</p>
         <div class="selection">
-            <p-button styleClass="label" label="Einfach" (click)="goToGame('easy')"></p-button> 
-            <p-button styleClass="label" label="Mittel" (click)="goToGame('medium')"></p-button>
-            <p-button styleClass="label" label="Schwer" (click)="goToGame('hard')"></p-button>
-            <p-button styleClass="label" label="Expert" (click)="goToGame('expert')"></p-button>
-            <p-button styleClass="label" label="Zurück" (click)="resetSelectedChallenge()"></p-button>
+            <p-button styleClass="label" [label]="'WELCOMEPAGE.EASY' | translate" (click)="goToGame('easy')"></p-button> 
+            <p-button styleClass="label" [label]="'WELCOMEPAGE.MEDIUM' | translate" (click)="goToGame('medium')"></p-button>
+            <p-button styleClass="label" [label]="'WELCOMEPAGE.HARD' | translate" (click)="goToGame('hard')"></p-button>
+            <p-button styleClass="label" [label]="'WELCOMEPAGE.EXPERT' | translate" (click)="goToGame('expert')"></p-button>
+            <p-button styleClass="label" [label]="'GENERAL.BACK' | translate" (click)="resetSelectedChallenge()"></p-button>
         </div>
     </ng-container>
 </div>

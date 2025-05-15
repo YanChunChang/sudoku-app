@@ -21,6 +21,21 @@
       "LEVEL": "Level",
       "LEADERBOARD": "Leaderboard"
     },
+      "WELCOMEPAGE": {
+      "TITLE": "Welcome to Sudoku!",
+      "PLAYMODE": "Choose your play mode:",
+      "SINGLEPLAYER": "Singleplayer",
+      "MULTIPLAYER": "Multiplayer",
+      "SETTINGS": "Settings",
+      "PLAYSTYLE": "Choose your play style:",
+      "CLASSIC": "Classic",
+      "CHALLENGE": "Challenge",
+      "DIFFICULTY": "Select your difficulty level:",
+      "EASY": "Easy",
+      "MEDIUM": "Medium",
+      "HARD": "Hard",
+      "EXPERT": "Expert"
+    },
     "GENERAL":{
       "BACK": "Back"
     }

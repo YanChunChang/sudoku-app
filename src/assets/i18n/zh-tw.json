@@ -21,6 +21,21 @@
       "LEVEL": "等級",
       "LEADERBOARD": "排行榜"
     },
+    "WELCOMEPAGE": {
+      "TITLE": "歡迎來到數獨！",
+      "PLAYMODE": "選擇你的遊玩模式：",
+      "SINGLEPLAYER": "單人遊玩",
+      "MULTIPLAYER": "多人遊玩",
+      "SETTINGS": "設定",
+      "PLAYSTYLE": "選擇你的遊玩風格：",
+      "CLASSIC": "經典",
+      "CHALLENGE": "挑戰",
+      "DIFFICULTY": "選擇你的難度等級：",
+      "EASY": "簡單",
+      "MEDIUM": "中等",
+      "HARD": "困難",
+      "EXPERT": "專家"
+    },
     "GENERAL":{
       "BACK": "返回"
     }

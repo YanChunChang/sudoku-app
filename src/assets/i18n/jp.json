@@ -22,6 +22,21 @@
       "LEVEL": "レベル",
       "LEADERBOARD": "リーダーボード"
     },
+    "WELCOMEPAGE": {
+      "TITLE": "数独へようこそ！",
+      "PLAYMODE": "ゲームモードを選択する：",
+      "SINGLEPLAYER": "シングルプレーヤー",
+      "MULTIPLAYER": "マルチプレイヤー",
+      "SETTINGS": "設定",
+      "PLAYSTYLE": "プレイスタイルを選択する：",
+      "CLASSIC": "クラシック",
+      "CHALLENGE": "チャレンジ",
+      "DIFFICULTY": "難易度を選択する：",
+      "EASY": "簡単",
+      "MEDIUM": "中",
+      "HARD": "難しい",
+      "EXPERT": "エキスパート"
+    },
     "GENERAL":{
       "BACK": "戻る"
     }
