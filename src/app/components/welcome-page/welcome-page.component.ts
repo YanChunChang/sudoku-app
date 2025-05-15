@@ -1,14 +1,15 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
-import { Router, RouterModule, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Component } from '@angular/core';
+import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 import { GameConfigService } from '../../services/game/gameconfig.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @Component({
   selector: 'app-welcome-page',
   standalone: true,
-  imports: [RouterModule, ButtonModule, CommonModule],
+  imports: [RouterModule, ButtonModule, CommonModule, TranslateModule],
   templateUrl: './welcome-page.component.html',
   styleUrl: './welcome-page.component.scss'
 })
@@ -30,11 +31,16 @@ export class WelcomePageComponent {
         const mode = params.get('playmode');
         const level = params.get('level');
   
-        this.currentPlayer = player;
+        if (player === 'single' || player === 'multi') {
+          this.currentPlayer = player;
+          this.gameConfigService.selectedMode = player;
+        }else {
+          this.currentPlayer = null;
+        }
+
         this.currentPlaymode = mode;
         this.currentLevel = level;
   
-        this.gameConfigService.selectedMode = player === 'single' || player === 'multi' ? player : null;
         this.gameConfigService.selectedChallenge = mode === 'normal' || mode === 'countdown' ? mode : null;
         this.gameConfigService.selectedLevel = level === 'easy' || level === 'medium' || level === 'hard' || level === 'expert' ? level : null;
       });
@@ -73,5 +79,9 @@ export class WelcomePageComponent {
   resetSelectedChallenge(): void {
     this.gameConfigService.selectedChallenge = null;
     this.router.navigate(['/sudoku', this.gameConfigService.selectedMode]);
+  }
+  
+  onClickSettings() {
+    this.router.navigate(['/sudoku/settings']);
   }
 }

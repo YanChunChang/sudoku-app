@@ -1,0 +1,84 @@
+@use "styles/variables" as *;
+
+.middle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 12%;
+}
+
+h1 {
+    font-size: 35px;
+    color: $marine-dark;
+    text-align: center;
+}
+
+.selection {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.selection-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    width: 500px;
+    margin-bottom: 25px;
+}
+
+
+.selection-label {
+    flex: 1;
+    font-weight: bold;
+    font-size: 25px;
+    color: $marine-dark;
+  }
+
+::ng-deep .p-button-label {
+    font-size: 25px;
+}
+
+::ng-deep .p-button {
+    background-color: $marine !important;
+    border: none !important;
+    width: 270px;
+    margin-top: 25px;
+}
+
+::ng-deep .p-button:hover {
+    background-color: $marine-hover !important;
+    transform: translateY(-5px);
+    border: none !important;
+}
+
+//darkmode
+::ng-deep html.darkmode h1{
+    color: var(--text-color);
+}
+
+::ng-deep html.darkmode .label {
+    color: var(--text-color);
+}
+
+::ng-deep html.darkmode .p-button:hover {
+    color: var(--text-color) !important;
+}
+
+::ng-deep html.darkmode .selection-label {
+    color: var(--text-color) !important;
+}
+
+::ng-deep html.darkmode p-select {
+    background-color: var(--p-surface-600) !important;
+}
+
+::ng-deep html.darkmode .p-select-overlay{
+    background-color: var(--p-surface-600) !important;
+}
+::ng-deep html.darkmode .p-select-option.p-select-option-selected{
+    color: var(--text-color) !important;
+}
+    

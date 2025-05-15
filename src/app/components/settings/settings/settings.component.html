@@ -1,0 +1,30 @@
+<div class="middle">
+    <h1>{{ 'SETTINGS.TITLE' | translate }}</h1>
+        <div class="selection">
+            <div class="selection-row">
+                <div class="selection-label">{{ 'SETTINGS.CHANGE_THEME' | translate }}</div>
+                <div class="selection-control">
+                    <p-select 
+                    [options]="themeOptions()" 
+                    [ngModel]="selectedTheme"
+                    (ngModelChange)="setTheme($event)" 
+                    optionLabel="label"
+                    optionValue="value"
+                    [placeholder]="'SETTINGS.PLACEHOLDER_THEME' | translate" />
+                </div>
+              </div>
+              <div class="selection-row">
+                <div class="selection-label">{{ 'SETTINGS.CHANGE_LANGUAGE' | translate }}</div>
+                <div class="selection-control">
+                    <p-select 
+                    [options]="languageOptions()" 
+                    [(ngModel)]="selectedLanguage"
+                    (ngModelChange)="setLanguage($event)" 
+                    optionLabel="label"
+                    optionValue="code"
+                    [placeholder]="'SETTINGS.PLACEHOLDER_LANGUAGE' | translate" />
+                </div>
+              </div>
+        </div>
+        <p-button styleClass="label" [label]="'GENERAL.BACK' | translate" (click)="onBackToStart()"></p-button>
+</div>

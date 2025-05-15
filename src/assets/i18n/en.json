@@ -1,0 +1,42 @@
+{
+    "SETTINGS": {
+      "TITLE": "Settings",
+      "CHANGE_LANGUAGE": "Change Language",
+      "LANGUAGE": {
+        "ENGLISH": "English",
+        "CHINESE": "Trad. Chinese",
+        "JAPANESE": "Japanese",
+        "GERMAN": "German"
+      },
+      "CHANGE_THEME": "Change Theme",
+      "THEME": {
+        "LIGHT": "Light",
+        "DARK": "Dark",
+        "SYSTEM": "System"
+      },
+      "PLACEHOLDER_LANGUAGE": "Select a Language",
+      "PLACEHOLDER_THEME": "Select a Theme"
+    },
+    "NAVBAR": {
+      "LEVEL": "Level",
+      "LEADERBOARD": "Leaderboard"
+    },
+      "WELCOMEPAGE": {
+      "TITLE": "Welcome to Sudoku!",
+      "PLAYMODE": "Choose your play mode:",
+      "SINGLEPLAYER": "Singleplayer",
+      "MULTIPLAYER": "Multiplayer",
+      "SETTINGS": "Settings",
+      "PLAYSTYLE": "Choose your play style:",
+      "CLASSIC": "Classic",
+      "CHALLENGE": "Challenge",
+      "DIFFICULTY": "Select your difficulty level:",
+      "EASY": "Easy",
+      "MEDIUM": "Medium",
+      "HARD": "Hard",
+      "EXPERT": "Expert"
+    },
+    "GENERAL":{
+      "BACK": "Back"
+    }
+  }

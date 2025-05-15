@@ -1,0 +1,43 @@
+{
+    "SETTINGS": {
+      "TITLE": "設定",
+      "CHANGE_LANGUAGE": "言語を変更する",
+      "LANGUAGE": {
+        "ENGLISH": "英語",
+        "CHINESE": "繁體中文",
+        "JAPANESE": "日本語",
+        "GERMAN": "ドイツ語"
+      },
+      "CHANGE_THEME": "テーマを変更",
+      "THEME": {
+        "LIGHT": "明るい",
+        "DARK": "暗い",
+        "SYSTEM": "システム"
+      },
+      "PLACEHOLDER_LANGUAGE": "言語を選択",
+      "PLACEHOLDER_THEME": "テーマを選択"
+
+    },
+    "NAVBAR": {
+      "LEVEL": "レベル",
+      "LEADERBOARD": "リーダーボード"
+    },
+    "WELCOMEPAGE": {
+      "TITLE": "数独へようこそ！",
+      "PLAYMODE": "ゲームモードを選択する：",
+      "SINGLEPLAYER": "シングルプレーヤー",
+      "MULTIPLAYER": "マルチプレイヤー",
+      "SETTINGS": "設定",
+      "PLAYSTYLE": "プレイスタイルを選択する：",
+      "CLASSIC": "クラシック",
+      "CHALLENGE": "チャレンジ",
+      "DIFFICULTY": "難易度を選択する：",
+      "EASY": "簡単",
+      "MEDIUM": "中",
+      "HARD": "難しい",
+      "EXPERT": "エキスパート"
+    },
+    "GENERAL":{
+      "BACK": "戻る"
+    }
+  }
