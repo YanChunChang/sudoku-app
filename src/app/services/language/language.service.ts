@@ -6,16 +6,43 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class LanguageService {
   constructor(private translate: TranslateService) {
-   }
+    const savedLang = localStorage.getItem('lang');
+    if (savedLang) {
+      this.setLanguage(savedLang);
+      console.log('Language set from localStorage:', savedLang);
+    } else {
+      const browserLang = this.translate.getBrowserLang();
+
+      let selectedLang: string;
+
+      switch (browserLang) {
+        case 'zh':
+          selectedLang = 'zh-tw';
+          break;
+        case 'ja':
+          selectedLang = 'jp';
+          break;
+        case 'de':
+        case 'en':
+          selectedLang = browserLang;
+          break;
+        default:
+          selectedLang = 'en';
+      }
+
+      this.setLanguage(selectedLang);
+      console.log('Language set from browser:', selectedLang);
+    }
+  }
 
   languageOptions: { code: string; label: string }[] = [];
   translatedThemeOptions: { value: string, label: string }[] = [];
 
   getTranslatedThemeOptions() {
     this.translatedThemeOptions = [
-      { value: 'light', label: this.translate.instant('SETTINGS.THEME.LIGHT')},
-      { value: 'dark', label: this.translate.instant('SETTINGS.THEME.DARK')},
-      { value: 'system', label: this.translate.instant('SETTINGS.THEME.SYSTEM')},
+      { value: 'light', label: this.translate.instant('SETTINGS.THEME.LIGHT') },
+      { value: 'dark', label: this.translate.instant('SETTINGS.THEME.DARK') },
+      { value: 'system', label: this.translate.instant('SETTINGS.THEME.SYSTEM') },
     ];
   }
 
@@ -29,6 +56,7 @@ export class LanguageService {
   }
 
   setLanguage(lang: string) {
+    localStorage.setItem('lang', lang);
     document.documentElement.lang = lang;
     this.translate.use(lang).subscribe(() => {
       this.getTranslatedThemeOptions();
