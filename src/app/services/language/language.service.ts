@@ -8,16 +8,10 @@ export class LanguageService {
   constructor(private translate: TranslateService) {
    }
 
-  languageOptions = [
-    { code: 'zh-tw', label: '繁體中文' },
-    { code: 'de', label: 'Deutsch' },
-    { code: 'jp', label: '日本語' },
-    { code: 'en', label: 'English' }
-  ];
-
+  languageOptions: { code: string; label: string }[] = [];
   translatedThemeOptions: { value: string, label: string }[] = [];
 
-  initTranslatedThemeOptions() {
+  getTranslatedThemeOptions() {
     this.translatedThemeOptions = [
       { value: 'light', label: this.translate.instant('SETTINGS.THEME.LIGHT')},
       { value: 'dark', label: this.translate.instant('SETTINGS.THEME.DARK')},
@@ -25,10 +19,19 @@ export class LanguageService {
     ];
   }
 
+  getLanguageOptions() {
+    this.languageOptions = [
+      { code: 'zh-tw', label: this.translate.instant('SETTINGS.LANGUAGE.CHINESE') },
+      { code: 'de', label: this.translate.instant('SETTINGS.LANGUAGE.GERMAN') },
+      { code: 'jp', label: this.translate.instant('SETTINGS.LANGUAGE.JAPANESE') },
+      { code: 'en', label: this.translate.instant('SETTINGS.LANGUAGE.ENGLISH') }
+    ];
+  }
+
   setLanguage(lang: string) {
     document.documentElement.lang = lang;
     this.translate.use(lang).subscribe(() => {
-      this.initTranslatedThemeOptions();
+      this.getTranslatedThemeOptions();
     });
   }
 

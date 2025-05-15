@@ -17,7 +17,7 @@ import { SelectModule } from 'primeng/select';
   styleUrl: './settings.component.scss'
 })
 export class SettingsComponent {
-  selectedTheme: string = 'system';
+  selectedTheme: string = 'light';
   selectedLanguage: string = 'de';
 
   constructor(
@@ -36,12 +36,13 @@ export class SettingsComponent {
     this.router.navigate(['/sudoku']);
   }
   
-  themeOptions(): { value: string}[] {
-    this.LanguageService.initTranslatedThemeOptions();
+  themeOptions(): { value: string; label: string}[] {
+    this.LanguageService.getTranslatedThemeOptions();
     return this.LanguageService.translatedThemeOptions;
   }
 
   languageOptions(): { code: string; label: string }[] {
+    this.LanguageService.getLanguageOptions();
     return this.LanguageService.languageOptions;
   }
 

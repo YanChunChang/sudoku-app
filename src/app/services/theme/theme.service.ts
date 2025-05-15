@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ThemeService {
-  private currentTheme: string = 'system';
+  private currentTheme: string = 'light';
 
   toggleDarkMode(isDarkMode: boolean) {
     const element = document.querySelector('html');
