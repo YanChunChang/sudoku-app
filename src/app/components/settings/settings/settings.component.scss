@@ -65,4 +65,20 @@ h1 {
 
 ::ng-deep html.darkmode .p-button:hover {
     color: var(--text-color) !important;
-  }
+}
+
+::ng-deep html.darkmode .selection-label {
+    color: var(--text-color) !important;
+}
+
+::ng-deep html.darkmode p-select {
+    background-color: var(--p-surface-600) !important;
+}
+
+::ng-deep html.darkmode .p-select-overlay{
+    background-color: var(--p-surface-600) !important;
+}
+::ng-deep html.darkmode .p-select-option.p-select-option-selected{
+    color: var(--text-color) !important;
+}
+    
