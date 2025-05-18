@@ -6,7 +6,7 @@
                 <div class="selection-control">
                     <p-select 
                     [options]="themeOptions()" 
-                    [ngModel]="selectedTheme"
+                    [(ngModel)]="selectedTheme"
                     (ngModelChange)="setTheme($event)" 
                     optionLabel="label"
                     optionValue="value"

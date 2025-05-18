@@ -7,6 +7,7 @@ import { LanguageService } from '../../../services/language/language.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -19,17 +20,20 @@ import { SelectModule } from 'primeng/select';
 export class SettingsComponent {
   selectedTheme: string = 'light';
   selectedLanguage: string = 'de';
+  private subscriptions = new Subscription();
 
   constructor(
     private router: Router, 
-    private LanguageService: LanguageService, 
-    private ThemeService: ThemeService 
+    private languageService: LanguageService, 
+    private themeService: ThemeService,
   ) {
   }
 
   ngOnInit() {
-    this.selectedLanguage = this.LanguageService.getCurrentLanguage();
-    this.selectedTheme = this.ThemeService.getCurrentSelectedTheme();
+    this.selectedLanguage = this.languageService.getCurrentLanguage();
+    this.themeService.theme$.subscribe(theme => {
+      this.selectedTheme = theme;
+    });
   }
 
   onBackToStart(){
@@ -37,23 +41,26 @@ export class SettingsComponent {
   }
   
   themeOptions(): { value: string; label: string}[] {
-    this.LanguageService.getTranslatedThemeOptions();
-    return this.LanguageService.translatedThemeOptions;
+    this.languageService.getTranslatedThemeOptions();
+    return this.languageService.translatedThemeOptions;
   }
 
   languageOptions(): { code: string; label: string }[] {
-    this.LanguageService.getLanguageOptions();
-    return this.LanguageService.languageOptions;
+    this.languageService.getLanguageOptions();
+    return this.languageService.languageOptions;
   }
 
   setLanguage(lang: string) {
     this.selectedLanguage = lang;
-    this.LanguageService.setLanguage(lang);
+    this.languageService.setLanguage(lang);
   }
   
   setTheme(theme: string) {
     this.selectedTheme = theme;
-    this.ThemeService.setTheme(theme);
+    this.themeService.setTheme(theme);
   }
 
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
 }
