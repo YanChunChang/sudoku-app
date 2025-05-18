@@ -17,11 +17,6 @@ export class ThemeService {
   }
 
   toggleDarkMode(isDarkMode: boolean) {
-    if (isDarkMode) {
-      localStorage.setItem('theme', 'dark');
-    } else {
-      localStorage.setItem('theme', 'light');
-    }
     const element = document.querySelector('html');
     element!.classList.toggle('darkmode', isDarkMode);
     this.darkModeSubject.next(isDarkMode);
