@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
 import { Router, RouterModule } from '@angular/router';
@@ -24,14 +24,14 @@ export class SettingsComponent {
 
   constructor(
     private router: Router, 
-    private LanguageService: LanguageService, 
-    private ThemeService: ThemeService,
+    private languageService: LanguageService, 
+    private themeService: ThemeService,
   ) {
   }
 
   ngOnInit() {
-    this.selectedLanguage = this.LanguageService.getCurrentLanguage();
-    this.ThemeService.theme$.subscribe(theme => {
+    this.selectedLanguage = this.languageService.getCurrentLanguage();
+    this.themeService.theme$.subscribe(theme => {
       this.selectedTheme = theme;
     });
   }
@@ -41,23 +41,23 @@ export class SettingsComponent {
   }
   
   themeOptions(): { value: string; label: string}[] {
-    this.LanguageService.getTranslatedThemeOptions();
-    return this.LanguageService.translatedThemeOptions;
+    this.languageService.getTranslatedThemeOptions();
+    return this.languageService.translatedThemeOptions;
   }
 
   languageOptions(): { code: string; label: string }[] {
-    this.LanguageService.getLanguageOptions();
-    return this.LanguageService.languageOptions;
+    this.languageService.getLanguageOptions();
+    return this.languageService.languageOptions;
   }
 
   setLanguage(lang: string) {
     this.selectedLanguage = lang;
-    this.LanguageService.setLanguage(lang);
+    this.languageService.setLanguage(lang);
   }
   
   setTheme(theme: string) {
     this.selectedTheme = theme;
-    this.ThemeService.setTheme(theme);
+    this.themeService.setTheme(theme);
   }
 
   ngOnDestroy() {
