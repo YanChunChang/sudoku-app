@@ -6,33 +6,6 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class LanguageService {
   constructor(private translate: TranslateService) {
-    const savedLang = localStorage.getItem('lang');
-    if (savedLang) {
-      this.setLanguage(savedLang);
-      console.log('Language set from localStorage:', savedLang);
-    } else {
-      const browserLang = this.translate.getBrowserLang();
-
-      let selectedLang: string;
-
-      switch (browserLang) {
-        case 'zh':
-          selectedLang = 'zh-tw';
-          break;
-        case 'ja':
-          selectedLang = 'jp';
-          break;
-        case 'de':
-        case 'en':
-          selectedLang = browserLang;
-          break;
-        default:
-          selectedLang = 'en';
-      }
-
-      this.setLanguage(selectedLang);
-      console.log('Language set from browser:', selectedLang);
-    }
   }
 
   languageOptions: { code: string; label: string }[] = [];
@@ -55,11 +28,39 @@ export class LanguageService {
     ];
   }
 
-  setLanguage(lang: string) {
-    localStorage.setItem('lang', lang);
-    document.documentElement.lang = lang;
-    this.translate.use(lang).subscribe(() => {
-      this.getTranslatedThemeOptions();
+  // setLanguage(lang: string) {
+  //   localStorage.setItem('lang', lang);
+  //   document.documentElement.lang = lang;
+  //   this.translate.use(lang).subscribe(() => {
+  //     this.getTranslatedThemeOptions();
+  //   });
+  // }
+
+  private resolveBrowserLanguage(): string {
+    const browserLang = this.translate.getBrowserLang();
+    switch (browserLang) {
+      case 'zh':
+        return 'zh-tw';
+      case 'ja':
+        return 'jp';
+      case 'de':
+      case 'en':
+        return browserLang;
+      default:
+        return 'en';
+    }
+  }
+
+  setLanguage(lang?: string): Promise<void> {
+    const selectedLang = lang ?? this.resolveBrowserLanguage();
+    localStorage.setItem('lang', selectedLang);
+    document.documentElement.lang = selectedLang;
+  
+    return new Promise(resolve => {
+      this.translate.use(selectedLang).subscribe(() => {
+        this.getTranslatedThemeOptions();
+        resolve();
+      });
     });
   }
 
