@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
 import { Router, RouterModule } from '@angular/router';
@@ -7,6 +7,7 @@ import { LanguageService } from '../../../services/language/language.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -19,17 +20,20 @@ import { SelectModule } from 'primeng/select';
 export class SettingsComponent {
   selectedTheme: string = 'light';
   selectedLanguage: string = 'de';
+  private subscriptions = new Subscription();
 
   constructor(
     private router: Router, 
     private LanguageService: LanguageService, 
-    private ThemeService: ThemeService 
+    private ThemeService: ThemeService,
   ) {
   }
 
   ngOnInit() {
     this.selectedLanguage = this.LanguageService.getCurrentLanguage();
-    this.selectedTheme = this.ThemeService.getCurrentSelectedTheme();
+    this.ThemeService.theme$.subscribe(theme => {
+      this.selectedTheme = theme;
+    });
   }
 
   onBackToStart(){
@@ -56,4 +60,7 @@ export class SettingsComponent {
     this.ThemeService.setTheme(theme);
   }
 
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
 }

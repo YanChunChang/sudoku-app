@@ -6,14 +6,14 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class ThemeService {
-  private currentTheme: string = 'light';
   private darkModeSubject = new BehaviorSubject<boolean>(false);
   darkMode$ = this.darkModeSubject.asObservable();
+  private themeSubject = new BehaviorSubject<string>('light');
+  theme$ = this.themeSubject.asObservable();
 
   constructor() {
-    const savedTheme = localStorage.getItem('theme');
-    this.currentTheme = savedTheme || 'light';
-    this.toggleDarkMode(this.currentTheme === 'dark');
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    this.setTheme(savedTheme);
   }
 
   toggleDarkMode(isDarkMode: boolean) {
@@ -25,11 +25,11 @@ export class ThemeService {
     const element = document.querySelector('html');
     element!.classList.toggle('darkmode', isDarkMode);
     this.darkModeSubject.next(isDarkMode);
+    this.themeSubject.next(isDarkMode ? 'dark' : 'light');
   }
 
   // This method is used for setting page(p-select)
   setTheme(theme: string) {
-    this.currentTheme = theme;
     let isDarkMode = false;
 
     if (theme === 'dark') {
@@ -42,9 +42,10 @@ export class ThemeService {
 
     localStorage.setItem('theme', theme);
     this.toggleDarkMode(isDarkMode);
+    this.themeSubject.next(theme);
   }
 
   getCurrentSelectedTheme(): string {
-    return this.currentTheme;
+    return this.themeSubject.getValue();
   }
 }

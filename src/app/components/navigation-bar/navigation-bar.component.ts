@@ -31,6 +31,7 @@ export class NavigationBarComponent {
   toggleDarkMode(event: boolean) {
     this.themeService.toggleDarkMode(event);
   }
+  
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
