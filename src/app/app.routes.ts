@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { SudokuBoardComponent } from './components/sudoku-board/sudoku-board.component';
 import { WelcomePageComponent } from './components/welcome-page/welcome-page.component';
 import { SettingsComponent } from './components/settings/settings/settings.component';
+import { LoginComponent } from './components/login/login.component';
 
 export const routes: Routes = [
   {
@@ -33,6 +34,7 @@ export const routes: Routes = [
     path: 'sudoku/:player/:playmode/:level',
     component: SudokuBoardComponent
   },
+  { path: 'login', component: LoginComponent },
   // {
   //   path: 'sudoku',
   //   component: WelcomePageComponent,
