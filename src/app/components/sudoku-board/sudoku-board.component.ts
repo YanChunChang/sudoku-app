@@ -124,6 +124,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
         }
       }
     }
+    this.localTimerService.stop();
     return true
   }
 

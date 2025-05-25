@@ -1,17 +1,21 @@
 
   <form [formGroup]="form">
     <h1>{{'REGISTER.CREATE_ACCOUNT' | translate }}</h1>
-      <div>
+      <div class="wrapper">
         <div class="text"> {{ 'REGISTER.USERNAME' | translate }} </div>
         <input type="text" placeholder="Capybara King" formControlName="username">
+        <small class="pflichtfeld" *ngIf="this.form.get('username')?.invalid && this.form.get('username')?.touched">Pflichtfeld!</small>
       </div>
-      <div>
+      <div class="wrapper">
         <div class="text"> {{ 'REGISTER.EMAIL' | translate }}</div>
         <input type="email" placeholder="pat@example.com" formControlName="email">
+          <small class="pflichtfeld" *ngIf="this.form.get('username')?.invalid && this.form.get('email')?.touched">Pflichtfeld!</small>
+          <small class="pflichtfeld" *ngIf="this.form.get('username')?.invalid && this.form.get('email')?.dirty">Ungültige Email</small>
       </div>
-      <div>
+      <div class="wrapper">
         <div class="text"> {{ 'REGISTER.PASSWORD' | translate }} </div>
         <input type="password" placeholder="012345678" formControlName="password">
+        <small class="pflichtfeld" *ngIf="this.form.get('password')?.invalid && this.form.get('password')?.touched">Pflichtfeld!</small>
       </div>
       <p-button
       class="submit-button"

@@ -15,7 +15,7 @@ form {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     width: 20%;
-    height: 38%;
+    height: 40%;
     border: $light-gray 1px solid;
     color: $marine-dark;
 }
@@ -36,4 +36,17 @@ input {
 
 .submit-button{
     margin-top: 10px;
+}
+
+.pflichtfeld{
+    color: $error-light;
+}
+
+input.ng-invalid.ng-touched {
+    border: 1px solid $error-light;
+}
+
+.wrapper{
+   display: flex;
+   flex-direction: column;
 }
