@@ -36,6 +36,16 @@
       "HARD": "困難",
       "EXPERT": "專家"
     },
+    "REGISTER":{
+      "SUCCESS": "用戶成功註冊。",
+      "ERROR": "註冊失敗。請再試一次。",
+      "EMAIL_EXISTS": "此電子郵件地址已被註冊。",
+      "USERNAME": "用戶名",
+      "EMAIL": "電子郵件",
+      "PASSWORD": "密碼",
+      "CREATE_ACCOUNT": "創建帳戶",
+      "REGISTER": "註冊"
+    },
     "GENERAL":{
       "BACK": "返回"
     }

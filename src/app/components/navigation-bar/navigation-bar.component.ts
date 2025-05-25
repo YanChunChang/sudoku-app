@@ -7,7 +7,6 @@ import { CommonModule } from '@angular/common';
 import { ThemeService } from '../../services/theme/theme.service';
 import { Subscription } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
-import { LoginComponent } from "../login/login.component";
 
 @Component({
   selector: 'app-navigation-bar',

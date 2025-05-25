@@ -36,6 +36,16 @@
       "HARD": "Hard",
       "EXPERT": "Expert"
     },
+    "REGISTER":{
+      "SUCCESS": "User successfully registered.",
+      "ERROR": "Registration failed. Please try again.",
+      "EMAIL_EXISTS": "This email address is already registered.",
+      "USERNAME": "Username",
+      "EMAIL": "Email",
+      "PASSWORD": "Password",
+      "CREATE_ACCOUNT": "Create Account",
+      "REGISTER": "Register"
+    },
     "GENERAL":{
       "BACK": "Back"
     }

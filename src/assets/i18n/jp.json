@@ -37,6 +37,16 @@
       "HARD": "難しい",
       "EXPERT": "エキスパート"
     },
+    "REGISTER":{
+      "SUCCESS": "ユーザーが正常に登録されました。",
+      "ERROR": "登録に失敗しました。もう一度お試しください。",
+      "EMAIL_EXISTS": "このメールアドレスはすでに登録されています。",
+      "USERNAME": "ユーザー名",
+      "EMAIL": "メール",
+      "PASSWORD": "パスワード",
+      "CREATE_ACCOUNT": "アカウントを作成",
+      "REGISTER": "レジーム"
+    },
     "GENERAL":{
       "BACK": "戻る"
     }

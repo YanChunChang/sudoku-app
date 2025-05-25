@@ -1,0 +1,21 @@
+
+  <form [formGroup]="form">
+    <h1>{{'REGISTER.CREATE_ACCOUNT' | translate }}</h1>
+      <div>
+        <div class="text"> {{ 'REGISTER.USERNAME' | translate }} </div>
+        <input type="text" placeholder="Capybara King" formControlName="username">
+      </div>
+      <div>
+        <div class="text"> {{ 'REGISTER.EMAIL' | translate }}</div>
+        <input type="email" placeholder="pat@example.com" formControlName="email">
+      </div>
+      <div>
+        <div class="text"> {{ 'REGISTER.PASSWORD' | translate }} </div>
+        <input type="password" placeholder="012345678" formControlName="password">
+      </div>
+      <p-button
+      class="submit-button"
+      (click)="onSubmit()"
+      *ngIf="!isSignedIn"
+      [disabled]="!form.valid"> {{'REGISTER.REGISTER' | translate }}</p-button>
+  </form>

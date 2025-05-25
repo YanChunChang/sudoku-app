@@ -11,17 +11,4 @@ import { BackendService } from './services/backend/backend.service';
 })
 export class AppComponent {
   title = 'sudoku-app';
-
-  constructor(private backendService: BackendService) { }
-
-  ngOnInit() {
-    this.backendService.getBackendMessage().subscribe(
-      (response) => {
-        console.log('Backend response:', response);
-      },
-      (error) => {
-        console.error('Error fetching backend message:', error);
-      }
-    );
-  }
 }

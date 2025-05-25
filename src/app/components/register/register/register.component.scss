@@ -1,0 +1,39 @@
+@use "styles/variables" as *;
+
+form {
+    display: flex;
+    flex-direction: column;
+    background-color: $light-gray;
+    justify-self: center;
+    align-items: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    margin: auto;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 20%;
+    height: 38%;
+    border: $light-gray 1px solid;
+    color: $marine-dark;
+}
+
+.text {
+    font-size: 20px;
+    margin: 10px 0px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: $marine-dark 1px solid;
+    font-size: 16px;
+}
+
+.submit-button{
+    margin-top: 10px;
+}

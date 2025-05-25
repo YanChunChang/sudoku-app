@@ -36,6 +36,16 @@
     "HARD": "Schwer",
     "EXPERT": "Experte"
   },
+  "REGISTER":{
+    "SUCCESS": "Benutzer erfolgreich registriert.",
+    "ERROR": "Registrierung fehlgeschlagen. Bitte versuche es erneut.",
+    "EMAIL_EXISTS": "Diese E-Mail-Adresse ist bereits registriert.",
+    "USERNAME": "Benutzername",
+    "EMAIL": "E-Mail",
+    "PASSWORD": "Passwort",
+    "CREATE_ACCOUNT": "Konto erstellen",
+    "REGISTER": "Registrieren"
+  },
   "GENERAL": {
     "BACK": "Zurück"
   }
