@@ -6,6 +6,7 @@ import { userData } from '../../../models/userData';
 import { TranslateService } from '@ngx-translate/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button'; 
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -19,7 +20,11 @@ export class RegisterComponent {
   message = '';
   error = '';
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private translate: TranslateService) { 
+  constructor(
+    private formBuilder: FormBuilder, 
+    private authService: AuthService, 
+    private translate: TranslateService,
+    private router: Router) { 
     this.form = this.formBuilder.group({
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -41,9 +46,11 @@ export class RegisterComponent {
 
     this.authService.register(registerData).subscribe({
       next: (res) => {
+        localStorage.setItem('email', res.email);
         this.message = this.translate.instant(res.messageKey);
         this.error = '';
         this.form.reset();
+        this.router.navigate(['/verifyemail']);
       },
       error: (err) => {
         this.error = this.translate.instant(err.error.messageKey);

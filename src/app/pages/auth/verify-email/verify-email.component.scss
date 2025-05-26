@@ -1,0 +1,10 @@
+@use "styles/variables" as *;
+
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    align-items: center;
+    margin-top: 25%;
+    color: $marine-dark;
+}
