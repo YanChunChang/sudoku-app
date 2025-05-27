@@ -16,9 +16,10 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent {
   form!: FormGroup;
-  isSignedIn = false;
+  isRegistered = false;
   message = '';
   error = '';
+  emailTaken = false;
 
   constructor(
     private formBuilder: FormBuilder, 
@@ -35,7 +36,7 @@ export class RegisterComponent {
   onSubmit(): void {
     if (this.form.invalid) return;
 
-    this.isSignedIn = true;
+    this.isRegistered = true;
     const form = this.form.getRawValue();
 
     const registerData: userData = {
@@ -53,11 +54,14 @@ export class RegisterComponent {
         this.router.navigate(['/verifyemail']);
       },
       error: (err) => {
+        this.isRegistered = false;
+        const messageKey ='REGISTER.EMAIL_EXISTS';
+        this.emailTaken = messageKey === 'REGISTER.EMAIL_EXISTS';
         this.error = this.translate.instant(err.error.messageKey);
         this.message = '';
       },
       complete: () => {
-        this.isSignedIn = false;
+        this.isRegistered = false;
       }
     });
   }

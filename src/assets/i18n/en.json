@@ -1,52 +1,61 @@
 {
-    "SETTINGS": {
-      "TITLE": "Settings",
-      "CHANGE_LANGUAGE": "Change Language",
-      "LANGUAGE": {
-        "ENGLISH": "English",
-        "CHINESE": "Trad. Chinese",
-        "JAPANESE": "Japanese",
-        "GERMAN": "German"
-      },
-      "CHANGE_THEME": "Change Theme",
-      "THEME": {
-        "LIGHT": "Light",
-        "DARK": "Dark",
-        "SYSTEM": "System"
-      },
-      "PLACEHOLDER_LANGUAGE": "Select a Language",
-      "PLACEHOLDER_THEME": "Select a Theme"
+  "SETTINGS": {
+    "TITLE": "Settings",
+    "CHANGE_LANGUAGE": "Change Language",
+    "LANGUAGE": {
+      "ENGLISH": "English",
+      "CHINESE": "Trad. Chinese",
+      "JAPANESE": "Japanese",
+      "GERMAN": "German"
     },
-    "NAVBAR": {
-      "LEVEL": "Level",
-      "LEADERBOARD": "Leaderboard"
+    "CHANGE_THEME": "Change Theme",
+    "THEME": {
+      "LIGHT": "Light",
+      "DARK": "Dark",
+      "SYSTEM": "System"
     },
-      "WELCOMEPAGE": {
-      "TITLE": "Welcome to Sudoku!",
-      "PLAYMODE": "Choose your play mode:",
-      "SINGLEPLAYER": "Singleplayer",
-      "MULTIPLAYER": "Multiplayer",
-      "SETTINGS": "Settings",
-      "PLAYSTYLE": "Choose your play style:",
-      "CLASSIC": "Classic",
-      "CHALLENGE": "Challenge",
-      "DIFFICULTY": "Select your difficulty level:",
-      "EASY": "Easy",
-      "MEDIUM": "Medium",
-      "HARD": "Hard",
-      "EXPERT": "Expert"
-    },
-    "REGISTER":{
-      "SUCCESS": "User successfully registered.",
-      "ERROR": "Registration failed. Please try again.",
-      "EMAIL_EXISTS": "This email address is already registered.",
-      "USERNAME": "Username",
-      "EMAIL": "Email",
-      "PASSWORD": "Password",
-      "CREATE_ACCOUNT": "Create Account",
-      "REGISTER": "Register"
-    },
-    "GENERAL":{
-      "BACK": "Back"
-    }
+    "PLACEHOLDER_LANGUAGE": "Select a Language",
+    "PLACEHOLDER_THEME": "Select a Theme"
+  },
+  "NAVBAR": {
+    "LEVEL": "Level",
+    "LEADERBOARD": "Leaderboard"
+  },
+  "WELCOMEPAGE": {
+    "TITLE": "Welcome to Sudoku!",
+    "PLAYMODE": "Choose your play mode:",
+    "SINGLEPLAYER": "Singleplayer",
+    "MULTIPLAYER": "Multiplayer",
+    "SETTINGS": "Settings",
+    "PLAYSTYLE": "Choose your play style:",
+    "CLASSIC": "Classic",
+    "CHALLENGE": "Challenge",
+    "DIFFICULTY": "Select your difficulty level:",
+    "EASY": "Easy",
+    "MEDIUM": "Medium",
+    "HARD": "Hard",
+    "EXPERT": "Expert"
+  },
+  "REGISTER": {
+    "SUCCESS": "User successfully registered.",
+    "ERROR": "Registration failed. Please try again.",
+    "EMAIL_EXISTS": "This email address is already registered.",
+    "USERNAME": "Username",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "CREATE_ACCOUNT": "Create Account",
+    "REGISTER": "Register",
+    "REQUIRED_FIELD": "Required field",
+    "INVALID_EMAIL": "Invalid email"
+  },
+  "VERIFY_EMAIL": {
+    "TITLE": "Thank you for your registration!",
+    "TEXT": "Please confirm your email address via the link we sent you.",
+    "RESEND_HINT_START": "If you have not received an e-mail, please also check your spam folder or request a new link",
+    "RESEND_HINT_LINK": "here",
+    "RESEND_HINT_END": "."
+  },
+  "GENERAL": {
+    "BACK": "Back"
   }
+}

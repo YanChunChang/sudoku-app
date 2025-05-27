@@ -37,10 +37,21 @@ export const routes: Routes = [
     path: 'sudoku/:player/:playmode/:level',
     component: SudokuBoardComponent
   },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'verify', component: VerifyComponent },
-  { path: 'verifyemail', component: VerifyEmailComponent}
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  { 
+    path: 'register', 
+    component: RegisterComponent },
+  { 
+    path: 'verify', 
+    component: VerifyComponent
+  },
+  { 
+    path: 'verifyemail', 
+    component: VerifyEmailComponent 
+  }
   // {
   //   path: 'sudoku',
   //   component: WelcomePageComponent,

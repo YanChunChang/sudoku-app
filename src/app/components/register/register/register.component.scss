@@ -46,7 +46,32 @@ input.ng-invalid.ng-touched {
     border: 1px solid $error-light;
 }
 
+input.invalid {
+    border: 1px solid $error-light;
+  }
+
 .wrapper{
    display: flex;
    flex-direction: column;
 }
+
+::ng-deep .p-button{
+    background-color: $marine-dark !important;
+    border: none !important;
+}
+
+//dark mode
+::ng-deep html.darkmode form{
+    background-color: var(--p-surface-500);
+    color: $light-gray;
+}
+
+::ng-deep html.darkmode .p-button{
+    color: var(--text-color);
+}
+
+::ng-deep html.darkmode input {
+    background-color: var(--p-surface-600);
+}
+
+

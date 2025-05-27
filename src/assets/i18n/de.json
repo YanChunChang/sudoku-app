@@ -36,7 +36,7 @@
     "HARD": "Schwer",
     "EXPERT": "Experte"
   },
-  "REGISTER":{
+  "REGISTER": {
     "SUCCESS": "Benutzer erfolgreich registriert.",
     "ERROR": "Registrierung fehlgeschlagen. Bitte versuche es erneut.",
     "EMAIL_EXISTS": "Diese E-Mail-Adresse ist bereits registriert.",
@@ -44,7 +44,16 @@
     "EMAIL": "E-Mail",
     "PASSWORD": "Passwort",
     "CREATE_ACCOUNT": "Konto erstellen",
-    "REGISTER": "Registrieren"
+    "REGISTER": "Registrieren",
+    "REQUIRED_FIELD": "Pflichtfeld",
+    "INVALID_EMAIL": "Ungültige Email"
+  },
+  "VERIFY_EMAIL": {
+    "TITLE": "Vielen Dank für Ihre Registrierung!",
+    "TEXT": "Bitte bestätigen Sie Ihre E-Mail-Adresse über den Link, den wir Ihnen gesendet haben.",
+    "RESEND_HINT_START": "Falls Sie keine E-Mail erhalten haben, prüfen Sie bitte auch Ihren Spam-Ordner oder fordern Sie",
+    "RESEND_HINT_LINK": "hier",
+    "RESEND_HINT_END": "einen neuen Link an."
   },
   "GENERAL": {
     "BACK": "Zurück"

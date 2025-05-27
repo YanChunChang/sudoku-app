@@ -2,11 +2,13 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../../services/auth/auth.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ButtonModule } from 'primeng/button';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-verify-email',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, ButtonModule, TranslateModule],
   templateUrl: './verify-email.component.html',
   styleUrl: './verify-email.component.scss'
 })
