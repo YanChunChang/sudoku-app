@@ -53,7 +53,12 @@
     "TEXT": "Bitte bestätigen Sie Ihre E-Mail-Adresse über den Link, den wir Ihnen gesendet haben.",
     "RESEND_HINT_START": "Falls Sie keine E-Mail erhalten haben, prüfen Sie bitte auch Ihren Spam-Ordner oder fordern Sie",
     "RESEND_HINT_LINK": "hier",
-    "RESEND_HINT_END": "einen neuen Link an."
+    "RESEND_HINT_END": "einen neuen Link an.",
+    "EMAIL_VERIFIED": "E-Mail erfolgreich verifiziert!",
+    "INVALID_TOKEN": "Ungültiger oder abgelaufener Token.",
+    "ALREADY_VERIFIED": "Diese E-Mail-Adresse wurde bereits verifiziert.",
+    "USER_NOT_FOUND": "Benutzer mit dieser E-Mail wurde nicht gefunden.",
+    "NO_TOKEN": "Kein Verifizierungs-Token vorhanden."
   },
   "GENERAL": {
     "BACK": "Zurück"

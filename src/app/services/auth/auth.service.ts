@@ -15,8 +15,8 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/register`, registerData);
   }
 
-  verifyEmail(token: string): Observable<string> {
-    return this.http.get(`${this.apiUrl}/verify?token=${token}`, { responseType: 'text' });
+  verifyEmail(token: string): Observable<{ messageKey: string }> {
+    return this.http.get<{ messageKey: string }>(`${this.apiUrl}/verify?token=${token}`);
   }
 
   resendVerificationEmail(email: string): Observable<any> {

@@ -1,0 +1,45 @@
+@use "styles/variables" as *;
+
+.verify-container{
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    align-items: center;
+    margin-top: 25%;
+}
+
+.text-success{
+    color: $correct-text;
+}
+
+.text-danger{
+    color: $error-text;
+}
+
+a {
+    position: relative;
+    text-decoration: none;
+    font-size: 18px;
+    color: $marine-dark;
+    font-weight: 500;
+    padding-bottom: 5px;
+    gap: 20px;
+    cursor: pointer;
+
+    &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 3px;
+        width: 100%;
+        background-color: $marine-dark;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s ease;
+    }
+
+    &:hover::after {
+        transform: scaleX(1);
+    }
+}

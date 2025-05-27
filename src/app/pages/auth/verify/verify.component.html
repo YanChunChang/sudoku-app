@@ -1,0 +1,7 @@
+<div class="verify-container">
+  <h1 *ngIf="isToken" [ngClass]="{ 'text-success': isSuccess, 'text-danger': !isSuccess }">
+    {{ isSuccess ? '✔' : '✖' }} {{ message }}
+  </h1>
+  <h1 *ngIf="!isToken" class="text-danger">✖ {{ 'VERIFY_EMAIL.NO_TOKEN' | translate }}</h1>
+  <a routerLink="/login" *ngIf="isSuccess">Zum Login</a>
+</div>

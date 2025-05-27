@@ -53,7 +53,12 @@
     "TEXT": "Please confirm your email address via the link we sent you.",
     "RESEND_HINT_START": "If you have not received an e-mail, please also check your spam folder or request a new link",
     "RESEND_HINT_LINK": "here",
-    "RESEND_HINT_END": "."
+    "RESEND_HINT_END": ".",
+    "EMAIL_VERIFIED": "Email successfully verified!",
+    "INVALID_TOKEN": "Invalid or expired token.",
+    "ALREADY_VERIFIED": "This email address is already verified.",
+    "USER_NOT_FOUND": "No user found with this email address.",
+    "NO_TOKEN": "No verification token provided."
   },
   "GENERAL": {
     "BACK": "Back"
