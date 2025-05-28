@@ -58,7 +58,15 @@
     "INVALID_TOKEN": "トークンが無効または有効期限が切れています。",
     "ALREADY_VERIFIED": "このメールアドレスはすでに認証されています。",
     "USER_NOT_FOUND": "このメールアドレスのユーザーが見つかりませんでした。",
-    "NO_TOKEN": "認証トークンが提供されていません。"
+    "NO_TOKEN": "認証トークンが提供されていません。",
+    "RESEND": {
+      "SUCCESS": "送信済み",
+      "SUCCESS_TEXT": "確認メールを再送信しました！",
+      "ERROR": "送信失敗",
+      "ERROR_TEXT": "送信に失敗しました。もう一度お試しください。",
+      "ERROR_EMAIL_NOT_FOUND": "メールアドレスが見つかりませんでした。",
+      "ERROR_ALREADY_VERIFIED": "このメールアドレスは既に認証されています。"
+    }
   },
   "GENERAL": {
     "BACK": "戻る"

@@ -58,7 +58,15 @@
     "INVALID_TOKEN": "Ungültiger oder abgelaufener Token.",
     "ALREADY_VERIFIED": "Diese E-Mail-Adresse wurde bereits verifiziert.",
     "USER_NOT_FOUND": "Benutzer mit dieser E-Mail wurde nicht gefunden.",
-    "NO_TOKEN": "Kein Verifizierungs-Token vorhanden."
+    "NO_TOKEN": "Kein Verifizierungs-Token vorhanden.",
+    "RESEND": {
+      "SUCCESS": "Gesendet",
+      "SUCCESS_TEXT": "Die Bestätigungs-E-Mail wurde erneut gesendet!",
+      "ERROR": "Fehlgeschlagen",
+      "ERROR_TEXT": "Das Senden ist fehlgeschlagen. Bitte versuche es erneut.",
+      "ERROR_EMAIL_NOT_FOUND": "E-Mail wurde nicht gefunden.",
+      "ERROR_ALREADY_VERIFIED": "Diese E-Mail-Adresse wurde bereits verifiziert."
+    }
   },
   "GENERAL": {
     "BACK": "Zurück"
