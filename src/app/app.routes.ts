@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
 import { SudokuBoardComponent } from './components/sudoku-board/sudoku-board.component';
-import { WelcomePageComponent } from './components/welcome-page/welcome-page.component';
-import { SettingsComponent } from './components/settings/settings/settings.component';
-import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register/register.component';
+import { WelcomePageComponent } from './pages/welcome-page/welcome-page.component';
+import { SettingsComponent } from './pages/settings/settings.component';
+import { LoginComponent } from './pages/auth/login/login.component';
+import { RegisterComponent } from './pages/auth/register/register.component';
 import { VerifyComponent } from './pages/auth/verify/verify.component';
 import { VerifyEmailComponent } from './pages/auth/verify-email/verify-email.component';
 
