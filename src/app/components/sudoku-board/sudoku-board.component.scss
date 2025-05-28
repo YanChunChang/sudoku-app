@@ -22,14 +22,14 @@
 
 .right {
   display: flex;
-  gap: 0.5rem; /* Abstand zwischen Buttons */
+  gap: 0.5rem;
 }
 
 .grid-container {
   display: grid;
   grid-template-columns: repeat(9, 64px);
   grid-template-rows: repeat(9, 64px);
-  border: 2px solid $marine-dark; /* äußerer Rahmen */
+  border: 2px solid $marine-dark;
   background-color: $marine-dark;
   border-radius: 8px;
   width: fit-content;

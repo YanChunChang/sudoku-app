@@ -1,0 +1,77 @@
+@use "styles/variables" as *;
+
+form {
+    display: flex;
+    flex-direction: column;
+    background-color: $light-gray;
+    justify-self: center;
+    align-items: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    margin: auto;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 20%;
+    height: 40%;
+    border: $light-gray 1px solid;
+    color: $marine-dark;
+}
+
+.text {
+    font-size: 20px;
+    margin: 10px 0px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: $marine-dark 1px solid;
+    font-size: 16px;
+}
+
+.submit-button{
+    margin-top: 10px;
+}
+
+.pflichtfeld{
+    color: $error-light;
+}
+
+input.ng-invalid.ng-touched {
+    border: 1px solid $error-light;
+}
+
+input.invalid {
+    border: 1px solid $error-light;
+  }
+
+.wrapper{
+   display: flex;
+   flex-direction: column;
+}
+
+::ng-deep .p-button{
+    background-color: $marine-dark !important;
+    border: none !important;
+}
+
+//dark mode
+::ng-deep html.darkmode form{
+    background-color: var(--p-surface-500);
+    color: $light-gray;
+}
+
+::ng-deep html.darkmode .p-button{
+    color: var(--text-color);
+}
+
+::ng-deep html.darkmode input {
+    background-color: var(--p-surface-600);
+}
+
+

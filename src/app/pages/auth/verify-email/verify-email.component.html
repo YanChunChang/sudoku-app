@@ -1,0 +1,9 @@
+<div class="container">
+    <h1>{{ 'VERIFY_EMAIL.TITLE' | translate }}</h1>
+    <p>{{ 'VERIFY_EMAIL.TEXT' | translate }}</p>
+    <p>{{ 'VERIFY_EMAIL.RESEND_HINT_START' | translate }}
+        <a (click)="resendVerificationEmail()">{{ 'VERIFY_EMAIL.RESEND_HINT_LINK' | translate }}</a>
+        {{ 'VERIFY_EMAIL.RESEND_HINT_END' | translate }}</p>
+    <p-toast />
+</div>
+

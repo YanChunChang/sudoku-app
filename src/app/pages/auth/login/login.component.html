@@ -1,0 +1,38 @@
+<form [formGroup]="form">
+  <h1>Anmelden</h1>
+
+  <div>
+    <div>Email</div>
+    <input type="email" matInput placeholder="Z.B. pat@example.com" formControlName="email">
+    <div *ngIf="form.get('email')!.hasError('required')">
+      Bitte geben Sie Ihre Email-Adresse ein!
+    </div>
+    <div *ngIf="form.get('email')!.hasError('email')">
+      Bite geben Sie korrekte Email-Adresse ein!
+    </div>
+  </div>
+
+  <div>
+    <div>Passwort</div>
+    <input type="password" matInput placeholder="Z.B. 01234567" formControlName="password">
+    <div *ngIf="form.get('password')!.hasError('required')">
+      Bitte geben Sie Ihr Passwort ein!
+    </div>
+  </div>
+
+  <div class="aligned-to-right">
+    <button mat-button color="primary" (click)="recoverPassword()" *ngIf="!isRecoveringPassword"
+      test-id="recover-password-button" [disabled]="!form.get('email')!.valid">
+      Passwort vergessen?
+    </button>
+    <button mat-button color="primary" *ngIf="isRecoveringPassword" test-id="recover-password-loader">
+      <div color="accent" diameter="20"></div>
+    </button>
+  </div>
+
+  <button mat-raised-button color="primary" (click)="login()" *ngIf="!isLogginIn" test-id="login-button"
+    [disabled]="!form.valid">Login</button>
+  <button mat-raised-button color="primary" class="button-loader" *ngIf="isLogginIn" test-id="login-loader">
+  </button>
+</form>
+<button color="primary" [routerLink]="['../register']">Registrieren</button>

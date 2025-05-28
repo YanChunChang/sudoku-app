@@ -1,43 +1,74 @@
 {
-    "SETTINGS": {
-      "TITLE": "設定",
-      "CHANGE_LANGUAGE": "言語を変更する",
-      "LANGUAGE": {
-        "ENGLISH": "英語",
-        "CHINESE": "繁體中文",
-        "JAPANESE": "日本語",
-        "GERMAN": "ドイツ語"
-      },
-      "CHANGE_THEME": "テーマを変更",
-      "THEME": {
-        "LIGHT": "明るい",
-        "DARK": "暗い",
-        "SYSTEM": "システム"
-      },
-      "PLACEHOLDER_LANGUAGE": "言語を選択",
-      "PLACEHOLDER_THEME": "テーマを選択"
-
+  "SETTINGS": {
+    "TITLE": "設定",
+    "CHANGE_LANGUAGE": "言語を変更する",
+    "LANGUAGE": {
+      "ENGLISH": "英語",
+      "CHINESE": "繁體中文",
+      "JAPANESE": "日本語",
+      "GERMAN": "ドイツ語"
     },
-    "NAVBAR": {
-      "LEVEL": "レベル",
-      "LEADERBOARD": "リーダーボード"
+    "CHANGE_THEME": "テーマを変更",
+    "THEME": {
+      "LIGHT": "明るい",
+      "DARK": "暗い",
+      "SYSTEM": "システム"
     },
-    "WELCOMEPAGE": {
-      "TITLE": "数独へようこそ！",
-      "PLAYMODE": "ゲームモードを選択する：",
-      "SINGLEPLAYER": "シングルプレーヤー",
-      "MULTIPLAYER": "マルチプレイヤー",
-      "SETTINGS": "設定",
-      "PLAYSTYLE": "プレイスタイルを選択する：",
-      "CLASSIC": "クラシック",
-      "CHALLENGE": "チャレンジ",
-      "DIFFICULTY": "難易度を選択する：",
-      "EASY": "簡単",
-      "MEDIUM": "中",
-      "HARD": "難しい",
-      "EXPERT": "エキスパート"
-    },
-    "GENERAL":{
-      "BACK": "戻る"
+    "PLACEHOLDER_LANGUAGE": "言語を選択",
+    "PLACEHOLDER_THEME": "テーマを選択"
+  },
+  "NAVBAR": {
+    "LEVEL": "レベル",
+    "LEADERBOARD": "リーダーボード"
+  },
+  "WELCOMEPAGE": {
+    "TITLE": "数独へようこそ！",
+    "PLAYMODE": "ゲームモードを選択する：",
+    "SINGLEPLAYER": "シングルプレーヤー",
+    "MULTIPLAYER": "マルチプレイヤー",
+    "SETTINGS": "設定",
+    "PLAYSTYLE": "プレイスタイルを選択する：",
+    "CLASSIC": "クラシック",
+    "CHALLENGE": "チャレンジ",
+    "DIFFICULTY": "難易度を選択する：",
+    "EASY": "簡単",
+    "MEDIUM": "中",
+    "HARD": "難しい",
+    "EXPERT": "エキスパート"
+  },
+  "REGISTER": {
+    "SUCCESS": "ユーザーが正常に登録されました。",
+    "ERROR": "登録に失敗しました。もう一度お試しください。",
+    "EMAIL_EXISTS": "このメールアドレスはすでに登録されています。",
+    "USERNAME": "ユーザー名",
+    "EMAIL": "メール",
+    "PASSWORD": "パスワード",
+    "CREATE_ACCOUNT": "アカウントを作成",
+    "REGISTER": "レジーム",
+    "REQUIRED_FIELD": "必須項目",
+    "INVALID_EMAIL": "無効な電子メール"
+  },
+  "VERIFY_EMAIL": {
+    "TITLE": "ご登録ありがとうございます！",
+    "TEXT": "お送りしたリンクからメールアドレスをご確認ください。",
+    "RESEND_HINT_START": "メールが届かない場合は、迷惑メールフォルダをご確認いただくか、",
+    "RESEND_HINT_LINK": "こちら",
+    "RESEND_HINT_END": "から新規リンクをご請求ください。",
+    "EMAIL_VERIFIED": "メールアドレスが正常に認証されました！",
+    "INVALID_TOKEN": "トークンが無効または有効期限が切れています。",
+    "ALREADY_VERIFIED": "このメールアドレスはすでに認証されています。",
+    "USER_NOT_FOUND": "このメールアドレスのユーザーが見つかりませんでした。",
+    "NO_TOKEN": "認証トークンが提供されていません。",
+    "RESEND": {
+      "SUCCESS": "送信済み",
+      "SUCCESS_TEXT": "確認メールを再送信しました！",
+      "ERROR": "送信失敗",
+      "ERROR_TEXT": "送信に失敗しました。もう一度お試しください。",
+      "ERROR_EMAIL_NOT_FOUND": "メールアドレスが見つかりませんでした。",
+      "ERROR_ALREADY_VERIFIED": "このメールアドレスは既に認証されています。"
     }
+  },
+  "GENERAL": {
+    "BACK": "戻る"
   }
+}

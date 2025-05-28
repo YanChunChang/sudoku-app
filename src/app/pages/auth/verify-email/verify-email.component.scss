@@ -1,0 +1,20 @@
+@use "styles/variables" as *;
+
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    align-items: center;
+    margin-top: 25%;
+    color: $marine-dark;
+}
+::ng-deep a{
+    border-bottom: 2px;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+//dark mode
+::ng-deep html.darkmode .container{
+    color: $light-gray;
+}

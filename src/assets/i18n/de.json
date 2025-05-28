@@ -36,6 +36,38 @@
     "HARD": "Schwer",
     "EXPERT": "Experte"
   },
+  "REGISTER": {
+    "SUCCESS": "Benutzer erfolgreich registriert.",
+    "ERROR": "Registrierung fehlgeschlagen. Bitte versuche es erneut.",
+    "EMAIL_EXISTS": "Diese E-Mail-Adresse ist bereits registriert.",
+    "USERNAME": "Benutzername",
+    "EMAIL": "E-Mail",
+    "PASSWORD": "Passwort",
+    "CREATE_ACCOUNT": "Konto erstellen",
+    "REGISTER": "Registrieren",
+    "REQUIRED_FIELD": "Pflichtfeld",
+    "INVALID_EMAIL": "Ungültige Email"
+  },
+  "VERIFY_EMAIL": {
+    "TITLE": "Vielen Dank für Ihre Registrierung!",
+    "TEXT": "Bitte bestätigen Sie Ihre E-Mail-Adresse über den Link, den wir Ihnen gesendet haben.",
+    "RESEND_HINT_START": "Falls Sie keine E-Mail erhalten haben, prüfen Sie bitte auch Ihren Spam-Ordner oder fordern Sie",
+    "RESEND_HINT_LINK": "hier",
+    "RESEND_HINT_END": "einen neuen Link an.",
+    "EMAIL_VERIFIED": "E-Mail erfolgreich verifiziert!",
+    "INVALID_TOKEN": "Ungültiger oder abgelaufener Token.",
+    "ALREADY_VERIFIED": "Diese E-Mail-Adresse wurde bereits verifiziert.",
+    "USER_NOT_FOUND": "Benutzer mit dieser E-Mail wurde nicht gefunden.",
+    "NO_TOKEN": "Kein Verifizierungs-Token vorhanden.",
+    "RESEND": {
+      "SUCCESS": "Gesendet",
+      "SUCCESS_TEXT": "Die Bestätigungs-E-Mail wurde erneut gesendet!",
+      "ERROR": "Fehlgeschlagen",
+      "ERROR_TEXT": "Das Senden ist fehlgeschlagen. Bitte versuche es erneut.",
+      "ERROR_EMAIL_NOT_FOUND": "E-Mail wurde nicht gefunden.",
+      "ERROR_ALREADY_VERIFIED": "Diese E-Mail-Adresse wurde bereits verifiziert."
+    }
+  },
   "GENERAL": {
     "BACK": "Zurück"
   }
