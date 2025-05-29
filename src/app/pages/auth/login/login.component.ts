@@ -2,19 +2,19 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterModule, CommonModule, ButtonModule],
+  imports: [ReactiveFormsModule, RouterModule, CommonModule, ButtonModule, TranslateModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
   form!: FormGroup;
   isLogginIn = false;
-  isRecoveringPassword = false;
 
   constructor(
     private formBuilder: FormBuilder, 
@@ -32,8 +32,4 @@ export class LoginComponent {
     this.isLogginIn = false;
   }
 
-  recoverPassword(){
-    this.isRecoveringPassword = true;
-    this.isRecoveringPassword = false;
-  }
 }

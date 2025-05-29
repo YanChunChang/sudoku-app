@@ -1,17 +1,18 @@
 <form [formGroup]="form">
-  <h1>Anmelden</h1>
+  <h1>{{ 'LOGIN.LOGIN' | translate }}</h1>
   <div class="wrapper">
-    <div class="text">Email</div>
+    <div class="text">{{ 'GENERAL.EMAIL' | translate }}</div>
     <input type="email" placeholder="pang@example.com" formControlName="email">
+    <small class="pflichtfeld" *ngIf="this.form.get('email')?.invalid && this.form.get('email')?.dirty">{{ 'GENERAL.INVALID_EMAIL' | translate }}</small>
   </div>
 
   <div class="wrapper">
-    <div class="text">Passwort</div>
+    <div class="text">{{ 'GENERAL.PASSWORD' | translate }}</div>
     <input type="password" placeholder="01234567" formControlName="password">
   </div>
 
-  <a routerLink="/login">Passwort vergessen?</a>
+  <a routerLink="/login">{{ 'LOGIN.FORGET_PASSWORD' | translate }}</a>
 
-  <p-button class="spacing" (click)="login()" *ngIf="!isLogginIn" [disabled]="!form.valid">Login</p-button>
-  <p-button ngClass="register" routerLink="/register">Registrieren</p-button>
+  <p-button class="spacing" (click)="login()" *ngIf="!isLogginIn" [disabled]="!form.valid">{{ 'LOGIN.LOGIN' | translate }}</p-button>
+  <p-button ngClass="register" routerLink="/register">{{ 'GENERAL.REGISTER' | translate }}</p-button>
 </form>

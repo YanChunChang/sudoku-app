@@ -40,13 +40,8 @@
     "SUCCESS": "Benutzer erfolgreich registriert.",
     "ERROR": "Registrierung fehlgeschlagen. Bitte versuche es erneut.",
     "EMAIL_EXISTS": "Diese E-Mail-Adresse ist bereits registriert.",
-    "USERNAME": "Benutzername",
-    "EMAIL": "E-Mail",
-    "PASSWORD": "Passwort",
     "CREATE_ACCOUNT": "Konto erstellen",
-    "REGISTER": "Registrieren",
-    "REQUIRED_FIELD": "Pflichtfeld",
-    "INVALID_EMAIL": "Ungültige Email"
+    "REQUIRED_FIELD": "Pflichtfeld"
   },
   "VERIFY_EMAIL": {
     "TITLE": "Vielen Dank für Ihre Registrierung!",
@@ -68,7 +63,16 @@
       "ERROR_ALREADY_VERIFIED": "Diese E-Mail-Adresse wurde bereits verifiziert."
     }
   },
+  "LOGIN":{
+    "LOGIN": "Anmelden",
+    "FORGET_PASSWORD": "Passwort vergessen?"
+  },
   "GENERAL": {
-    "BACK": "Zurück"
+    "BACK": "Zurück",
+    "USERNAME": "Benutzername",
+    "EMAIL": "E-Mail",
+    "PASSWORD": "Passwort",
+    "REGISTER": "Registrieren",
+    "INVALID_EMAIL": "Ungültige Email"
   }
 }

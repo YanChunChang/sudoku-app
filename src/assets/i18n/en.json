@@ -40,13 +40,8 @@
     "SUCCESS": "User successfully registered.",
     "ERROR": "Registration failed. Please try again.",
     "EMAIL_EXISTS": "This email address is already registered.",
-    "USERNAME": "Username",
-    "EMAIL": "Email",
-    "PASSWORD": "Password",
     "CREATE_ACCOUNT": "Create Account",
-    "REGISTER": "Register",
-    "REQUIRED_FIELD": "Required field",
-    "INVALID_EMAIL": "Invalid email"
+    "REQUIRED_FIELD": "Required field"
   },
   "VERIFY_EMAIL": {
     "TITLE": "Thank you for your registration!",
@@ -68,7 +63,16 @@
       "ERROR_ALREADY_VERIFIED": "This email address has already been verified."
     }
   },
+  "LOGIN":{
+    "LOGIN": "Login",
+    "FORGET_PASSWORD": "forget password?"
+  },
   "GENERAL": {
-    "BACK": "Back"
+    "BACK": "Back",
+    "USERNAME": "Username",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "REGISTER": "Register",
+    "INVALID_EMAIL": "Invalid email"
   }
 }

@@ -40,13 +40,8 @@
     "SUCCESS": "用戶成功註冊。",
     "ERROR": "註冊失敗。請再試一次。",
     "EMAIL_EXISTS": "此電子郵件地址已被註冊。",
-    "USERNAME": "用戶名",
-    "EMAIL": "電子郵件",
-    "PASSWORD": "密碼",
     "CREATE_ACCOUNT": "創建帳戶",
-    "REGISTER": "註冊",
-    "REQUIRED_FIELD": "必填",
-    "INVALID_EMAIL": "無效電子郵件"
+    "REQUIRED_FIELD": "必填"
   },
   "VERIFY_EMAIL": {
     "TITLE": "感謝您的註冊！",
@@ -68,7 +63,16 @@
       "ERROR_ALREADY_VERIFIED": "此電子郵件地址已完成驗證。"
     }
   },
+  "LOGIN":{
+    "LOGIN": "登入",
+    "FORGET_PASSWORD": "忘記密碼?"
+  },
   "GENERAL": {
-    "BACK": "返回"
+    "BACK": "返回",
+    "USERNAME": "用戶名",
+    "EMAIL": "電子郵件",
+    "PASSWORD": "密碼",
+    "REGISTER": "註冊",
+    "INVALID_EMAIL": "無效電子郵件"
   }
 }
