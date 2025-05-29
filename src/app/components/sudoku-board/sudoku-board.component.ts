@@ -25,6 +25,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   timerMode: 'up' | 'down' = 'up';
   timerValue: number = 0;
+  isPaused = false;
 
   constructor(
     private fb: FormBuilder,
@@ -53,6 +54,10 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       this.form = this.fb.group({
         board: this.fb.array(boardArray)
       });
+    });
+
+    this.localTimerService.isPausedObservable.subscribe(paused => {
+      this.isPaused = paused;
     });
 
     //todo extra ui component for winning game
@@ -156,7 +161,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     this.localTimerService.stop();
   }
 
-    //Validator in Angular only check the value like e.g. control.invalid 
+  //Validator in Angular only check the value like e.g. control.invalid 
   //todo chinese still can be typed in cell because of composition event
   onKeyDown(event: KeyboardEvent, i: number, j: number) {
     const allowedKeys = [
@@ -216,6 +221,11 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       }
       attempts++;
     }
+  }
+
+  onResume() {
+    this.localTimerService.setPaused(false);
+    this.localTimerService.start(this.timerMode, this.timerValue);
   }
 
   getBlockClass(i: number, j: number): 'a' | 'b' {

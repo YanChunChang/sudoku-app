@@ -1,13 +1,4 @@
  @use "styles/variables" as *;
-
-.flex-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  background-color: aqua;
-}
-
 .board{
   margin-top: 100px;
   margin-bottom: 30px;
@@ -38,7 +29,7 @@
 .grid-item {
   width: 61px;
   height: 61px;
-  border: 1px solid #ccc;
+  border: 1px solid $light-gray;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -83,6 +74,31 @@ input[readonly] {
 .incorrect {
   background-color: $error;
   color: $error-text !important;
+}
+
+.board-wrapper {
+  position: relative;
+}
+
+.covered {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: $ultra-black;
+  opacity: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+
+.resume-button {
+  font-size: 2rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
 }
 
 //darkmode
