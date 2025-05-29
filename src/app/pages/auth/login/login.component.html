@@ -13,6 +13,10 @@
 
   <a routerLink="/login">{{ 'LOGIN.FORGET_PASSWORD' | translate }}</a>
 
-  <p-button class="spacing" (click)="login()" *ngIf="!isLogginIn" [disabled]="!form.valid">{{ 'LOGIN.LOGIN' | translate }}</p-button>
+  <p-button 
+    class="spacing" 
+    (click)="login()" 
+    *ngIf="!isLogginIn"
+    [disabled]="!form.valid">{{ 'LOGIN.LOGIN' | translate }}</p-button>
   <p-button ngClass="register" routerLink="/register">{{ 'GENERAL.REGISTER' | translate }}</p-button>
 </form>

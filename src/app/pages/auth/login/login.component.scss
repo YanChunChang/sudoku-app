@@ -84,3 +84,25 @@ a {
 .pflichtfeld{
     color: $error-light;
 }
+
+//dark mode
+::ng-deep html.darkmode form{
+    background-color: var(--p-surface-500);
+    color: $light-gray;
+}
+
+::ng-deep html.darkmode .p-button{
+    color: var(--text-color);
+}
+
+::ng-deep html.darkmode input {
+    background-color: var(--p-surface-600);
+    border: $light-gray;
+}
+
+::ng-deep html.darkmode a{
+    color: $light-gray !important;
+    &::after {
+        background-color: $light-gray !important;
+    }
+}
