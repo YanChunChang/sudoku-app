@@ -18,6 +18,6 @@
         </p-button>
     </ng-template>
 
-    <p-button icon="pi pi-refresh" (click)="resetTimer()" >
+    <p-button *ngIf="!isChallengeMode" icon="pi pi-refresh" (click)="resetTimer()" >
     </p-button>
 </div>

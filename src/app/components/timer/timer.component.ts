@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { LocalTimerService } from '../../services/timer/local-timer.service';
 import { TimerMode } from '../../utils/utils';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-timer',
@@ -18,14 +19,21 @@ export class TimerComponent {
   elapsedSeconds: number = 0;
   timerSubscription!: Subscription;
   isRunning: boolean = true;
+  isChallengeMode : boolean = false;
 
-  constructor(private localTimeService: LocalTimerService){
+  constructor(private localTimeService: LocalTimerService, private route: ActivatedRoute,){
   }
 
   ngOnInit() {
     this.startTimer();
     this.localTimeService.isPausedObservable.subscribe(paused => {
       this.isRunning = !paused;
+    });
+
+    this.route.paramMap.subscribe( param => {
+      if(param.get('playmode') === 'countdown'){
+        this.isChallengeMode = true;
+      }
     });
   }
 
