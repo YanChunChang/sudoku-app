@@ -134,10 +134,10 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
   }
 
   onClickReset() {
+    if(this.isPaused) return;
     for (let row = 0; row < 9; row++) {
       for (let col = 0; col < 9; col++) {
         const userValue = this.getCell(row, col);
-        const userValueParsed = Number(userValue.value);
         let originalValue = this.initialBoard[row][col];
         if (originalValue === 0) {
           userValue.setValue(null);
