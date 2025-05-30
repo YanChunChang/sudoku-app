@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
+import { AuthService } from '../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,9 @@ export class LoginComponent {
   isLogginIn = false;
 
   constructor(
-    private formBuilder: FormBuilder, 
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router
     ){}
 
   ngOnInit(): void {
@@ -28,8 +31,12 @@ export class LoginComponent {
   }
 
   login(){
+    console.log("login");
     this.isLogginIn = true;
+    const form = this.form.getRawValue();
+    this.authService.login(form.email, form.password);
     this.isLogginIn = false;
+    this.router.navigate(['/'])
   }
 
 }

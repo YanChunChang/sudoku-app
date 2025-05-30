@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { userData } from '../../models/userData';
 
 @Injectable({
@@ -21,5 +21,16 @@ export class AuthService {
 
   resendVerificationEmail(email: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/resend-verification`, { email });
+  }
+
+  login(email: string, password: string): Observable<any>{
+      return this.http.post<{ token: string, user: any }>('/api/auth/login', { email, password })
+        .pipe(tap(res => {
+          localStorage.setItem('token', res.token);
+        }));
+  }
+
+  getToken() {
+    return localStorage.getItem('token');
   }
 }

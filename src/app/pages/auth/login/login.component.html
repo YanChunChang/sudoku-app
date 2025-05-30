@@ -17,6 +17,7 @@
     class="spacing" 
     (click)="login()" 
     *ngIf="!isLogginIn"
-    [disabled]="!form.valid">{{ 'LOGIN.LOGIN' | translate }}</p-button>
+    [disabled]="!form.valid"
+    [loading]="isLogginIn">{{ 'LOGIN.LOGIN' | translate }}</p-button>
   <p-button ngClass="register" routerLink="/register">{{ 'GENERAL.REGISTER' | translate }}</p-button>
 </form>
