@@ -31,10 +31,17 @@ export class LoginComponent {
   }
 
   login(){
-    console.log("login");
     this.isLogginIn = true;
     const form = this.form.getRawValue();
-    this.authService.login(form.email, form.password);
+    this.authService.login(form.email, form.password).subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+      error: (err) =>{
+        console.log(err);
+      }
+    })
+
     this.isLogginIn = false;
     this.router.navigate(['/'])
   }
