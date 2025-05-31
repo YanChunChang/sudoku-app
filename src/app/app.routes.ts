@@ -6,6 +6,7 @@ import { LoginComponent } from './pages/auth/login/login.component';
 import { RegisterComponent } from './pages/auth/register/register.component';
 import { VerifyComponent } from './pages/auth/verify/verify.component';
 import { VerifyEmailComponent } from './pages/auth/verify-email/verify-email.component';
+import { ResetPasswordComponent } from './pages/auth/reset-password/reset-password/reset-password.component';
 
 export const routes: Routes = [
   {
@@ -52,6 +53,10 @@ export const routes: Routes = [
   { 
     path: 'verifyemail', 
     component: VerifyEmailComponent 
+  },
+  {
+    path: 'login/reset-password',
+    component: ResetPasswordComponent
   }
   // {
   //   path: 'sudoku',

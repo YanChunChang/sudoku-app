@@ -35,6 +35,10 @@ export class AuthService {
         }));
   }
 
+  resetPassword(email: string): Observable<{ messageKey: string }> {
+    return this.http.post<{ messageKey: string }>(`${this.apiUrl}/login/reset-password`, {email})
+  }
+
   getToken() {
     return localStorage.getItem('token');
   }
@@ -43,6 +47,7 @@ export class AuthService {
     localStorage.removeItem('token');
     this.loggedIn.next(false);
     this.router.navigate(['/']);
-    console.log("logout");
   }
+
+  
 }

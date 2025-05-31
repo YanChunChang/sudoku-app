@@ -74,6 +74,11 @@
     "IVALID_PASSWORD": "Das Passwort ist ungültig.",
     "EMAIL_NOT_FOUND": "Diese E-Mail-Adresse ist nicht registriert."
   },
+  "FORGOT_PASSWORD":{
+    "TITLE": "Passwort vergessen?",
+    "SUBMIT": "Einreichen",
+    "TEXT": "Bitte geben Sie Ihre E-Mail-Adresse ein, um Ihr Passwort zurückzusetzen."
+  },
   "GENERAL": {
     "BACK": "Zurück",
     "USERNAME": "Benutzername",

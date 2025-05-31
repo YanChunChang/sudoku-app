@@ -41,7 +41,6 @@ export class LoginComponent {
   }
 
   login(){
-    console.log("login")
     if (this.form.invalid) return;
 
     this.isLogginIn = true;
