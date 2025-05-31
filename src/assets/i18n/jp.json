@@ -63,10 +63,16 @@
       "ERROR_ALREADY_VERIFIED": "このメールアドレスは既に認証されています。"
     }
   },
-  "LOGIN":{
+  "LOGIN": {
     "LOGIN": "ログイン",
     "FORGET_PASSWORD": "パスワード忘れ?",
-    "PLEASE_LOGIN": "ご登録ください。"
+    "PLEASE_LOGIN": "ご登録ください。",
+    "SUCCESS": "ログインに成功しました！",
+    "SUCCESS_TEXT": "お帰りなさい、楽しんでください ◡̈",
+    "ERROR": "エラーが発生しました。",
+    "NOT_VERIFIED": "アカウントがまだ確認されていません。メールを確認してください。",
+    "INVALID_PASSWORD": "パスワードが無効です。",
+    "EMAIL_NOT_FOUND": "このメールアドレスは登録されていません。"
   },
   "GENERAL": {
     "BACK": "戻る",

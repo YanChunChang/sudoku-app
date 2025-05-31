@@ -66,7 +66,13 @@
   "LOGIN":{
     "LOGIN": "Anmelden",
     "FORGET_PASSWORD": "Passwort vergessen?",
-    "PLEASE_LOGIN": "Bitte anmelden."
+    "PLEASE_LOGIN": "Bitte anmelden.",
+    "SUCCESS": "Erfolgreich eingeloggt!",
+    "SUCCESS_TEXT": "Willkommen zurück, Viel Spaß ◡̈",
+    "ERROR":"Ein Fehler ist aufgetreten.",
+    "NOT_VERIFIED": "Dein Konto ist noch nicht verifiziert. Bitte überprüfe deine E-Mail.",
+    "IVALID_PASSWORD": "Das Passwort ist ungültig.",
+    "EMAIL_NOT_FOUND": "Diese E-Mail-Adresse ist nicht registriert."
   },
   "GENERAL": {
     "BACK": "Zurück",

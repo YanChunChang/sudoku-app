@@ -4,11 +4,14 @@
     <div class="text">{{ 'GENERAL.EMAIL' | translate }}</div>
     <input type="email" placeholder="pang@example.com" formControlName="email">
     <small class="pflichtfeld" *ngIf="this.form.get('email')?.invalid && this.form.get('email')?.dirty">{{ 'GENERAL.INVALID_EMAIL' | translate }}</small>
+    <small class="pflichtfeld" *ngIf="notVerified" >{{ 'LOGIN.NOT_VERIFIED' | translate }}</small>
+    <small class="pflichtfeld" *ngIf="emailNotFound" >{{ 'LOGIN.EMAIL_NOT_FOUND' | translate }}</small>
   </div>
 
   <div class="wrapper">
     <div class="text">{{ 'GENERAL.PASSWORD' | translate }}</div>
     <input type="password" placeholder="01234567" formControlName="password">
+    <small class="pflichtfeld" *ngIf="invalidPassword" >{{ 'LOGIN.INVALID_PASSWORD' | translate }}</small>
   </div>
 
   <a routerLink="/login">{{ 'LOGIN.FORGET_PASSWORD' | translate }}</a>
@@ -16,8 +19,9 @@
   <p-button 
     class="spacing" 
     (click)="login()" 
-    *ngIf="!isLogginIn"
     [disabled]="!form.valid"
-    [loading]="isLogginIn">{{ 'LOGIN.LOGIN' | translate }}</p-button>
+    [loading]="isLogginIn && !invalidPassword">{{ 'LOGIN.LOGIN' | translate }}</p-button>
   <p-button ngClass="register" routerLink="/register">{{ 'GENERAL.REGISTER' | translate }}</p-button>
 </form>
+
+<p-toast />

@@ -63,10 +63,16 @@
       "ERROR_ALREADY_VERIFIED": "此電子郵件地址已完成驗證。"
     }
   },
-  "LOGIN":{
+  "LOGIN": {
     "LOGIN": "登入",
     "FORGET_PASSWORD": "忘記密碼?",
-    "PLEASE_LOGIN": "請登入。"
+    "PLEASE_LOGIN": "請登入。",
+    "SUCCESS": "成功登入！",
+    "SUCCESS_TEXT": "歡迎回來，祝您遊玩愉快 ◡̈",
+    "ERROR": "發生錯誤。",
+    "NOT_VERIFIED": "您的帳號尚未驗證。請檢查您的電子郵件。",
+    "INVALID_PASSWORD": "密碼無效。",
+    "EMAIL_NOT_FOUND": "此電子郵件地址尚未註冊。"
   },
   "GENERAL": {
     "BACK": "返回",

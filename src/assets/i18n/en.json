@@ -63,10 +63,16 @@
       "ERROR_ALREADY_VERIFIED": "This email address has already been verified."
     }
   },
-  "LOGIN":{
+  "LOGIN": {
     "LOGIN": "Login",
     "FORGET_PASSWORD": "forget password?",
-    "PLEASE_LOGIN": "Please Login."
+    "PLEASE_LOGIN": "Please Login.",
+    "SUCCESS": "Successfully logged in!",
+    "SUCCESS_TEXT": "Welcome back, have fun ◡̈",
+    "ERROR": "An error has occurred.",
+    "NOT_VERIFIED": "Your account is not yet verified. Please check your email.",
+    "INVALID_PASSWORD": "The password is invalid.",
+    "EMAIL_NOT_FOUND": "This email address is not registered."
   },
   "GENERAL": {
     "BACK": "Back",
