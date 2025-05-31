@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { AuthService } from '../../../../services/auth/auth.service';
+import { AuthService } from '../../../services/auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { Router, RouterModule } from '@angular/router';
@@ -36,12 +36,14 @@ export class RecoverEmailComponent {
     this.isSubmitted = true;
     const form = this.form.getRawValue();
 
-    this.authService.resetPassword(form.email).subscribe({
+    this.authService.recoverEmail(form.email).subscribe({
       next: (res) =>{
 
+        this.router.navigate(['/login/reset-password'])
+        this.isSubmitted = false;
       },
       error: (err) =>{
-
+        this.isSubmitted = false;
       }
     })
   }
