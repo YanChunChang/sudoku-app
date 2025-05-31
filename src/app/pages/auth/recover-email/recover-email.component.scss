@@ -87,3 +87,17 @@ form {
     border: $light-gray;
     border: none !important;
 }
+
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    align-items: center;
+    margin-top: 25%;
+    color: $marine-dark;
+}
+
+//dark mode
+::ng-deep html.darkmode .container{
+    color: $light-gray;
+}

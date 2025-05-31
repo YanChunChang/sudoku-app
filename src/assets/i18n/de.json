@@ -63,21 +63,27 @@
       "ERROR_ALREADY_VERIFIED": "Diese E-Mail-Adresse wurde bereits verifiziert."
     }
   },
-  "LOGIN":{
+  "LOGIN": {
     "LOGIN": "Anmelden",
     "FORGET_PASSWORD": "Passwort vergessen?",
     "PLEASE_LOGIN": "Bitte anmelden.",
     "SUCCESS": "Erfolgreich eingeloggt!",
     "SUCCESS_TEXT": "Willkommen zurück, Viel Spaß ◡̈",
-    "ERROR":"Ein Fehler ist aufgetreten.",
+    "ERROR": "Ein Fehler ist aufgetreten.",
     "NOT_VERIFIED": "Dein Konto ist noch nicht verifiziert. Bitte überprüfe deine E-Mail.",
     "IVALID_PASSWORD": "Das Passwort ist ungültig.",
     "EMAIL_NOT_FOUND": "Diese E-Mail-Adresse ist nicht registriert."
   },
-  "FORGOT_PASSWORD":{
+  "FORGOT_PASSWORD": {
     "TITLE": "Passwort vergessen?",
     "SUBMIT": "Einreichen",
-    "TEXT": "Bitte geben Sie Ihre E-Mail-Adresse ein, um Ihr Passwort zurückzusetzen."
+    "TEXT": "Bitte geben Sie Ihre E-Mail-Adresse ein, um Ihr Passwort zurückzusetzen.",
+    "ERROR": "Ein Fehler ist aufgetreten.",
+    "EMAIL_NOT_FOUND":"Diese E-Mail-Adresse ist nicht registriert.",
+    "EMAIL_SENT": {
+      "TITLE": "E-Mail wurde gesendet",
+      "TEXT": "Bitte überprüfen Sie Ihr E-Mail-Postfach. Falls Sie keine E-Mail erhalten haben, prüfen Sie auch Ihren Spam-Ordner."
+    }
   },
   "GENERAL": {
     "BACK": "Zurück",

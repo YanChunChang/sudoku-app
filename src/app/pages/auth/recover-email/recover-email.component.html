@@ -1,4 +1,4 @@
-<form [formGroup]="form">
+<form *ngIf="!emailSent" [formGroup]="form">
     <h2>{{ 'FORGOT_PASSWORD.TITLE' | translate }}</h2>
     <p>{{ 'FORGOT_PASSWORD.TEXT' | translate }}</p>
 
@@ -21,3 +21,9 @@
         {{ 'GENERAL.BACK' | translate }}
     </p-button>
 </form>
+<p-toast />
+
+<div *ngIf="emailSent" class="container">
+    <h2>{{ 'FORGOT_PASSWORD.EMAIL_SENT.TITLE' | translate }}</h2>
+    <p>{{ 'FORGOT_PASSWORD.EMAIL_SENT.TEXT' | translate }}</p>
+</div>
