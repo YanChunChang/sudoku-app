@@ -39,6 +39,10 @@ export class AuthService {
     return this.http.post<{ messageKey: string }>(`${this.apiUrl}/login/recover-email`, {email})
   }
 
+  resetPassword(token: string, newPassword: string) {
+    return this.http.post<{ messageKey: string }>(`${this.apiUrl}/reset-password`, { token, newPassword });
+  }
+
   getToken() {
     return localStorage.getItem('token');
   }

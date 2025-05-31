@@ -74,6 +74,28 @@
     "INVALID_PASSWORD": "The password is invalid.",
     "EMAIL_NOT_FOUND": "This email address is not registered."
   },
+  "FORGOT_PASSWORD": {
+  "TITLE": "Forgot your password?",
+  "SUBMIT": "Submit",
+  "TEXT": "Please enter your email address to reset your password.",
+  "ERROR": "An error has occurred.",
+  "EMAIL_NOT_FOUND": "This email address is not registered.",
+  "EMAIL_SENT": {
+    "TITLE": "Email has been sent",
+    "TEXT": "Please check your email inbox. If you do not receive the email, please also check your spam folder."
+  }
+},
+"RESET_PASSWORD": {
+  "TITLE": "Reset your password",
+  "TEXT": "Please enter your new password.",
+  "NEW_PASSWORD": "New password",
+  "CONFIRM_PASSWORD": "Confirm new password",
+  "MISMATCH": "Passwords do not match.",
+  "SUBMIT": "Reset",
+  "SUCCESS": "Password reset successfully.",
+  "ERROR": "Error resetting password.",
+  "INVALID_TOKEN": "The link is invalid or has expired."
+},
   "GENERAL": {
     "BACK": "Back",
     "USERNAME": "Username",

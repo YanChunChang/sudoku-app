@@ -60,7 +60,7 @@ export const routes: Routes = [
     component: RecoverEmailComponent
   },
   {
-    path: 'login/reset-password',
+    path: 'reset-password',
     component: ResetPasswordComponent
   },
   // {

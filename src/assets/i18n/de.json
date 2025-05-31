@@ -79,11 +79,22 @@
     "SUBMIT": "Einreichen",
     "TEXT": "Bitte geben Sie Ihre E-Mail-Adresse ein, um Ihr Passwort zurückzusetzen.",
     "ERROR": "Ein Fehler ist aufgetreten.",
-    "EMAIL_NOT_FOUND":"Diese E-Mail-Adresse ist nicht registriert.",
+    "EMAIL_NOT_FOUND": "Diese E-Mail-Adresse ist nicht registriert.",
     "EMAIL_SENT": {
       "TITLE": "E-Mail wurde gesendet",
       "TEXT": "Bitte überprüfen Sie Ihr E-Mail-Postfach. Falls Sie keine E-Mail erhalten haben, prüfen Sie auch Ihren Spam-Ordner."
     }
+  },
+  "RESET_PASSWORD": {
+    "TITLE": "Passwort zurücksetzen",
+    "TEXT": "Bitte geben Sie Ihr neues Passwort ein.",
+    "NEW_PASSWORD": "Neues Passwort",
+    "CONFIRM_PASSWORD": "Neues Passwort bestätigen",
+    "MISMATCH": "Die Passwörter stimmen nicht überein.",
+    "SUBMIT": "zurücksetzen",
+    "SUCCESS": "Passwort erfolgreich zurückgesetzt.",
+    "ERROR": "Fehler beim Zurücksetzen des Passworts.",
+    "INVALID_TOKEN": "Der Link ist ungültig oder abgelaufen."
   },
   "GENERAL": {
     "BACK": "Zurück",
