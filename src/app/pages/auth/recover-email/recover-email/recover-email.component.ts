@@ -7,13 +7,13 @@ import { ButtonModule } from 'primeng/button';
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'app-reset-password',
+  selector: 'app-recover-email',
   standalone: true,
   imports: [ReactiveFormsModule, TranslateModule, CommonModule, ButtonModule, RouterModule],
-  templateUrl: './reset-password.component.html',
-  styleUrl: './reset-password.component.scss'
+  templateUrl: './recover-email.component.html',
+  styleUrl: './recover-email.component.scss'
 })
-export class ResetPasswordComponent {
+export class RecoverEmailComponent {
   form! : FormGroup;
   isSubmitted: boolean = false;
 
