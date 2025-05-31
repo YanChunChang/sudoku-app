@@ -65,7 +65,8 @@
   },
   "LOGIN":{
     "LOGIN": "登入",
-    "FORGET_PASSWORD": "忘記密碼?"
+    "FORGET_PASSWORD": "忘記密碼?",
+    "PLEASE_LOGIN": "請登入。"
   },
   "GENERAL": {
     "BACK": "返回",

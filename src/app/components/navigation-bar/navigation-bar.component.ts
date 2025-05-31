@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { ThemeService } from '../../services/theme/theme.service';
 import { Subscription } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -17,12 +18,16 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class NavigationBarComponent {
   isDarkMode: boolean = false;
+  isLoggedIn = false;
   private subscription: Subscription = new Subscription();
 
-  constructor(private themeService: ThemeService, private router: Router) {
+  constructor(private themeService: ThemeService, private router: Router, private authService: AuthService) {
   }
 
   ngOnInit() {
+    this.authService.isLoggedIn$.subscribe(status => {
+      this.isLoggedIn = status;
+    });
     this.subscription = this.themeService.darkMode$.subscribe(mode => {
       this.isDarkMode = mode;
     });
@@ -34,6 +39,10 @@ export class NavigationBarComponent {
   
   navigateToLogin() {
     this.router.navigate(['/login']);
+  }
+
+  navigateToLogout() {
+    this.authService.logout();
   }
 
   ngOnDestroy() {

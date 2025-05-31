@@ -65,7 +65,8 @@
   },
   "LOGIN":{
     "LOGIN": "Login",
-    "FORGET_PASSWORD": "forget password?"
+    "FORGET_PASSWORD": "forget password?",
+    "PLEASE_LOGIN": "Please Login."
   },
   "GENERAL": {
     "BACK": "Back",

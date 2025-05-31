@@ -65,7 +65,8 @@
   },
   "LOGIN":{
     "LOGIN": "Anmelden",
-    "FORGET_PASSWORD": "Passwort vergessen?"
+    "FORGET_PASSWORD": "Passwort vergessen?",
+    "PLEASE_LOGIN": "Bitte anmelden."
   },
   "GENERAL": {
     "BACK": "Zurück",

@@ -4,7 +4,8 @@
         <p>{{ 'WELCOMEPAGE.PLAYMODE' | translate }}</p>
         <div class="selection">
             <p-button styleClass="label" [label]="'WELCOMEPAGE.SINGLEPLAYER' | translate" (click)="selectMode('single')"></p-button> 
-            <p-button *ngIf="isLoggedIn" styleClass="label" [label]="'WELCOMEPAGE.MULTIPLAYER' | translate" (click)="selectMode('multi')"></p-button>
+            <p-button class="disable" styleClass="label" [label]="'WELCOMEPAGE.MULTIPLAYER' | translate" (click)="selectMode('multi')" 
+            [disabled]="!isLoggedIn" pTooltip="{{ isLoggedIn ? '' : ('LOGIN.PLEASE_LOGIN' | translate) }}" tooltipPosition="right"></p-button>
             <p-button styleClass="label" [label]="'WELCOMEPAGE.SETTINGS' | translate" (click)="onClickSettings()"></p-button>
         </div>
     </ng-container>

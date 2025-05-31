@@ -65,7 +65,8 @@
   },
   "LOGIN":{
     "LOGIN": "ログイン",
-    "FORGET_PASSWORD": "パスワード忘れ?"
+    "FORGET_PASSWORD": "パスワード忘れ?",
+    "PLEASE_LOGIN": "ご登録ください。"
   },
   "GENERAL": {
     "BACK": "戻る",

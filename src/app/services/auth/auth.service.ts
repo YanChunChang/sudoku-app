@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { userData } from '../../models/userData';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private apiUrl = 'http://localhost:3000/api/auth';
+  private loggedIn = new BehaviorSubject<boolean>(localStorage.getItem('token')? true : false);
+  public isLoggedIn$ = this.loggedIn.asObservable();
 
-  constructor(private http: HttpClient) { }
+
+  constructor(private http: HttpClient, private router: Router) { }
   
   register(registerData: userData): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, registerData);
@@ -27,6 +31,7 @@ export class AuthService {
       return this.http.post<{ token: string, user: any }>(`${this.apiUrl}/login`, { email, password })
         .pipe(tap(res => {
           localStorage.setItem('token', res.token);
+          this.loggedIn.next(true);
         }));
   }
 
@@ -34,7 +39,10 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
-  get isLoggedIn(): boolean {
-    return localStorage.getItem('token') ? true : false;
+  logout() {
+    localStorage.removeItem('token');
+    this.loggedIn.next(false);
+    this.router.navigate(['/']);
+    console.log("logout");
   }
 }
