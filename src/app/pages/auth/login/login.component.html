@@ -1,38 +1,27 @@
 <form [formGroup]="form">
-  <h1>Anmelden</h1>
-
-  <div>
-    <div>Email</div>
-    <input type="email" matInput placeholder="Z.B. pat@example.com" formControlName="email">
-    <div *ngIf="form.get('email')!.hasError('required')">
-      Bitte geben Sie Ihre Email-Adresse ein!
-    </div>
-    <div *ngIf="form.get('email')!.hasError('email')">
-      Bite geben Sie korrekte Email-Adresse ein!
-    </div>
+  <h1>{{ 'LOGIN.LOGIN' | translate }}</h1>
+  <div class="wrapper">
+    <div class="text">{{ 'GENERAL.EMAIL' | translate }}</div>
+    <input type="email" placeholder="pang@example.com" formControlName="email">
+    <small class="pflichtfeld" *ngIf="this.form.get('email')?.invalid && this.form.get('email')?.dirty">{{ 'GENERAL.INVALID_EMAIL' | translate }}</small>
+    <small class="pflichtfeld" *ngIf="notVerified" >{{ 'LOGIN.NOT_VERIFIED' | translate }}</small>
+    <small class="pflichtfeld" *ngIf="emailNotFound" >{{ 'LOGIN.EMAIL_NOT_FOUND' | translate }}</small>
   </div>
 
-  <div>
-    <div>Passwort</div>
-    <input type="password" matInput placeholder="Z.B. 01234567" formControlName="password">
-    <div *ngIf="form.get('password')!.hasError('required')">
-      Bitte geben Sie Ihr Passwort ein!
-    </div>
+  <div class="wrapper">
+    <div class="text">{{ 'GENERAL.PASSWORD' | translate }}</div>
+    <input type="password" placeholder="01234567" formControlName="password">
+    <small class="pflichtfeld" *ngIf="invalidPassword" >{{ 'LOGIN.INVALID_PASSWORD' | translate }}</small>
   </div>
 
-  <div class="aligned-to-right">
-    <button mat-button color="primary" (click)="recoverPassword()" *ngIf="!isRecoveringPassword"
-      test-id="recover-password-button" [disabled]="!form.get('email')!.valid">
-      Passwort vergessen?
-    </button>
-    <button mat-button color="primary" *ngIf="isRecoveringPassword" test-id="recover-password-loader">
-      <div color="accent" diameter="20"></div>
-    </button>
-  </div>
+  <a routerLink="/login/recover-email">{{ 'LOGIN.FORGET_PASSWORD' | translate }}</a>
 
-  <button mat-raised-button color="primary" (click)="login()" *ngIf="!isLogginIn" test-id="login-button"
-    [disabled]="!form.valid">Login</button>
-  <button mat-raised-button color="primary" class="button-loader" *ngIf="isLogginIn" test-id="login-loader">
-  </button>
+  <p-button 
+    class="spacing" 
+    (click)="login()" 
+    [disabled]="!form.valid"
+    [loading]="isLogginIn && !invalidPassword">{{ 'LOGIN.LOGIN' | translate }}</p-button>
+  <p-button ngClass="register" routerLink="/register">{{ 'GENERAL.REGISTER' | translate }}</p-button>
 </form>
-<button color="primary" [routerLink]="['../register']">Registrieren</button>
+
+<p-toast />

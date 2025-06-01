@@ -26,6 +26,10 @@ h1{
     margin-top: 20px;
 }
 
+::ng-deep .p-button:hover .disable{
+    cursor: not-allowed;
+}
+
 ::ng-deep .p-button-label {
     font-size: 25px;
   }

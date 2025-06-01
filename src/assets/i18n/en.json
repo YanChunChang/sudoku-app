@@ -40,13 +40,8 @@
     "SUCCESS": "User successfully registered.",
     "ERROR": "Registration failed. Please try again.",
     "EMAIL_EXISTS": "This email address is already registered.",
-    "USERNAME": "Username",
-    "EMAIL": "Email",
-    "PASSWORD": "Password",
     "CREATE_ACCOUNT": "Create Account",
-    "REGISTER": "Register",
-    "REQUIRED_FIELD": "Required field",
-    "INVALID_EMAIL": "Invalid email"
+    "REQUIRED_FIELD": "Required field"
   },
   "VERIFY_EMAIL": {
     "TITLE": "Thank you for your registration!",
@@ -68,7 +63,45 @@
       "ERROR_ALREADY_VERIFIED": "This email address has already been verified."
     }
   },
+  "LOGIN": {
+    "LOGIN": "Login",
+    "FORGET_PASSWORD": "forget password?",
+    "PLEASE_LOGIN": "Please Login.",
+    "SUCCESS": "Successfully logged in!",
+    "SUCCESS_TEXT": "Welcome back, have fun ◡̈",
+    "ERROR": "An error has occurred.",
+    "NOT_VERIFIED": "Your account is not yet verified. Please check your email.",
+    "INVALID_PASSWORD": "The password is invalid.",
+    "EMAIL_NOT_FOUND": "This email address is not registered."
+  },
+  "FORGOT_PASSWORD": {
+  "TITLE": "Forgot your password?",
+  "SUBMIT": "Submit",
+  "TEXT": "Please enter your email address to reset your password.",
+  "ERROR": "An error has occurred.",
+  "EMAIL_NOT_FOUND": "This email address is not registered.",
+  "EMAIL_SENT": {
+    "TITLE": "Email has been sent",
+    "TEXT": "Please check your email inbox. If you do not receive the email, please also check your spam folder."
+  }
+},
+"RESET_PASSWORD": {
+  "TITLE": "Reset your password",
+  "TEXT": "Please enter your new password.",
+  "NEW_PASSWORD": "New password",
+  "CONFIRM_PASSWORD": "Confirm new password",
+  "MISMATCH": "Passwords do not match.",
+  "SUBMIT": "Reset",
+  "SUCCESS": "Password reset successfully.",
+  "ERROR": "Error resetting password.",
+  "INVALID_TOKEN": "The link is invalid or has expired."
+},
   "GENERAL": {
-    "BACK": "Back"
+    "BACK": "Back",
+    "USERNAME": "Username",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "REGISTER": "Register",
+    "INVALID_EMAIL": "Invalid email"
   }
 }

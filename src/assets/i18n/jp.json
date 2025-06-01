@@ -40,13 +40,8 @@
     "SUCCESS": "ユーザーが正常に登録されました。",
     "ERROR": "登録に失敗しました。もう一度お試しください。",
     "EMAIL_EXISTS": "このメールアドレスはすでに登録されています。",
-    "USERNAME": "ユーザー名",
-    "EMAIL": "メール",
-    "PASSWORD": "パスワード",
     "CREATE_ACCOUNT": "アカウントを作成",
-    "REGISTER": "レジーム",
-    "REQUIRED_FIELD": "必須項目",
-    "INVALID_EMAIL": "無効な電子メール"
+    "REQUIRED_FIELD": "必須項目"
   },
   "VERIFY_EMAIL": {
     "TITLE": "ご登録ありがとうございます！",
@@ -68,7 +63,45 @@
       "ERROR_ALREADY_VERIFIED": "このメールアドレスは既に認証されています。"
     }
   },
+  "LOGIN": {
+    "LOGIN": "ログイン",
+    "FORGET_PASSWORD": "パスワード忘れ?",
+    "PLEASE_LOGIN": "ご登録ください。",
+    "SUCCESS": "ログインに成功しました！",
+    "SUCCESS_TEXT": "お帰りなさい、楽しんでください ◡̈",
+    "ERROR": "エラーが発生しました。",
+    "NOT_VERIFIED": "アカウントがまだ確認されていません。メールを確認してください。",
+    "INVALID_PASSWORD": "パスワードが無効です。",
+    "EMAIL_NOT_FOUND": "このメールアドレスは登録されていません。"
+  },
+  "FORGOT_PASSWORD": {
+  "TITLE": "パスワードをお忘れですか？",
+  "SUBMIT": "送信",
+  "TEXT": "パスワードをリセットするためにメールアドレスを入力してください。",
+  "ERROR": "エラーが発生しました。",
+  "EMAIL_NOT_FOUND": "このメールアドレスは登録されていません。",
+  "EMAIL_SENT": {
+    "TITLE": "メールが送信されました",
+    "TEXT": "メールボックスを確認してください。メールが届かない場合は、迷惑メールフォルダーも確認してください。"
+  }
+},
+"RESET_PASSWORD": {
+  "TITLE": "パスワードをリセット",
+  "TEXT": "新しいパスワードを入力してください。",
+  "NEW_PASSWORD": "新しいパスワード",
+  "CONFIRM_PASSWORD": "新しいパスワード（確認）",
+  "MISMATCH": "パスワードが一致しません。",
+  "SUBMIT": "リセット",
+  "SUCCESS": "パスワードが正常にリセットされました。",
+  "ERROR": "パスワードのリセット中にエラーが発生しました。",
+  "INVALID_TOKEN": "このリンクは無効か、期限切れです。"
+},
   "GENERAL": {
-    "BACK": "戻る"
+    "BACK": "戻る",
+    "USERNAME": "ユーザー名",
+    "EMAIL": "メール",
+    "PASSWORD": "パスワード",
+    "REGISTER": "レジーム",
+    "INVALID_EMAIL": "無効な電子メール"
   }
 }

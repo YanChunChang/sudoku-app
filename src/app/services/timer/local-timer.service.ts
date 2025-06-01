@@ -10,7 +10,7 @@ export class LocalTimerService {
   private subscription: Subscription | null = null;
   private currentTime: number = 0;
   private mode!: TimerMode;
-  private pausedSubject$ = new BehaviorSubject<boolean>(false);
+  private pausedSubject = new BehaviorSubject<boolean>(false);
 
   start(mode: TimerMode, startFrom: number){
     if(this.subscription?.closed === false) return;
@@ -20,7 +20,7 @@ export class LocalTimerService {
       this.currentTime = startFrom;
     }
 
-    this.pausedSubject$.next(false);
+    this.pausedSubject.next(false);
 
     if (mode === "up"){
       this.subscription = interval(1000).subscribe(() => {
@@ -43,7 +43,7 @@ export class LocalTimerService {
     if(this.subscription){
       this.subscription.unsubscribe();
       this.subscription = null;
-      this.pausedSubject$.next(true);
+      this.pausedSubject.next(true);
     }
   }
 
@@ -59,7 +59,7 @@ export class LocalTimerService {
   }
 
   setPaused(state: boolean) {
-    this.pausedSubject$.next(state);
+    this.pausedSubject.next(state);
   }
 
   get timeObservable(){
@@ -67,7 +67,7 @@ export class LocalTimerService {
   }
 
   get isPausedObservable(){
-    return this.pausedSubject$.asObservable();
+    return this.pausedSubject.asObservable();
   }
   
 }

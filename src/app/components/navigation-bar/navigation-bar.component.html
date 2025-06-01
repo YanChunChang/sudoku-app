@@ -12,5 +12,6 @@
             </ng-template>
         </p-toggleswitch>
     </div>
-    <p-button styleClass="login" icon="pi pi-sign-in" (click)="navigateToLogin()"></p-button>
+    <p-button *ngIf="!isLoggedIn" styleClass="login" icon="pi pi-sign-in" (click)="navigateToLogin()"></p-button>
+    <p-button *ngIf="isLoggedIn" styleClass="login" icon="pi pi-sign-out" (click)="navigateToLogout()"></p-button>
 </nav>

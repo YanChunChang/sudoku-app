@@ -40,13 +40,8 @@
     "SUCCESS": "Benutzer erfolgreich registriert.",
     "ERROR": "Registrierung fehlgeschlagen. Bitte versuche es erneut.",
     "EMAIL_EXISTS": "Diese E-Mail-Adresse ist bereits registriert.",
-    "USERNAME": "Benutzername",
-    "EMAIL": "E-Mail",
-    "PASSWORD": "Passwort",
     "CREATE_ACCOUNT": "Konto erstellen",
-    "REGISTER": "Registrieren",
-    "REQUIRED_FIELD": "Pflichtfeld",
-    "INVALID_EMAIL": "Ungültige Email"
+    "REQUIRED_FIELD": "Pflichtfeld"
   },
   "VERIFY_EMAIL": {
     "TITLE": "Vielen Dank für Ihre Registrierung!",
@@ -68,7 +63,45 @@
       "ERROR_ALREADY_VERIFIED": "Diese E-Mail-Adresse wurde bereits verifiziert."
     }
   },
+  "LOGIN": {
+    "LOGIN": "Anmelden",
+    "FORGET_PASSWORD": "Passwort vergessen?",
+    "PLEASE_LOGIN": "Bitte anmelden.",
+    "SUCCESS": "Erfolgreich eingeloggt!",
+    "SUCCESS_TEXT": "Willkommen zurück, Viel Spaß ◡̈",
+    "ERROR": "Ein Fehler ist aufgetreten.",
+    "NOT_VERIFIED": "Dein Konto ist noch nicht verifiziert. Bitte überprüfe deine E-Mail.",
+    "IVALID_PASSWORD": "Das Passwort ist ungültig.",
+    "EMAIL_NOT_FOUND": "Diese E-Mail-Adresse ist nicht registriert."
+  },
+  "FORGOT_PASSWORD": {
+    "TITLE": "Passwort vergessen?",
+    "SUBMIT": "Einreichen",
+    "TEXT": "Bitte geben Sie Ihre E-Mail-Adresse ein, um Ihr Passwort zurückzusetzen.",
+    "ERROR": "Ein Fehler ist aufgetreten.",
+    "EMAIL_NOT_FOUND": "Diese E-Mail-Adresse ist nicht registriert.",
+    "EMAIL_SENT": {
+      "TITLE": "E-Mail wurde gesendet",
+      "TEXT": "Bitte überprüfen Sie Ihr E-Mail-Postfach. Falls Sie keine E-Mail erhalten haben, prüfen Sie auch Ihren Spam-Ordner."
+    }
+  },
+  "RESET_PASSWORD": {
+    "TITLE": "Passwort zurücksetzen",
+    "TEXT": "Bitte geben Sie Ihr neues Passwort ein.",
+    "NEW_PASSWORD": "Neues Passwort",
+    "CONFIRM_PASSWORD": "Neues Passwort bestätigen",
+    "MISMATCH": "Die Passwörter stimmen nicht überein.",
+    "SUBMIT": "zurücksetzen",
+    "SUCCESS": "Passwort erfolgreich zurückgesetzt.",
+    "ERROR": "Fehler beim Zurücksetzen des Passworts.",
+    "INVALID_TOKEN": "Der Link ist ungültig oder abgelaufen."
+  },
   "GENERAL": {
-    "BACK": "Zurück"
+    "BACK": "Zurück",
+    "USERNAME": "Benutzername",
+    "EMAIL": "E-Mail",
+    "PASSWORD": "Passwort",
+    "REGISTER": "Registrieren",
+    "INVALID_EMAIL": "Ungültige Email"
   }
 }

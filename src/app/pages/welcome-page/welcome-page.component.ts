@@ -4,16 +4,19 @@ import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 import { GameConfigService } from '../../services/game/gameconfig.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { AuthService } from '../../services/auth/auth.service';
+import { TooltipModule } from 'primeng/tooltip';
 
 
 @Component({
   selector: 'app-welcome-page',
   standalone: true,
-  imports: [RouterModule, ButtonModule, CommonModule, TranslateModule],
+  imports: [RouterModule, ButtonModule, CommonModule, TranslateModule, TooltipModule],
   templateUrl: './welcome-page.component.html',
   styleUrl: './welcome-page.component.scss'
 })
 export class WelcomePageComponent {
+  isLoggedIn = false;
 
   currentPlayer: string | null = null;
   currentPlaymode: string | null = null;
@@ -23,9 +26,13 @@ export class WelcomePageComponent {
     private gameConfigService: GameConfigService, 
     private router: Router, 
     private route: ActivatedRoute,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
+    this.authService.isLoggedIn$.subscribe(status => {
+      this.isLoggedIn = status;
+    });
     this.route.paramMap.subscribe(params => {
         const player = params.get('player');
         const mode = params.get('playmode');

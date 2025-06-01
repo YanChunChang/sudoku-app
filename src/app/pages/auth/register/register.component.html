@@ -2,19 +2,19 @@
   <form [formGroup]="form">
     <h1>{{'REGISTER.CREATE_ACCOUNT' | translate }}</h1>
       <div class="wrapper">
-        <div class="text"> {{ 'REGISTER.USERNAME' | translate }} </div>
+        <div class="text"> {{ 'GENERAL.USERNAME' | translate }} </div>
         <input type="text" placeholder="Capybara king" formControlName="username">
         <small class="pflichtfeld" *ngIf="this.form.get('username')?.invalid && this.form.get('username')?.touched">{{ 'REGISTER.REQUIRED_FIELD' | translate }}</small>
       </div>
       <div class="wrapper">
-        <div class="text"> {{ 'REGISTER.EMAIL' | translate }}</div>
-        <input type="email" placeholder="@example.com" formControlName="email" [class.invalid]="emailTaken">
+        <div class="text"> {{ 'GENERAL.EMAIL' | translate }}</div>
+        <input type="email" placeholder="pang@example.com" formControlName="email" [class.invalid]="emailTaken">
           <small class="pflichtfeld" *ngIf="this.form.get('email')?.invalid && this.form.get('email')?.touched">{{ 'REGISTER.REQUIRED_FIELD' | translate }}</small>
-          <small class="pflichtfeld" *ngIf="this.form.get('email')?.invalid && this.form.get('email')?.dirty">{{ 'REGISTER.INVALID_EMAIL' | translate }}</small>
+          <small class="pflichtfeld" *ngIf="this.form.get('email')?.invalid && this.form.get('email')?.dirty">{{ 'GENERAL.INVALID_EMAIL' | translate }}</small>
           <small class="pflichtfeld" *ngIf="emailTaken" >{{ 'REGISTER.EMAIL_EXISTS' | translate }}</small>
       </div>
       <div class="wrapper">
-        <div class="text"> {{ 'REGISTER.PASSWORD' | translate }} </div>
+        <div class="text"> {{ 'GENERAL.PASSWORD' | translate }} </div>
         <input type="password" placeholder="012345678" formControlName="password">
         <small class="pflichtfeld" *ngIf="this.form.get('password')?.invalid && this.form.get('password')?.touched">{{ 'REGISTER.REQUIRED_FIELD' | translate }}</small>
       </div>
@@ -22,5 +22,5 @@
       class="submit-button"
       (click)="onSubmit()"
       [disabled]="!form.valid"
-      [loading]="isRegistered"> {{'REGISTER.REGISTER' | translate }}</p-button>
+      [loading]="isRegistered"> {{'GENERAL.REGISTER' | translate }}</p-button>
   </form>

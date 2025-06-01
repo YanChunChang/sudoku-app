@@ -72,6 +72,7 @@ input.invalid {
 
 ::ng-deep html.darkmode input {
     background-color: var(--p-surface-600);
+    border: $light-gray;
 }
 
 

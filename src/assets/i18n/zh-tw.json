@@ -40,13 +40,8 @@
     "SUCCESS": "用戶成功註冊。",
     "ERROR": "註冊失敗。請再試一次。",
     "EMAIL_EXISTS": "此電子郵件地址已被註冊。",
-    "USERNAME": "用戶名",
-    "EMAIL": "電子郵件",
-    "PASSWORD": "密碼",
     "CREATE_ACCOUNT": "創建帳戶",
-    "REGISTER": "註冊",
-    "REQUIRED_FIELD": "必填",
-    "INVALID_EMAIL": "無效電子郵件"
+    "REQUIRED_FIELD": "必填"
   },
   "VERIFY_EMAIL": {
     "TITLE": "感謝您的註冊！",
@@ -68,7 +63,45 @@
       "ERROR_ALREADY_VERIFIED": "此電子郵件地址已完成驗證。"
     }
   },
+  "LOGIN": {
+    "LOGIN": "登入",
+    "FORGET_PASSWORD": "忘記密碼?",
+    "PLEASE_LOGIN": "請登入。",
+    "SUCCESS": "成功登入！",
+    "SUCCESS_TEXT": "歡迎回來，祝您遊玩愉快 ◡̈",
+    "ERROR": "發生錯誤。",
+    "NOT_VERIFIED": "您的帳號尚未驗證。請檢查您的電子郵件。",
+    "INVALID_PASSWORD": "密碼無效。",
+    "EMAIL_NOT_FOUND": "此電子郵件地址尚未註冊。"
+  },
+  "FORGOT_PASSWORD": {
+  "TITLE": "忘記密碼？",
+  "SUBMIT": "提交",
+  "TEXT": "請輸入您的電子郵件地址來重設密碼。",
+  "ERROR": "發生錯誤。",
+  "EMAIL_NOT_FOUND": "此電子郵件地址尚未註冊。",
+  "EMAIL_SENT": {
+    "TITLE": "電子郵件已發送",
+    "TEXT": "請檢查您的電子郵件信箱。如果未收到郵件，請同時檢查垃圾郵件資料夾。"
+  }
+},
+"RESET_PASSWORD": {
+  "TITLE": "重設密碼",
+  "TEXT": "請輸入您的新密碼。",
+  "NEW_PASSWORD": "新密碼",
+  "CONFIRM_PASSWORD": "確認新密碼",
+  "MISMATCH": "兩次輸入的密碼不一致。",
+  "SUBMIT": "重設",
+  "SUCCESS": "密碼重設成功。",
+  "ERROR": "重設密碼時發生錯誤。",
+  "INVALID_TOKEN": "此連結無效或已過期。"
+},
   "GENERAL": {
-    "BACK": "返回"
+    "BACK": "返回",
+    "USERNAME": "用戶名",
+    "EMAIL": "電子郵件",
+    "PASSWORD": "密碼",
+    "REGISTER": "註冊",
+    "INVALID_EMAIL": "無效電子郵件"
   }
 }

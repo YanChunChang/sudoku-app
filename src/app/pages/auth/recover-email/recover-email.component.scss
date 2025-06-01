@@ -1,0 +1,101 @@
+@use "styles/variables" as *;
+
+form {
+    display: flex;
+    flex-direction: column;
+    background-color: $light-gray;
+    justify-self: center;
+    align-items: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    margin: auto;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 40%;
+    height: 25%;
+    border: $light-gray 1px solid;
+    color: $marine-dark;
+}
+
+.wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+}
+
+
+.wrapper .text {
+    min-width: 50px;
+    font-weight: 500;
+}
+
+.wrapper input {
+    width: 70%;
+    padding: 5px;
+    border-radius: 5px;
+    border: $marine-dark 1px solid;
+    font-size: 16px;
+}
+
+
+::ng-deep .wrapper .p-button {
+    font-weight: 400;
+    margin-bottom: 8px;
+    background-color: $marine-dark;
+    border: none;
+}
+
+
+::ng-deep .back .p-button {
+    font-weight: 400;
+    margin-bottom: 8px;
+    background-color: $marine-dark;
+    border: none;
+}
+
+.spacing{
+    margin-top: 10px;
+}
+
+.pflichtfeld{
+    color: $error-light;
+    margin-top: 0px;
+    margin-bottom: 10px;
+    width: 80%;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    align-items: center;
+    margin-top: 25%;
+    color: $marine-dark;
+}
+
+//dark mode
+::ng-deep html.darkmode form{
+    background-color: var(--p-surface-500);
+    color: $light-gray;
+}
+
+::ng-deep html.darkmode .p-button{
+    color: var(--text-color);
+    border: none;
+    background-color: $marine-dark;
+}
+
+::ng-deep html.darkmode input {
+    background-color: var(--p-surface-600);
+    border: $light-gray;
+    border: none !important;
+}
+
+::ng-deep html.darkmode .container{
+    color: $light-gray;
+}

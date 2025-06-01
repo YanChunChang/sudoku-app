@@ -41,10 +41,10 @@ h1 {
     font-size: 25px;
 }
 
-::ng-deep .p-button {
+::ng-deep .back .p-button {
     background-color: $marine !important;
     border: none !important;
-    width: 270px;
+    width: 270px !important;
     margin-top: 25px;
 }
 
