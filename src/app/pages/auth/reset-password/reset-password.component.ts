@@ -6,11 +6,12 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-reset-password',
   standalone: true,
-  imports: [CommonModule, TranslateModule, RouterModule, ReactiveFormsModule, ButtonModule],
+  imports: [CommonModule, TranslateModule, RouterModule, ReactiveFormsModule, ButtonModule, ToastModule],
   templateUrl: './reset-password.component.html',
   styleUrl: './reset-password.component.scss',
   providers: [MessageService]
@@ -20,7 +21,6 @@ export class ResetPasswordComponent {
   isSubmitted = false;
   error = '';
   message = '';
-  isSuccess = false;
   isToken = true;
   token: string | null = null;
 
@@ -30,7 +30,7 @@ export class ResetPasswordComponent {
     private authService: AuthService,
     private router: Router,
     private messageService: MessageService,
-    private route: ActivatedRoute, 
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
@@ -39,20 +39,41 @@ export class ResetPasswordComponent {
 
       if (!this.token) {
         this.message = this.translate.instant('RESET_PASSWORD.INVALID_TOKEN');
-        this.isSuccess = false;
       }
     });
 
     this.form = this.formBuilder.group({
-      newPassword: ['', [Validators.required, Validators.minLength(6)]],
+      newPassword: ['', [Validators.required]],
       confirmPassword: ['', [Validators.required]]
     }, { validators: this.passwordMatchValidator });
+
+    console.log(this.form.status);
+    this.form.statusChanges.subscribe(status => console.log('Form status:', status));
+
   }
 
   passwordMatchValidator(form: FormGroup) {
-    const password = form.get('newPassword')?.value;
-    const confirmPassword = form.get('confirmPassword')?.value;
-    return password === confirmPassword ? null : { mismatch: true };
+
+    const passwordControl = form.get('newPassword');
+    const confirmPasswordControl = form.get('confirmPassword');
+
+    if (!passwordControl || !confirmPasswordControl) {
+      return null;
+    }
+
+    const password = passwordControl.value;
+    const confirmPassword = confirmPasswordControl.value;
+
+    if (password !== confirmPassword) {
+      confirmPasswordControl.setErrors({ mismatch: true });
+      return { mismatch: true };
+    } else {
+      // Remove error when match is correct:
+      if (confirmPasswordControl.hasError('mismatch')) {
+        confirmPasswordControl.setErrors(null);
+      }
+      return null;
+    }
   }
 
   resetPassword() {
@@ -69,7 +90,6 @@ export class ResetPasswordComponent {
           summary: this.translate.instant('RESET_PASSWORD.SUCCESS'),
           detail: this.message
         });
-        this.isSuccess = true;
         this.isSubmitted = false;
 
         setTimeout(() => {
