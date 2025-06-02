@@ -101,6 +101,35 @@ input[readonly] {
   border-radius: 50%;
 }
 
+a {
+  position: relative;
+  text-decoration: none;
+  font-size: 16px;
+  color: $marine-dark;
+  font-weight: 500;
+  padding-bottom: 5px;
+  justify-self: space-between;
+  margin-left: 20px;
+  cursor: pointer;
+
+  &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 3px;
+      width: 100%;
+      background-color: $marine-dark;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+  }
+
+  &:hover::after {
+      transform: scaleX(1);
+  }
+}
+
 //darkmode
 ::ng-deep html.darkmode input {
   background-color: transparent !important;
