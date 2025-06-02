@@ -15,22 +15,23 @@
                     'block-a': getBlockClass(r, c) === 'a',
                     'block-b': getBlockClass(r, c) === 'b'
                   }">
-                    <input 
-                        id="cell-{{r}}-{{c}}"
-                        autocomplete="off"
-                        [readonly]=" this.initialBoard[r][c] !== 0"
-                        [attr.tabindex]="this.initialBoard[r][c] !== 0 ? -1 : 0" 
-                        [formControl]="getCell(r, c)"
-                        (input)="checkCellAnswer(r, c)" 
-                        [ngClass]="getCellClass(r, c)" 
-                        maxlength="1"
-                        (keydown)="onKeyDown($event, r, c)"/>
+                    <input id="cell-{{r}}-{{c}}" autocomplete="off" [readonly]=" this.initialBoard[r][c] !== 0"
+                        [attr.tabindex]="this.initialBoard[r][c] !== 0 ? -1 : 0" [formControl]="getCell(r, c)"
+                        (input)="checkCellAnswer(r, c)" [ngClass]="getCellClass(r, c)" maxlength="1"
+                        (keydown)="onKeyDown($event, r, c)" />
                 </div>
             </ng-container>
         </div>
-         <!-- Das Overlay -->
+        <!-- Das Overlay -->
         <div class="covered" *ngIf="isPaused">
             <button pButton icon="pi pi-play" class="resume-button" (click)="onResume()"></button>
         </div>
     </div>
 </form>
+
+<p-dialog header="{{ 'DIALOG.HEADER' | translate }}" [(visible)]="showGameWonDialog" modal="true">
+    <p>{{ 'DIALOG.TEXT' | translate }}</p>
+    <a (click)="onClickNewgame(); showGameWonDialog = false;">{{ 'DIALOG.BUTTON_NEXT_GAME' | translate }}</a>
+    <a (click)="onClickNextLevel();">{{ 'DIALOG.BUTTON_NEXT_LEVEL' | translate }}</a>
+    <a (click)="onClickRandomGame(); showGameWonDialog = false;">{{ 'DIALOG.BUTTON_RANDOM' | translate }}</a>
+</p-dialog>

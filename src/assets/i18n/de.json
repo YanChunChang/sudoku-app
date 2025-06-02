@@ -96,6 +96,13 @@
     "ERROR": "Fehler beim Zurücksetzen des Passworts.",
     "INVALID_TOKEN": "Der Link ist ungültig oder abgelaufen."
   },
+  "DIALOG":{
+    "HEADER": "Glückwunsch!👏🏻👏🏻👏🏻",
+    "TEXT": "Du hast das Sudoku erfolgreich gelöst! 🎉🎉🎉",
+    "BUTTON_NEXT_GAME":"Nächstes Spiel",
+    "BUTTON_NEXT_LEVEL":"Nächster Level",
+    "BUTTON_RANDOM":"Zufällig"
+  },
   "GENERAL": {
     "BACK": "Zurück",
     "USERNAME": "Benutzername",

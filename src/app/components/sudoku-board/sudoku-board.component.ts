@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule, Router } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SudokuService } from '../../services/sudoku.service';
 import { TimerComponent } from "../timer/timer.component";
@@ -8,12 +8,14 @@ import { ButtonModule } from 'primeng/button';
 import { Subject, takeUntil } from 'rxjs';
 import { LocalTimerService } from '../../services/timer/local-timer.service';
 import { GameConfigService } from '../../services/game/gameconfig.service';
+import { DialogModule } from 'primeng/dialog';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @Component({
   selector: 'app-sudoku-board',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, TimerComponent, ButtonModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, TimerComponent, ButtonModule, DialogModule, TranslateModule],
   templateUrl: './sudoku-board.component.html',
   styleUrl: './sudoku-board.component.scss',
 })
@@ -26,11 +28,13 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
   timerMode: 'up' | 'down' = 'up';
   timerValue: number = 0;
   isPaused = false;
+  showGameWonDialog = false;
 
   constructor(
     private fb: FormBuilder,
     private sudokuService: SudokuService,
     private route: ActivatedRoute,
+    private router: Router,
     private localTimerService: LocalTimerService,
     private gameConfigService: GameConfigService) {
   }
@@ -45,6 +49,31 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       this.sudokuService.generateSudoku(level);
       this.initialBoard = this.sudokuService.initialBoard;
       this.solvedBoard = this.sudokuService.solvedBoard;
+      // Test Board (initialBoard)
+      // this.initialBoard = [
+      //   [5, 3, 4, 6, 7, 8, 9, 1, 2],
+      //   [6, 7, 2, 1, 9, 5, 3, 4, 8],
+      //   [1, 9, 8, 3, 4, 2, 5, 6, 7],
+      //   [8, 5, 9, 7, 6, 1, 4, 2, 3],
+      //   [4, 2, 6, 8, 5, 3, 7, 9, 1],
+      //   [7, 1, 3, 9, 2, 4, 8, 5, 6],
+      //   [9, 6, 1, 5, 3, 7, 2, 8, 4],
+      //   [2, 8, 7, 4, 1, 9, 6, 3, 5],
+      //   [3, 4, 5, 2, 8, 6, 1, 7, 0]
+      // ];
+
+      // // Solved Board (solvedBoard)
+      // this.solvedBoard = [
+      //   [5, 3, 4, 6, 7, 8, 9, 1, 2],
+      //   [6, 7, 2, 1, 9, 5, 3, 4, 8],
+      //   [1, 9, 8, 3, 4, 2, 5, 6, 7],
+      //   [8, 5, 9, 7, 6, 1, 4, 2, 3],
+      //   [4, 2, 6, 8, 5, 3, 7, 9, 1],
+      //   [7, 1, 3, 9, 2, 4, 8, 5, 6],
+      //   [9, 6, 1, 5, 3, 7, 2, 8, 4],
+      //   [2, 8, 7, 4, 1, 9, 6, 3, 5],
+      //   [3, 4, 5, 2, 8, 6, 1, 7, 9]
+      // ];
 
       this.timerMode = mode === 'countdown' ? 'down' : 'up';
       this.timerValue = mode === 'countdown' && level ? (this.gameConfigService.countdownTime.get(level) ?? 0) : 0;
@@ -60,11 +89,11 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       this.isPaused = paused;
     });
 
-    //todo extra ui component for winning game
+    //for winning game
     this.form.valueChanges.subscribe(board => {
       if (this.isSudokuCompleted()) {
         setTimeout(() => {
-          alert('🎉 恭喜你完成了整個數獨！');
+          this.showGameWonDialog = true;
         }, 100);
       }
     })
@@ -134,7 +163,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
   }
 
   onClickReset() {
-    if(this.isPaused) return;
+    if (this.isPaused) return;
     for (let row = 0; row < 9; row++) {
       for (let col = 0; col < 9; col++) {
         const userValue = this.getCell(row, col);
@@ -158,7 +187,43 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       board: this.fb.array(boardArray)
     });
     this.localTimerService.reset();
-    this.localTimerService.stop();
+  }
+
+  onClickNextLevel() {
+
+    if (this.currentLevel === 'easy') {
+      this.currentLevel = 'medium';
+    } else if (this.currentLevel === 'medium') {
+      this.currentLevel = 'hard';
+    } else if (this.currentLevel === 'hard') {
+      this.currentLevel = 'expert';
+    } else {
+      this.currentLevel = 'easy';
+    }
+  
+    this.router.navigate([
+      '/sudoku',
+      this.route.snapshot.paramMap.get('player'),
+      this.route.snapshot.paramMap.get('playmode'),
+      this.currentLevel
+    ]);
+  
+    this.showGameWonDialog = false;
+    this.localTimerService.reset();
+  }
+
+  onClickRandomGame(){
+    const levels = ['easy', 'medium', 'hard', 'expert'];
+    const randomLevel = levels[Math.floor(Math.random() * levels.length)];
+
+    this.router.navigate([
+      '/sudoku',
+      this.route.snapshot.paramMap.get('player'),
+      this.route.snapshot.paramMap.get('playmode'),
+      randomLevel
+    ]);
+    this.localTimerService.reset();
+    this.showGameWonDialog = false;
   }
 
   //Validator in Angular only check the value like e.g. control.invalid 
