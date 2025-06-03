@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth/auth.service';
-import { userData } from '../../../models/userData';
+import { UserData } from '../../../models/userData';
 import { TranslateService } from '@ngx-translate/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button'; 
@@ -39,7 +39,7 @@ export class RegisterComponent {
     this.isRegistered = true;
     const form = this.form.getRawValue();
 
-    const registerData: userData = {
+    const registerData: UserData = {
       name: form.username,
       email: form.email,
       password: form.password

@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { LocalTimerService } from '../../services/timer/local-timer.service';
-import { TimerMode } from '../../utils/utils';
+import { TimerMode, formattedTime } from '../../utils/utils';
 import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-timer',
@@ -53,18 +54,8 @@ export class TimerComponent {
     this.elapsedSeconds = 0;
     this.isRunning = true;
   }
-
   get formattedTime(): string {
-    const hour = Math.floor(this.elapsedSeconds / 3600);
-    let restTime = this.elapsedSeconds - hour * 3600;
-    const minutes = Math.floor(restTime / 60);
-    const seconds = this.elapsedSeconds % 60;
-    return `${this.pad(hour)}:${this.pad(minutes)}:${this.pad(seconds)}`;
-  }
-
-
-  pad(num: number): string {
-    return num < 10 ? '0' + num : num.toString();
+    return formattedTime(this.elapsedSeconds);
   }
 
   ngOnDestroy() {

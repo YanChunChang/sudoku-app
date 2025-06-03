@@ -9,15 +9,21 @@ import { Subject, takeUntil } from 'rxjs';
 import { LocalTimerService } from '../../services/timer/local-timer.service';
 import { GameConfigService } from '../../services/game/gameconfig.service';
 import { DialogModule } from 'primeng/dialog';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { FormsModule } from '@angular/forms';
+import { LeaderboardService } from '../../services/leaderboard/leaderboard-service.service';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { ScoreData } from '../../models/userData';
 
 
 @Component({
   selector: 'app-sudoku-board',
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, TimerComponent, ButtonModule, DialogModule, TranslateModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, TimerComponent, ButtonModule, DialogModule, TranslateModule, FormsModule, ToastModule],
   templateUrl: './sudoku-board.component.html',
   styleUrl: './sudoku-board.component.scss',
+  providers: [MessageService]
 })
 export class SudokuBoardComponent implements OnInit, OnDestroy {
   form!: FormGroup;
@@ -29,6 +35,10 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
   timerValue: number = 0;
   isPaused = false;
   showGameWonDialog = false;
+  showNicknameDialog = false;
+  nickname: string = '';
+  message = '';
+  error = '';
 
   constructor(
     private fb: FormBuilder,
@@ -36,7 +46,9 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private localTimerService: LocalTimerService,
-    private gameConfigService: GameConfigService) {
+    private gameConfigService: GameConfigService,
+    private leaderboardService: LeaderboardService,
+    private translate: TranslateService,) {
   }
 
   ngOnInit() {
@@ -50,30 +62,30 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       this.initialBoard = this.sudokuService.initialBoard;
       this.solvedBoard = this.sudokuService.solvedBoard;
       // Test Board (initialBoard)
-      // this.initialBoard = [
-      //   [5, 3, 4, 6, 7, 8, 9, 1, 2],
-      //   [6, 7, 2, 1, 9, 5, 3, 4, 8],
-      //   [1, 9, 8, 3, 4, 2, 5, 6, 7],
-      //   [8, 5, 9, 7, 6, 1, 4, 2, 3],
-      //   [4, 2, 6, 8, 5, 3, 7, 9, 1],
-      //   [7, 1, 3, 9, 2, 4, 8, 5, 6],
-      //   [9, 6, 1, 5, 3, 7, 2, 8, 4],
-      //   [2, 8, 7, 4, 1, 9, 6, 3, 5],
-      //   [3, 4, 5, 2, 8, 6, 1, 7, 0]
-      // ];
+      this.initialBoard = [
+        [5, 3, 4, 6, 7, 8, 9, 1, 2],
+        [6, 7, 2, 1, 9, 5, 3, 4, 8],
+        [1, 9, 8, 3, 4, 2, 5, 6, 7],
+        [8, 5, 9, 7, 6, 1, 4, 2, 3],
+        [4, 2, 6, 8, 5, 3, 7, 9, 1],
+        [7, 1, 3, 9, 2, 4, 8, 5, 6],
+        [9, 6, 1, 5, 3, 7, 2, 8, 4],
+        [2, 8, 7, 4, 1, 9, 6, 3, 5],
+        [3, 4, 5, 2, 8, 6, 1, 7, 0]
+      ];
 
-      // // Solved Board (solvedBoard)
-      // this.solvedBoard = [
-      //   [5, 3, 4, 6, 7, 8, 9, 1, 2],
-      //   [6, 7, 2, 1, 9, 5, 3, 4, 8],
-      //   [1, 9, 8, 3, 4, 2, 5, 6, 7],
-      //   [8, 5, 9, 7, 6, 1, 4, 2, 3],
-      //   [4, 2, 6, 8, 5, 3, 7, 9, 1],
-      //   [7, 1, 3, 9, 2, 4, 8, 5, 6],
-      //   [9, 6, 1, 5, 3, 7, 2, 8, 4],
-      //   [2, 8, 7, 4, 1, 9, 6, 3, 5],
-      //   [3, 4, 5, 2, 8, 6, 1, 7, 9]
-      // ];
+      // Solved Board (solvedBoard)
+      this.solvedBoard = [
+        [5, 3, 4, 6, 7, 8, 9, 1, 2],
+        [6, 7, 2, 1, 9, 5, 3, 4, 8],
+        [1, 9, 8, 3, 4, 2, 5, 6, 7],
+        [8, 5, 9, 7, 6, 1, 4, 2, 3],
+        [4, 2, 6, 8, 5, 3, 7, 9, 1],
+        [7, 1, 3, 9, 2, 4, 8, 5, 6],
+        [9, 6, 1, 5, 3, 7, 2, 8, 4],
+        [2, 8, 7, 4, 1, 9, 6, 3, 5],
+        [3, 4, 5, 2, 8, 6, 1, 7, 9]
+      ];
 
       this.timerMode = mode === 'countdown' ? 'down' : 'up';
       this.timerValue = mode === 'countdown' && level ? (this.gameConfigService.countdownTime.get(level) ?? 0) : 0;
@@ -93,7 +105,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     this.form.valueChanges.subscribe(board => {
       if (this.isSudokuCompleted()) {
         setTimeout(() => {
-          this.showGameWonDialog = true;
+          this.showNicknameDialog = true;
         }, 100);
       }
     })
@@ -162,6 +174,43 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     return true
   }
 
+  submitScore() {
+    const player = this.route.snapshot.paramMap.get('player')!;
+    const playmode = this.route.snapshot.paramMap.get('playmode')!;
+    const level = this.currentLevel!;
+    const time = this.localTimerService.getCurrentTime();
+    console.log(player, playmode, level, time)
+
+
+    const scoreData: ScoreData = {
+      nickname: this.nickname.trim(),
+      playerMode: player,
+      playMode: playmode,
+      level: level,
+      time: time,
+      date: new Date().toISOString()
+    };
+
+    this.leaderboardService.submitScore(scoreData).subscribe({
+      next: () => {
+        console.log('Score submitted!');
+        this.showNicknameDialog = false;
+        this.nickname = '';
+        this.showGameWonDialog = true;
+      },
+      error: (err) => {
+        const messageKey = err.error.messageKey;
+        this.error = this.translate.instant(err.error.messageKey);
+        this.message = '';
+      }
+    });
+  }
+
+  onSkip(){
+    this.showNicknameDialog = false;
+    this.showGameWonDialog = true;
+  }
+
   onClickReset() {
     if (this.isPaused) return;
     for (let row = 0; row < 9; row++) {
@@ -200,19 +249,19 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     } else {
       this.currentLevel = 'easy';
     }
-  
+
     this.router.navigate([
       '/sudoku',
       this.route.snapshot.paramMap.get('player'),
       this.route.snapshot.paramMap.get('playmode'),
       this.currentLevel
     ]);
-  
+
     this.showGameWonDialog = false;
     this.localTimerService.reset();
   }
 
-  onClickRandomGame(){
+  onClickRandomGame() {
     const levels = ['easy', 'medium', 'hard', 'expert'];
     const randomLevel = levels[Math.floor(Math.random() * levels.length)];
 

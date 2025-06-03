@@ -1,157 +1,184 @@
  @use "styles/variables" as *;
-.board{
-  margin-top: 100px;
-  margin-bottom: 30px;
-  justify-self: center;
-}
 
-.wrapper{
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-}
+ .board {
+   margin-top: 100px;
+   margin-bottom: 30px;
+   justify-self: center;
+ }
 
-.right {
-  display: flex;
-  gap: 0.5rem;
-}
+ .wrapper {
+   display: flex;
+   justify-content: space-between;
+   margin-bottom: 1rem;
+ }
 
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(9, 64px);
-  grid-template-rows: repeat(9, 64px);
-  border: 2px solid $marine-dark;
-  background-color: $marine-dark;
-  border-radius: 8px;
-  width: fit-content;
-}
+ .right {
+   display: flex;
+   gap: 0.5rem;
+ }
 
-.grid-item {
-  width: 61px;
-  height: 61px;
-  border: 1px solid $light-gray;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: $marine-dark;
-  border-radius: 4px;
-  margin: 1px;
-}
+ .grid-container {
+   display: grid;
+   grid-template-columns: repeat(9, 64px);
+   grid-template-rows: repeat(9, 64px);
+   border: 2px solid $marine-dark;
+   background-color: $marine-dark;
+   border-radius: 8px;
+   width: fit-content;
+ }
+
+ .grid-item {
+   width: 61px;
+   height: 61px;
+   border: 1px solid $light-gray;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   background-color: $marine-dark;
+   border-radius: 4px;
+   margin: 1px;
+ }
 
 
-.grid-item input {
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  border: none;
-  color: $marine-dark;
-  font-size: 25px;
-  border-radius: 2px;
-}
+ .grid-item input {
+   width: 100%;
+   height: 100%;
+   text-align: center;
+   border: none;
+   color: $marine-dark;
+   font-size: 25px;
+   border-radius: 2px;
+ }
 
-/* for thick  blockline */
-.border-right-bold {
-  border-right: 2px solid $marine-dark !important;
-}
+ /* for thick  blockline */
+ .border-right-bold {
+   border-right: 2px solid $marine-dark !important;
+ }
 
-.border-bottom-bold {
-  border-bottom: 2px solid $marine-dark !important;
-}
+ .border-bottom-bold {
+   border-bottom: 2px solid $marine-dark !important;
+ }
 
-input[readonly] {
-  background-color: $light-gray;
-  border: none;
-  pointer-events: none;
-  text-align: center;
-  font-weight: bold;
-}
+ input[readonly] {
+   background-color: $light-gray;
+   border: none;
+   pointer-events: none;
+   text-align: center;
+   font-weight: bold;
+ }
 
-.correct {
-  background-color: $correct;
-  color: $correct-text !important;
-}
+ .correct {
+   background-color: $correct;
+   color: $correct-text !important;
+ }
 
-.incorrect {
-  background-color: $error;
-  color: $error-text !important;
-}
+ .incorrect {
+   background-color: $error;
+   color: $error-text !important;
+ }
 
-.board-wrapper {
-  position: relative;
-}
+ .board-wrapper {
+   position: relative;
+ }
 
-.covered {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: $ultra-black;
-  opacity: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-}
+ .covered {
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   background-color: $ultra-black;
+   opacity: 1;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   border-radius: 8px;
+ }
 
-.resume-button {
-  font-size: 2rem;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-}
+ .resume-button {
+   font-size: 2rem;
+   width: 60px;
+   height: 60px;
+   border-radius: 50%;
+ }
 
-a {
-  position: relative;
-  text-decoration: none;
-  font-size: 16px;
-  color: $marine-dark;
+ a {
+   position: relative;
+   text-decoration: none;
+   font-size: 16px;
+   color: $marine-dark;
+   font-weight: 500;
+   padding-bottom: 5px;
+   justify-self: space-between;
+   margin-left: 20px;
+   cursor: pointer;
+
+   &::after {
+     content: "";
+     position: absolute;
+     left: 0;
+     bottom: 0;
+     height: 3px;
+     width: 100%;
+     background-color: $marine-dark;
+     transform: scaleX(0);
+     transform-origin: left;
+     transition: transform 0.3s ease;
+   }
+
+   &:hover::after {
+     transform: scaleX(1);
+   }
+ }
+
+ ::ng-deep .p-dialog-title {
+   color: $deep-blue !important;
+ }
+
+ .p-field {
+   font-weight: 500;
+   color: $deep-blue;
+   margin-bottom: 20px;
+
+   input {
+     width: 70%;
+     padding: 5px;
+     margin-left: 2rem;
+     border-radius: 5px;
+     border: $marine-dark 1px solid;
+     font-size: 16px;
+   }
+ }
+
+ .p-text{
   font-weight: 500;
-  padding-bottom: 5px;
-  justify-self: space-between;
-  margin-left: 20px;
-  cursor: pointer;
+  color: $deep-blue;
+  margin-bottom: 2rem;
+ }
 
-  &::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      height: 3px;
-      width: 100%;
-      background-color: $marine-dark;
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.3s ease;
-  }
+ //darkmode
+ ::ng-deep html.darkmode input {
+   background-color: transparent !important;
+   color: var(--p-zinc-200) !important;
+ }
 
-  &:hover::after {
-      transform: scaleX(1);
-  }
-}
+ ::ng-deep html.darkmode .grid-item.block-a {
+   background-color: var(--p-surface-800) !important;
+ }
 
-//darkmode
-::ng-deep html.darkmode input {
-  background-color: transparent !important;
-  color: var(--p-zinc-200) !important;
-}
-::ng-deep html.darkmode .grid-item.block-a {
-  background-color: var(--p-surface-800) !important;
-}
+ ::ng-deep html.darkmode .grid-item.block-b {
+   background-color: var(--p-surface-600) !important;
+ }
 
-::ng-deep html.darkmode .grid-item.block-b {
-  background-color: var(--p-surface-600) !important;
-}
+ ::ng-deep html.darkmode .grid-container {
+   border: 2px solid var(--p-surface-800);
+   background-color: var(--p-surface-800);
+ }
 
-::ng-deep html.darkmode .grid-container {
-  border: 2px solid var(--p-surface-800);
-  background-color: var(--p-surface-800);
-}
+ ::ng-deep html.darkmode .border-right-bold {
+   border-right: none !important;
+ }
 
-::ng-deep html.darkmode .border-right-bold {
-  border-right: none !important;
-}
-
-::ng-deep html.darkmode .border-bottom-bold {
-  border-bottom: none !important;
-}
+ ::ng-deep html.darkmode .border-bottom-bold {
+   border-bottom: none !important;
+ }

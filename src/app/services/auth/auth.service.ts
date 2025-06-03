@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { userData } from '../../models/userData';
+import { UserData } from '../../models/userData';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -15,7 +15,7 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) { }
   
-  register(registerData: userData): Observable<any> {
+  register(registerData: UserData): Observable<any> {
     return this.http.post(`${this.apiUrl}/register`, registerData);
   }
 

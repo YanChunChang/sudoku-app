@@ -103,6 +103,12 @@
     "BUTTON_NEXT_LEVEL":"Nächster Level",
     "BUTTON_RANDOM":"Zufällig"
   },
+  "DIALOG_NICKNAME":{
+    "HEADER": "Gewonnen🎉 Name eingeben",
+    "TEXT": "Name",
+    "SUBMIT": "Eingeben",
+    "SKIP": "überspringen"
+  },
   "LEADERBOARD":{
     "RANKING": "Ranglist",
     "NAME": "Name",
