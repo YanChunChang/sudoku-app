@@ -103,6 +103,15 @@
     "BUTTON_NEXT_LEVEL": "次のレベル",
     "BUTTON_RANDOM": "ランダム"
   },
+  "LEADERBOARD": {
+    "RANKING": "ランキング",
+    "NAME": "名前",
+    "PLAYMODE": "プレイモード",
+    "GAMETYPE": "ゲームタイプ",
+    "PLAYINGTIME": "プレイ時間",
+    "LEVEL": "レベル",
+    "DATE": "日付"
+  },
   "GENERAL": {
     "BACK": "戻る",
     "USERNAME": "ユーザー名",

@@ -103,6 +103,15 @@
     "BUTTON_NEXT_LEVEL": "下個等級",
     "BUTTON_RANDOM": "隨機"
   },
+  "LEADERBOARD": {
+    "RANKING": "排名",
+    "NAME": "名稱 ",
+    "PLAYMODE": "遊戲模式",
+    "GAMETYPE": "遊戲類型",
+    "PLAYINGTIME": "遊玩時間",
+    "LEVEL": "等級",
+    "DATE": "日期"
+  },
   "GENERAL": {
     "BACK": "返回",
     "USERNAME": "用戶名",

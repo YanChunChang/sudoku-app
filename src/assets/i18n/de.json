@@ -103,6 +103,15 @@
     "BUTTON_NEXT_LEVEL":"Nächster Level",
     "BUTTON_RANDOM":"Zufällig"
   },
+  "LEADERBOARD":{
+    "RANKING": "Ranglist",
+    "NAME": "Name",
+    "PLAYMODE": "Spielmode",
+    "GAMETYPE": "Spielart",
+    "PLAYINGTIME": "Spielzeit",
+    "LEVEL": "Level",
+    "DATE": "Datum"
+  },
   "GENERAL": {
     "BACK": "Zurück",
     "USERNAME": "Benutzername",
