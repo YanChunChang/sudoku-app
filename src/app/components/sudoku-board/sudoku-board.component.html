@@ -47,6 +47,13 @@
     <a (click)="onClickNewgame()" showGameWonDialog = "false">{{ 'DIALOG.BUTTON_NEXT_GAME' | translate }}</a>
     <a (click)="onClickNextLevel()">{{ 'DIALOG.BUTTON_NEXT_LEVEL' | translate }}</a>
     <a (click)="onClickRandomGame()" showGameWonDialog = "false">{{ 'DIALOG.BUTTON_RANDOM' | translate }}</a>
+    <a [routerLink]="['/leaderboard']" [queryParams]="{
+        playerMode: currentPlayerMode,
+        playMode: currentPlayMode,
+        level: currentLevel
+       }">
+        View Full Leaderboard
+    </a>
 </p-dialog>
 
 <p-toast />

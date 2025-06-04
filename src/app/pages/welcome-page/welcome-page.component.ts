@@ -34,7 +34,7 @@ export class WelcomePageComponent {
       this.isLoggedIn = status;
     });
     this.route.paramMap.subscribe(params => {
-        const player = params.get('player');
+        const player = params.get('playermode');
         const mode = params.get('playmode');
         const level = params.get('level');
   

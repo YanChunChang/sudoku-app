@@ -15,6 +15,7 @@ import { LeaderboardService } from '../../services/leaderboard/leaderboard-servi
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { ScoreData } from '../../models/userData';
+import { AuthService } from '../../services/auth/auth.service';
 
 
 @Component({
@@ -29,7 +30,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
   form!: FormGroup;
   initialBoard!: number[][];
   solvedBoard!: number[][];
-  currentLevel!: string | null;
+  currentLevel = '';
   private destroy$ = new Subject<void>();
   timerMode: 'up' | 'down' = 'up';
   timerValue: number = 0;
@@ -39,6 +40,10 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
   nickname: string = '';
   message = '';
   error = '';
+  isLoggedIn = false;
+  currentUsername ='';
+  currentPlayMode = '';
+  currentPlayerMode = '';
 
   constructor(
     private fb: FormBuilder,
@@ -48,17 +53,21 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     private localTimerService: LocalTimerService,
     private gameConfigService: GameConfigService,
     private leaderboardService: LeaderboardService,
-    private translate: TranslateService,) {
+    private translate: TranslateService,
+    private authService: AuthService) {
   }
 
   ngOnInit() {
+    this.isLoggedIn = this.authService.isLoggedIn();
+    this.currentUsername = this.authService.getUsername() ?? '';
+
     // subscribe necessary for route changing
     this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
-      const level = params.get('level');
-      const mode = params.get('playmode') ?? 'normal';
+      this.currentPlayerMode = params.get('playermode') ?? 'single';
+      this.currentLevel = params.get('level') ?? 'easy';
+      this.currentPlayMode = params.get('playmode') ?? 'normal';
 
-      this.currentLevel = level;
-      this.sudokuService.generateSudoku(level);
+      this.sudokuService.generateSudoku(this.currentLevel);
       this.initialBoard = this.sudokuService.initialBoard;
       this.solvedBoard = this.sudokuService.solvedBoard;
       // Test Board (initialBoard)
@@ -87,8 +96,8 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
         [3, 4, 5, 2, 8, 6, 1, 7, 9]
       ];
 
-      this.timerMode = mode === 'countdown' ? 'down' : 'up';
-      this.timerValue = mode === 'countdown' && level ? (this.gameConfigService.countdownTime.get(level) ?? 0) : 0;
+      this.timerMode = this.currentPlayMode === 'countdown' ? 'down' : 'up';
+      this.timerValue = this.currentPlayMode === 'countdown' && this.currentLevel ? (this.gameConfigService.countdownTime.get(this.currentLevel) ?? 0) : 0;
 
       // wait util board loads
       const boardArray = this.createBoard();
@@ -105,7 +114,14 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     this.form.valueChanges.subscribe(board => {
       if (this.isSudokuCompleted()) {
         setTimeout(() => {
-          this.showNicknameDialog = true;
+          if (this.isLoggedIn) {
+            // Registered users will be recorded directly
+            this.submitScoreLoggedIn();
+            this.showGameWonDialog = true;
+        } else {
+            // Guest will show the nickname dialog first
+            this.showNicknameDialog = true;
+        }
         }, 100);
       }
     })
@@ -175,19 +191,12 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
   }
 
   submitScore() {
-    const player = this.route.snapshot.paramMap.get('player')!;
-    const playmode = this.route.snapshot.paramMap.get('playmode')!;
-    const level = this.currentLevel!;
-    const time = this.localTimerService.getCurrentTime();
-    console.log(player, playmode, level, time)
-
-
     const scoreData: ScoreData = {
       nickname: this.nickname.trim(),
-      playerMode: player,
-      playMode: playmode,
-      level: level,
-      time: time,
+      playerMode: this.currentPlayerMode,
+      playMode: this.currentPlayMode,
+      level: this.currentLevel,
+      time: this.localTimerService.getCurrentTime(),
       date: new Date().toISOString()
     };
 
@@ -196,6 +205,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
         console.log('Score submitted!');
         this.showNicknameDialog = false;
         this.nickname = '';
+        this.error = '';
         this.showGameWonDialog = true;
       },
       error: (err) => {
@@ -205,6 +215,30 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  submitScoreLoggedIn() {
+    console.log("loginScore: ");
+
+    const scoreData = {
+        nickname: this.currentUsername,
+        playerMode: this.currentPlayerMode,
+        playMode: this.currentPlayMode,
+        level: this.currentLevel,
+        time: this.localTimerService.getCurrentTime(),
+        date: new Date().toISOString()
+    };
+
+    this.leaderboardService.submitScore(scoreData).subscribe({
+        next: () => {
+            console.log('Score submitted (registered user)!');
+            this.showGameWonDialog = true;
+        },
+        error: (err) => {
+            console.error('Error submitting score', err);
+        }
+    });
+}
+
 
   onSkip(){
     this.showNicknameDialog = false;
@@ -235,6 +269,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     this.form = this.fb.group({
       board: this.fb.array(boardArray)
     });
+    this.showGameWonDialog = false;
     this.localTimerService.reset();
   }
 

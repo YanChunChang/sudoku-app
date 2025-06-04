@@ -25,19 +25,15 @@ export const routes: Routes = [
     component: WelcomePageComponent
   },
   {
-    path: 'sudoku/:player',
+    path: 'sudoku/:playermode',
     component: WelcomePageComponent
   },
   {
-    path: 'sudoku/:player/:playmode',
+    path: 'sudoku/:playermode/:playmode',
     component: WelcomePageComponent
   },
   {
-    path: 'sudoku/:player/:playmode/:level',
-    component: SudokuBoardComponent
-  },
-  {
-    path: 'sudoku/:player/:playmode/:level',
+    path: 'sudoku/:playermode/:playmode/:level',
     component: SudokuBoardComponent
   },
   {
