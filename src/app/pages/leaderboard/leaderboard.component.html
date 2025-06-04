@@ -1,22 +1,35 @@
+<p-table [columns]="selectedColumns" [value]="players" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template #caption>
+        <p-multiselect display="chip" [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
+            selectedItemsLabel="{0} columns selected" [style]="{ 'min-width': '200px' }" placeholder="Choose Columns" />
+    </ng-template>
+    <ng-template #header let-columns>
+        <tr>
+            <th>{{ 'LEADERBOARD.RANKING' | translate }}</th>
+            <th *ngFor="let col of columns">
+                {{ col.header }}
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template #body let-player let-rowIndex="rowIndex" let-columns="columns">
+        <tr>
+            <td>{{ rowIndex + 1 }}</td>
+            <td *ngFor="let col of columns">
+               
+                <ng-container *ngIf="col.field === 'time'; else notTime">
+                    {{ formattTime(player[col.field]) }}
+                </ng-container>
 
-<p-table [columns]="selectedColumns" [value]="products" [tableStyle]="{ 'min-width': '50rem' }">
-  <ng-template #caption>
-      <p-multiselect display="chip" [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header" selectedItemsLabel="{0} columns selected" [style]="{ 'min-width': '200px' }" placeholder="Choose Columns" />
-  </ng-template>
-  <ng-template #header let-columns>
-      <tr>
-          <th>{{ 'LEADERBOARD.RANKING' | translate }}</th>
-          <th *ngFor="let col of columns">
-              {{ col.header }}
-          </th>
-      </tr>
-  </ng-template>
-  <ng-template #body let-product let-columns="columns">
-      <tr>
-          <td>{{ product.code }}</td>
-          <td *ngFor="let col of columns">
-              {{ product[col.field] }}
-          </td>
-      </tr>
-  </ng-template>
+                <ng-template #notTime>
+                    <ng-container *ngIf="col.field === 'date'; else normalField">
+                        {{ player[col.field] | date:'medium' }}
+                    </ng-container>
+
+                    <ng-template #normalField>
+                        {{ player[col.field] }}
+                    </ng-template>
+                </ng-template>
+            </td>
+        </tr>
+    </ng-template>
 </p-table>

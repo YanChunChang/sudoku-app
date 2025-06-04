@@ -36,7 +36,7 @@
         <input type="text" [(ngModel)]="nickname" placeholder="King Otter" maxlength="20">
       </div>
       <a (click)="submitScore()">{{ 'DIALOG_NICKNAME.SUBMIT' | translate }}</a>
-      <a (click)="onSkip()" showGameWonDialog = "false">{{ 'DIALOG_NICKNAME.SKIP' | translate }}</a>
+      <a (click)="onSkip()">{{ 'DIALOG_NICKNAME.SKIP' | translate }}</a>
     </div>
 </p-dialog>
 
@@ -44,16 +44,10 @@
     <div class="p-text">
         <p>{{ 'DIALOG.TEXT' | translate }}</p>
     </div>
-    <a (click)="onClickNewgame()" showGameWonDialog = "false">{{ 'DIALOG.BUTTON_NEXT_GAME' | translate }}</a>
+    <a (click)="onClickNewgame()">{{ 'DIALOG.BUTTON_NEXT_GAME' | translate }}</a>
     <a (click)="onClickNextLevel()">{{ 'DIALOG.BUTTON_NEXT_LEVEL' | translate }}</a>
-    <a (click)="onClickRandomGame()" showGameWonDialog = "false">{{ 'DIALOG.BUTTON_RANDOM' | translate }}</a>
-    <a [routerLink]="['/leaderboard']" [queryParams]="{
-        playerMode: currentPlayerMode,
-        playMode: currentPlayMode,
-        level: currentLevel
-       }">
-        View Full Leaderboard
-    </a>
+    <a (click)="onClickRandomGame()">{{ 'DIALOG.BUTTON_RANDOM' | translate }}🔀</a>
+    <a (click)="goToLeaderboard()">{{ 'DIALOG.LEADERBOARD' | translate }}👀</a>
 </p-dialog>
 
 <p-toast />

@@ -101,7 +101,8 @@
     "TEXT": "You have successfully completed the Sudoku! 🎉🎉🎉",
     "BUTTON_NEXT_GAME": "Next Game",
     "BUTTON_NEXT_LEVEL": "Next Level",
-    "BUTTON_RANDOM": "Random"
+    "BUTTON_RANDOM": "Random",
+    "LEADERBOARD": "Leaderboard"
   },
   "LEADERBOARD": {
     "RANKING": "Ranking",

@@ -101,7 +101,8 @@
     "TEXT": "你成功完成了數獨！ 🎉🎉🎉",
     "BUTTON_NEXT_GAME": "下一局",
     "BUTTON_NEXT_LEVEL": "下個等級",
-    "BUTTON_RANDOM": "隨機"
+    "BUTTON_RANDOM": "隨機",
+    "LEADERBOARD": "排行榜"
   },
   "LEADERBOARD": {
     "RANKING": "排名",

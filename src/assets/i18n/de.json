@@ -101,7 +101,8 @@
     "TEXT": "Du hast das Sudoku erfolgreich gelöst! 🎉🎉🎉",
     "BUTTON_NEXT_GAME":"Nächstes Spiel",
     "BUTTON_NEXT_LEVEL":"Nächster Level",
-    "BUTTON_RANDOM":"Zufällig"
+    "BUTTON_RANDOM":"Zufällig",
+    "LEADERBOARD": "Rangliste"
   },
   "DIALOG_NICKNAME":{
     "HEADER": "Gewonnen🎉 Name eingeben",

@@ -101,7 +101,8 @@
     "TEXT": "数独をクリアしました！ 🎉🎉🎉",
     "BUTTON_NEXT_GAME": "次のゲーム",
     "BUTTON_NEXT_LEVEL": "次のレベル",
-    "BUTTON_RANDOM": "ランダム"
+    "BUTTON_RANDOM": "ランダム",
+    "LEADERBOARD": "リーダーボード"
   },
   "LEADERBOARD": {
     "RANKING": "ランキング",

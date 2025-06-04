@@ -4,7 +4,7 @@ export interface UserData{
     password: string;
 }
 export interface ScoreData {
-    nickname: string;
+    nickname?: string;
     playerMode: string;
     playMode: string;
     level: string;

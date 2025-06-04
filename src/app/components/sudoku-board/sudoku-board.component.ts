@@ -14,7 +14,6 @@ import { FormsModule } from '@angular/forms';
 import { LeaderboardService } from '../../services/leaderboard/leaderboard-service.service';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import { ScoreData } from '../../models/userData';
 import { AuthService } from '../../services/auth/auth.service';
 
 
@@ -41,7 +40,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
   message = '';
   error = '';
   isLoggedIn = false;
-  currentUsername ='';
+  currentUsername = '';
   currentPlayMode = '';
   currentPlayerMode = '';
 
@@ -54,7 +53,8 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     private gameConfigService: GameConfigService,
     private leaderboardService: LeaderboardService,
     private translate: TranslateService,
-    private authService: AuthService) {
+    private authService: AuthService,
+    private messageService: MessageService) {
   }
 
   ngOnInit() {
@@ -118,10 +118,10 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
             // Registered users will be recorded directly
             this.submitScoreLoggedIn();
             this.showGameWonDialog = true;
-        } else {
+          } else {
             // Guest will show the nickname dialog first
             this.showNicknameDialog = true;
-        }
+          }
         }, 100);
       }
     })
@@ -190,8 +190,26 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     return true
   }
 
+  //for registered user
+  submitScoreLoggedIn() {
+    console.log("Submitting score (registered user)");
+  
+    const scoreData = {
+      playerMode: this.currentPlayerMode,
+      playMode: this.currentPlayMode,
+      level: this.currentLevel,
+      time: this.localTimerService.getCurrentTime(),
+      date: new Date().toISOString()
+    };
+  
+    this.postScore(scoreData);
+  }
+
+  //for guest
   submitScore() {
-    const scoreData: ScoreData = {
+    console.log("Submitting score (guest)");
+  
+    const scoreData = {
       nickname: this.nickname.trim(),
       playerMode: this.currentPlayerMode,
       playMode: this.currentPlayMode,
@@ -199,48 +217,43 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       time: this.localTimerService.getCurrentTime(),
       date: new Date().toISOString()
     };
+  
+    this.postScore(scoreData);
+  }
+  
 
-    this.leaderboardService.submitScore(scoreData).subscribe({
+  private postScore(scoreData: any) {
+    this.leaderboardService.submitScore(scoreData, this.isLoggedIn).subscribe({
       next: () => {
         console.log('Score submitted!');
         this.showNicknameDialog = false;
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Your score has been saved!',
+          life: 3000
+        });
         this.nickname = '';
         this.error = '';
         this.showGameWonDialog = true;
       },
       error: (err) => {
-        const messageKey = err.error.messageKey;
-        this.error = this.translate.instant(err.error.messageKey);
+        this.showGameWonDialog = false;
+        const messageKey = err.error?.messageKey;
+        this.error = this.translate.instant(messageKey || 'ERROR.UNKNOWN');
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Failed to save score. Please try again!',
+          life: 3000
+        });
         this.message = '';
       }
     });
   }
+  
 
-  submitScoreLoggedIn() {
-    console.log("loginScore: ");
-
-    const scoreData = {
-        nickname: this.currentUsername,
-        playerMode: this.currentPlayerMode,
-        playMode: this.currentPlayMode,
-        level: this.currentLevel,
-        time: this.localTimerService.getCurrentTime(),
-        date: new Date().toISOString()
-    };
-
-    this.leaderboardService.submitScore(scoreData).subscribe({
-        next: () => {
-            console.log('Score submitted (registered user)!');
-            this.showGameWonDialog = true;
-        },
-        error: (err) => {
-            console.error('Error submitting score', err);
-        }
-    });
-}
-
-
-  onSkip(){
+  onSkip() {
     this.showNicknameDialog = false;
     this.showGameWonDialog = true;
   }
@@ -307,6 +320,19 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       randomLevel
     ]);
     this.localTimerService.reset();
+    this.showGameWonDialog = false;
+  }
+
+  goToLeaderboard(){
+    this.router.navigate(['/leaderboard'], {
+      queryParams: {
+        playerMode: this.currentPlayerMode,
+        playMode: this.currentPlayMode,
+        level: this.currentLevel,
+        limit: 50
+      }
+    });
+  
     this.showGameWonDialog = false;
   }
 
