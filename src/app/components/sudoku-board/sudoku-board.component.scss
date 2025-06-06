@@ -1,9 +1,9 @@
  @use "styles/variables" as *;
 
  .board {
-   margin-top: 100px;
-   margin-bottom: 30px;
    justify-self: center;
+   height: 100vh;
+   margin-top: 5%;
  }
 
  .wrapper {
