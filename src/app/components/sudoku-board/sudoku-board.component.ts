@@ -284,8 +284,8 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     this.form = this.fb.group({
       board: this.fb.array(boardArray)
     });
+    this.localTimerService.initialize(this.timerMode, this.timerValue);
     this.showGameWonDialog = false;
-    this.localTimerService.reset();
   }
 
   onClickNextLevel() {
@@ -308,12 +308,17 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     ]);
 
     this.showGameWonDialog = false;
-    this.localTimerService.reset();
   }
 
   onClickRandomGame() {
     const levels = ['easy', 'medium', 'hard', 'expert'];
-    const randomLevel = levels[Math.floor(Math.random() * levels.length)];
+    let randomLevel = levels[Math.floor(Math.random() * levels.length)];
+
+    //make sure that randomlevel will be changed 
+    // -> better and avoid timer wont be resseted because ngOinit wont be reload if url doesnt change
+    while (randomLevel === this.currentLevel) {
+      randomLevel = levels[Math.floor(Math.random() * levels.length)];
+    }
 
     this.router.navigate([
       '/sudoku',
@@ -321,7 +326,6 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       this.currentPlayMode,
       randomLevel
     ]);
-    this.localTimerService.reset();
     this.showGameWonDialog = false;
   }
 

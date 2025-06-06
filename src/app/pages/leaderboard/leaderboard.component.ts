@@ -26,13 +26,6 @@ export class LeaderboardComponent {
   players: any[] = [];
   cols: { field: string, header: string; sortable: boolean}[] = [];
   selectedColumns: { field: string; header: string; }[] = [];
-  levelOrder = {
-    'easy': 1,
-    'medium': 2,
-    'hard': 3,
-    'expert': 4
-  };
-  
 
   constructor(
     private route: ActivatedRoute,
