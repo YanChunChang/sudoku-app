@@ -63,6 +63,10 @@ h1 {
     color: var(--text-color);
 }
 
+::ng-deep html.darkmode .back .p-button {
+    color: var(--text-color) !important;
+}
+
 ::ng-deep html.darkmode .p-button:hover {
     color: var(--text-color) !important;
 }

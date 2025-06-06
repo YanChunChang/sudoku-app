@@ -68,6 +68,12 @@ export class LocalTimerService {
     this.pausedSubject.next(state);
   }
 
+  initialize(mode: TimerMode, startFrom: number) {
+    this.stop();
+    this.currentTime = startFrom;
+    this.start(mode, startFrom);
+  }
+  
   getCurrentTime(){
     formattedTime(this.currentTime);
     return this.currentTime;

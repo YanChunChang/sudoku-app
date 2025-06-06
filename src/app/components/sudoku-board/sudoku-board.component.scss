@@ -1,9 +1,9 @@
  @use "styles/variables" as *;
 
  .board {
-   margin-top: 100px;
-   margin-bottom: 30px;
    justify-self: center;
+   height: 100vh;
+   margin-top: 5%;
  }
 
  .wrapper {
@@ -150,10 +150,10 @@
    }
  }
 
- .p-text{
-  font-weight: 500;
-  color: $deep-blue;
-  margin-bottom: 2rem;
+ .p-text {
+   font-weight: 500;
+   color: $deep-blue;
+   margin-bottom: 2rem;
  }
 
  //darkmode
@@ -182,3 +182,27 @@
  ::ng-deep html.darkmode .border-bottom-bold {
    border-bottom: none !important;
  }
+
+ ::ng-deep html.darkmode .p-dialog-title {
+   color: $light-gray !important;
+ }
+
+ ::ng-deep html.darkmode .p-field {
+   color: $light-gray !important;
+
+   input {
+     border: $light-gray 1px solid !important;
+   }
+ }
+
+ ::ng-deep a {
+  color: $light-gray !important;
+
+  &::after {
+    background-color: $light-gray !important;
+  }
+}
+
+::ng-deep .p-text {
+  color: $light-gray !important;
+}
