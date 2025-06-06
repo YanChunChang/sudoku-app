@@ -117,7 +117,8 @@
     "GAMETYPE": "Spielart",
     "PLAYINGTIME": "Spielzeit",
     "LEVEL": "Level",
-    "DATE": "Datum"
+    "DATE": "Datum",
+    "USER": "Nutzer"
   },
   "GENERAL": {
     "BACK": "Zurück",

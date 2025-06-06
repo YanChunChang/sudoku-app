@@ -111,7 +111,8 @@
     "GAMETYPE": "ゲームタイプ",
     "PLAYINGTIME": "プレイ時間",
     "LEVEL": "レベル",
-    "DATE": "日付"
+    "DATE": "日付",
+    "USER": "使用者"
   },
   "GENERAL": {
     "BACK": "戻る",

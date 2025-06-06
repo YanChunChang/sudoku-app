@@ -111,7 +111,8 @@
     "GAMETYPE": "遊戲類型",
     "PLAYINGTIME": "遊玩時間",
     "LEVEL": "等級",
-    "DATE": "日期"
+    "DATE": "日期",
+    "USER": "使用者"
   },
   "GENERAL": {
     "BACK": "返回",

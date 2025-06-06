@@ -1,21 +1,37 @@
-<p-table [columns]="selectedColumns" [value]="players" [tableStyle]="{ 'min-width': '50rem' }">
+<p-table #dt2 [columns]="selectedColumns" [value]="players" [paginator]="true" [rows]="10"
+    [rowsPerPageOptions]="[5, 10, 30]"
+    [globalFilterFields]="['nickname', 'userType', 'playerMode', 'playMode', 'level', 'time', 'date']"
+    [tableStyle]="{ 'min-width': '50rem' }">
     <ng-template #caption>
-        <p-multiselect display="chip" [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
-            selectedItemsLabel="{0} columns selected" [style]="{ 'min-width': '200px' }" placeholder="Choose Columns" />
+        <div class="space">
+            <p-multiselect display="chip" [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
+                selectedItemsLabel="{0} columns selected" [style]="{ 'min-width': '200px' }"
+                placeholder="Choose Columns" />
+            <p-iconfield iconPosition="left" class="">
+                <p-inputicon>
+                    <i class="pi pi-search"></i>
+                </p-inputicon>
+                <input pInputText type="text" (input)="filterGlobal($event)" placeholder="Search keyword" />
+            </p-iconfield>
+        </div>
     </ng-template>
     <ng-template #header let-columns>
         <tr>
-            <th>{{ 'LEADERBOARD.RANKING' | translate }}</th>
-            <th *ngFor="let col of columns">
+            <th pSortableColumn="ranking">{{ 'LEADERBOARD.RANKING' | translate }}<p-sortIcon
+                    field="ranking"></p-sortIcon></th>
+            <th *ngFor="let col of columns" [pSortableColumn]="col.sortable ? col.field : null">
                 {{ col.header }}
+                <ng-container *ngIf="col.sortable">
+                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                </ng-container>
             </th>
         </tr>
     </ng-template>
     <ng-template #body let-player let-rowIndex="rowIndex" let-columns="columns">
         <tr>
-            <td>{{ rowIndex + 1 }}</td>
+            <td>{{ player.ranking }}</td>
             <td *ngFor="let col of columns">
-               
+
                 <ng-container *ngIf="col.field === 'time'; else notTime">
                     {{ formattTime(player[col.field]) }}
                 </ng-container>
