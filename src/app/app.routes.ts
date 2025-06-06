@@ -8,6 +8,7 @@ import { VerifyComponent } from './pages/auth/verify/verify.component';
 import { VerifyEmailComponent } from './pages/auth/verify-email/verify-email.component';
 import { RecoverEmailComponent } from './pages/auth/recover-email/recover-email.component';
 import { ResetPasswordComponent } from './pages/auth/reset-password/reset-password.component';
+import { LeaderboardComponent } from './pages/leaderboard/leaderboard.component';
 
 export const routes: Routes = [
   {
@@ -24,19 +25,15 @@ export const routes: Routes = [
     component: WelcomePageComponent
   },
   {
-    path: 'sudoku/:player',
+    path: 'sudoku/:playermode',
     component: WelcomePageComponent
   },
   {
-    path: 'sudoku/:player/:playmode',
+    path: 'sudoku/:playermode/:playmode',
     component: WelcomePageComponent
   },
   {
-    path: 'sudoku/:player/:playmode/:level',
-    component: SudokuBoardComponent
-  },
-  {
-    path: 'sudoku/:player/:playmode/:level',
+    path: 'sudoku/:playermode/:playmode/:level',
     component: SudokuBoardComponent
   },
   {
@@ -62,6 +59,10 @@ export const routes: Routes = [
   {
     path: 'reset-password',
     component: ResetPasswordComponent
+  },
+  {
+    path: 'leaderboard',
+    component: LeaderboardComponent
   },
   // {
   //   path: 'sudoku',

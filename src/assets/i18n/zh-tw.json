@@ -101,7 +101,29 @@
     "TEXT": "你成功完成了數獨！ 🎉🎉🎉",
     "BUTTON_NEXT_GAME": "下一局",
     "BUTTON_NEXT_LEVEL": "下個等級",
-    "BUTTON_RANDOM": "隨機"
+    "BUTTON_RANDOM": "隨機",
+    "LEADERBOARD": "排行榜"
+  },
+  "LEADERBOARD": {
+    "RANKING": "排名",
+    "NAME": "名稱 ",
+    "PLAYMODE": "遊戲模式",
+    "GAMETYPE": "遊戲類型",
+    "PLAYINGTIME": "遊玩時間",
+    "LEVEL": "等級",
+    "DATE": "日期",
+    "USER": "使用者",
+    "EASY": "簡單",
+    "MEDIUM": "中等",
+    "HARD": "困難",
+    "EXPERT": "專家",
+    "REGISTERED": "已註冊",
+    "GUEST": "訪客",
+    "SINGLE": "單人遊戲",
+    "MULTI": "多人遊戲",
+    "NORMAL": "一般",
+    "COUNTDOWN": "倒數計時",
+    "CHALLENGE": "挑戰"
   },
   "GENERAL": {
     "BACK": "返回",

@@ -96,12 +96,40 @@
     "ERROR": "Fehler beim Zurücksetzen des Passworts.",
     "INVALID_TOKEN": "Der Link ist ungültig oder abgelaufen."
   },
-  "DIALOG":{
+  "DIALOG": {
     "HEADER": "Glückwunsch!👏🏻👏🏻👏🏻",
     "TEXT": "Du hast das Sudoku erfolgreich gelöst! 🎉🎉🎉",
-    "BUTTON_NEXT_GAME":"Nächstes Spiel",
-    "BUTTON_NEXT_LEVEL":"Nächster Level",
-    "BUTTON_RANDOM":"Zufällig"
+    "BUTTON_NEXT_GAME": "Nächstes Spiel",
+    "BUTTON_NEXT_LEVEL": "Nächster Level",
+    "BUTTON_RANDOM": "Zufällig",
+    "LEADERBOARD": "Rangliste"
+  },
+  "DIALOG_NICKNAME": {
+    "HEADER": "Gewonnen🎉 Name eingeben",
+    "TEXT": "Name",
+    "SUBMIT": "Eingeben",
+    "SKIP": "überspringen"
+  },
+  "LEADERBOARD": {
+    "RANKING": "Ranglist",
+    "NAME": "Name",
+    "PLAYMODE": "Spielmode",
+    "GAMETYPE": "Spielart",
+    "PLAYINGTIME": "Spielzeit",
+    "LEVEL": "Level",
+    "DATE": "Datum",
+    "USER": "Nutzer",
+    "EASY": "Einfach",
+    "MEDIUM": "Mittel",
+    "HARD": "Schwer",
+    "EXPERT": "Experte",
+    "REGISTERED": "Registriert",
+    "GUEST": "Gast",
+    "SINGLE": "Einzelspieler",
+    "MULTI": "Mehrspieler",
+    "NORMAL": "Normal",
+    "COUNTDOWN": "Countdown",
+    "CHALLENGE": "Herausforderung"
   },
   "GENERAL": {
     "BACK": "Zurück",

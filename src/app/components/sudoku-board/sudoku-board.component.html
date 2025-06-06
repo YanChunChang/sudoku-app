@@ -29,9 +29,25 @@
     </div>
 </form>
 
-<p-dialog header="{{ 'DIALOG.HEADER' | translate }}" [(visible)]="showGameWonDialog" modal="true">
-    <p>{{ 'DIALOG.TEXT' | translate }}</p>
-    <a (click)="onClickNewgame(); showGameWonDialog = false;">{{ 'DIALOG.BUTTON_NEXT_GAME' | translate }}</a>
-    <a (click)="onClickNextLevel();">{{ 'DIALOG.BUTTON_NEXT_LEVEL' | translate }}</a>
-    <a (click)="onClickRandomGame(); showGameWonDialog = false;">{{ 'DIALOG.BUTTON_RANDOM' | translate }}</a>
+<p-dialog header="{{ 'DIALOG_NICKNAME.HEADER' | translate }}" [(visible)]="showNicknameDialog" [modal]="true" [closable]="false">
+    <div class="p-fluid">
+      <div class="p-field">
+        <label>{{ 'DIALOG_NICKNAME.TEXT' | translate }}</label>
+        <input type="text" [(ngModel)]="nickname" placeholder="King Otter" maxlength="20">
+      </div>
+      <a (click)="submitScore()">{{ 'DIALOG_NICKNAME.SUBMIT' | translate }}</a>
+      <a (click)="onSkip()">{{ 'DIALOG_NICKNAME.SKIP' | translate }}</a>
+    </div>
 </p-dialog>
+
+<p-dialog header="{{ 'DIALOG.HEADER' | translate }}" [(visible)]="showGameWonDialog" modal="true" [closable]="false">
+    <div class="p-text">
+        <p>{{ 'DIALOG.TEXT' | translate }}</p>
+    </div>
+    <a (click)="onClickNewgame()">{{ 'DIALOG.BUTTON_NEXT_GAME' | translate }}</a>
+    <a (click)="onClickNextLevel()">{{ 'DIALOG.BUTTON_NEXT_LEVEL' | translate }}</a>
+    <a (click)="onClickRandomGame()">{{ 'DIALOG.BUTTON_RANDOM' | translate }}🔀</a>
+    <a (click)="goToLeaderboard()">{{ 'DIALOG.LEADERBOARD' | translate }}👀</a>
+</p-dialog>
+
+<p-toast />

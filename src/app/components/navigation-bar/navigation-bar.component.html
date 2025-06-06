@@ -5,7 +5,7 @@
     </div>
     <div class="navbar-links">
         <a routerLink="/" routerLinkActive="active">{{ 'NAVBAR.LEVEL' | translate }}</a>
-        <a routerLink="/" routerLinkActive="active">{{ 'NAVBAR.LEADERBOARD' | translate }}</a>
+        <a routerLink="/leaderboard" routerLinkActive="active">{{ 'NAVBAR.LEADERBOARD' | translate }}</a>
         <p-toggleswitch [(ngModel)]="isDarkMode" (ngModelChange)="toggleDarkMode($event)">
             <ng-template #handle let-checked="checked">
                 <i [ngClass]="['!text-xs', 'pi', checked ? 'pi-moon' : 'pi-sun']"></i>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, interval, Subscription } from 'rxjs';
-import { TimerMode } from '../../utils/utils';
+import { TimerMode, formattedTime } from '../../utils/utils';
 
 @Injectable({
   providedIn: 'root'
@@ -66,6 +66,11 @@ export class LocalTimerService {
 
   setPaused(state: boolean) {
     this.pausedSubject.next(state);
+  }
+
+  getCurrentTime(){
+    formattedTime(this.currentTime);
+    return this.currentTime;
   }
 
   get timeObservable() {

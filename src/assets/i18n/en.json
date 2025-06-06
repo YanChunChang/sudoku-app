@@ -101,7 +101,29 @@
     "TEXT": "You have successfully completed the Sudoku! 🎉🎉🎉",
     "BUTTON_NEXT_GAME": "Next Game",
     "BUTTON_NEXT_LEVEL": "Next Level",
-    "BUTTON_RANDOM": "Random"
+    "BUTTON_RANDOM": "Random",
+    "LEADERBOARD": "Leaderboard"
+  },
+  "LEADERBOARD": {
+    "RANKING": "Ranking",
+    "NAME": "Name",
+    "PLAYMODE": "Play Mode",
+    "GAMETYPE": "Game Type",
+    "PLAYINGTIME": "Play Time",
+    "LEVEL": "Level",
+    "DATE": "Date",
+    "USER": "User",
+    "EASY": "Easy",
+    "MEDIUM": "Medium",
+    "HARD": "Hard",
+    "EXPERT": "Expert",
+    "REGISTERED": "Registered",
+    "GUEST": "Guest",
+    "SINGLE": "Singleplayer",
+    "MULTI": "Multiplayer",
+    "NORMAL": "Normal",
+    "COUNTDOWN": "Countdown",
+    "CHALLENGE": "Challenge"
   },
   "GENERAL": {
     "BACK": "Back",

@@ -1,0 +1,75 @@
+<p-table #dt2 [columns]="selectedColumns" [value]="players" [paginator]="true" [rows]="10"
+    [rowsPerPageOptions]="[5, 10, 30]"
+    [globalFilterFields]="['nickname', 'userTypeTranslated', 'playerModeTranslated', 'playModeTranslated', 'levelTranslated', 'time', 'date']"
+    [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template #caption>
+        <div class="space">
+            <p-multiselect display="chip" [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
+                selectedItemsLabel="{0} columns selected" [style]="{ 'min-width': '200px' }"
+                placeholder="Choose Columns" />
+            <p-iconfield iconPosition="left" class="">
+                <p-inputicon>
+                    <i class="pi pi-search"></i>
+                </p-inputicon>
+                <input pInputText type="text" (input)="filterGlobal($event)" placeholder="Search keyword" />
+            </p-iconfield>
+        </div>
+    </ng-template>
+    <ng-template #header let-columns>
+        <tr>
+            <th pSortableColumn="ranking">{{ 'LEADERBOARD.RANKING' | translate }}<p-sortIcon
+                    field="ranking"></p-sortIcon></th>
+            <th *ngFor="let col of columns" [pSortableColumn]="col.sortable ? col.field : null">
+                {{ col.header }}
+                <ng-container *ngIf="col.sortable">
+                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                </ng-container>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template #body let-player let-rowIndex="rowIndex" let-columns="columns">
+        <tr>
+            <!-- <td>{{ player.ranking }}</td>
+            <td *ngFor="let col of columns">
+
+                <ng-container *ngIf="col.field === 'time'; else notTime">
+                    {{ formattTime(player[col.field]) }}
+                </ng-container>
+
+                <ng-template #notTime>
+                    <ng-container *ngIf="col.field === 'date'; else normalField">
+                        {{ player[col.field] | date:'medium' }}
+                    </ng-container>
+
+                    <ng-template #normalField>
+                        {{ player[col.field] }}
+                    </ng-template>
+                </ng-template> -->
+            <td>{{ player.ranking }}</td>
+
+           <!-- Dynamische Spalten -->
+        <td *ngFor="let col of columns">
+            
+            <!-- Time -->
+            <ng-container *ngIf="col.field === 'time'; else notTime">
+                {{ formattTime(player[col.field]) }}
+            </ng-container>
+
+            <!-- notTime -->
+            <ng-template #notTime>
+                <!-- Date -->
+                <ng-container *ngIf="col.field === 'date'; else normalField">
+                    {{ player[col.field] | date:'medium' }}
+                </ng-container>
+
+                <!-- notDate -->
+
+                    <!-- Normale Felder -->
+                    <ng-template #normalField>
+                        {{ player[col.field] }}
+                    </ng-template>
+            </ng-template>
+        </td>
+        </tr>
+    </ng-template>
+</p-table>

@@ -1,0 +1,20 @@
+@use "styles/variables" as *;
+
+.space{
+    display: flex;
+    justify-content: space-between;
+}
+
+//dark mode
+::ng-deep html.darkmode .button .p-ripple .p-paginator-page .p-paginator-page-selected{
+    background-color: $light-gray !important;
+}
+
+/* Für ALLE Seitenzahlen */
+::ng-deep html.darkmode .p-paginator .p-paginator-page {
+    color: $light-gray !important; 
+}
+
+::ng-deep .p-datatable-thead > tr > th.p-datatable-column-sorted{
+    color: $light-gray !important; 
+}
