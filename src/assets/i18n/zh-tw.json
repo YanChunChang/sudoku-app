@@ -104,6 +104,12 @@
     "BUTTON_RANDOM": "隨機",
     "LEADERBOARD": "排行榜"
   },
+  "DIALOG_NICKNAME": {
+    "HEADER": "你贏了🎉 請輸入名字",
+    "TEXT": "名字",
+    "SUBMIT": "提交",
+    "SKIP": "跳過"
+  },
   "LEADERBOARD": {
     "RANKING": "排名",
     "NAME": "名稱 ",

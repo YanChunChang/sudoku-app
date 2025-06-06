@@ -99,18 +99,15 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       this.timerMode = this.currentPlayMode === 'countdown' ? 'down' : 'up';
       this.timerValue = this.currentPlayMode === 'countdown' && this.currentLevel ? (this.gameConfigService.countdownTime.get(this.currentLevel) ?? 0) : 0;
 
+      this.localTimerService.initialize(this.timerMode, this.timerValue);
+
       // wait util board loads
       const boardArray = this.createBoard();
       this.form = this.fb.group({
         board: this.fb.array(boardArray)
       });
-    });
 
-    this.localTimerService.isPausedObservable.subscribe(paused => {
-      this.isPaused = paused;
-    });
-
-    //for winning game
+      //for winning game
     this.form.valueChanges.subscribe(board => {
       if (this.isSudokuCompleted()) {
         setTimeout(() => {
@@ -125,6 +122,11 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
         }, 100);
       }
     })
+    });
+
+    this.localTimerService.isPausedObservable.subscribe(paused => {
+      this.isPaused = paused;
+    });
   }
 
   //initialboard has value 0, in formcontrol 0 is present as null to show space in html
@@ -300,8 +302,8 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
 
     this.router.navigate([
       '/sudoku',
-      this.route.snapshot.paramMap.get('player'),
-      this.route.snapshot.paramMap.get('playmode'),
+      this.currentPlayerMode,
+      this.currentPlayMode,
       this.currentLevel
     ]);
 
@@ -315,8 +317,8 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
 
     this.router.navigate([
       '/sudoku',
-      this.route.snapshot.paramMap.get('player'),
-      this.route.snapshot.paramMap.get('playmode'),
+      this.currentPlayerMode,
+      this.currentPlayMode,
       randomLevel
     ]);
     this.localTimerService.reset();
@@ -413,6 +415,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     this.destroy$.next(); //infrom all takeUntil to unsubscribe
     this.destroy$.complete(); //closing subject(destroy$)
     this.sudokuService.clearBoards();
+    this.localTimerService.stop();
   }
 
 }

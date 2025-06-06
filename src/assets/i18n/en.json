@@ -104,6 +104,12 @@
     "BUTTON_RANDOM": "Random",
     "LEADERBOARD": "Leaderboard"
   },
+  "DIALOG_NICKNAME": {
+    "HEADER": "You won 🎉 Enter your name",
+    "TEXT": "Name",
+    "SUBMIT": "Submit",
+    "SKIP": "Skip"
+  },
   "LEADERBOARD": {
     "RANKING": "Ranking",
     "NAME": "Name",
