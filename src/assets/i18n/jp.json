@@ -112,7 +112,18 @@
     "PLAYINGTIME": "プレイ時間",
     "LEVEL": "レベル",
     "DATE": "日付",
-    "USER": "使用者"
+    "USER": "使用者",
+    "EASY": "簡単",
+    "MEDIUM": "中級",
+    "HARD": "難しい",
+    "EXPERT": "エキスパート",
+    "REGISTERED": "登録済み",
+    "GUEST": "ゲスト",
+    "SINGLE": "シングルプレイヤー",
+    "MULTI": "マルチプレイヤー",
+    "NORMAL": "ノーマル",
+    "COUNTDOWN": "カウントダウン",
+    "CHALLENGE": "チャレンジ"
   },
   "GENERAL": {
     "BACK": "戻る",

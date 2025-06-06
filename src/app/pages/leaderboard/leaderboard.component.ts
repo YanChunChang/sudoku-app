@@ -58,19 +58,22 @@ export class LeaderboardComponent {
         console.log(data)
         this.players = data.map((player, index) => ({
           ...player,
-          ranking: index + 1
+          ranking: index + 1,
+          userTypeTranslated: this.translate.instant('LEADERBOARD.' + (player.userType || '').toUpperCase()),
+          playerModeTranslated: this.translate.instant('LEADERBOARD.' + (player.playerMode || '').toUpperCase()),
+          playModeTranslated: this.translate.instant('LEADERBOARD.' + (player.playMode || '').toUpperCase()),
+          levelTranslated: this.translate.instant('LEADERBOARD.' + (player.level || '').toUpperCase()),
         }));
       });
-
     });
 
 
     this.cols = [
       { field: 'nickname', header: this.translate.instant('LEADERBOARD.NAME'), sortable: true },
-      { field: 'userType', header: this.translate.instant('LEADERBOARD.USER'), sortable: true },
-      { field: 'playerMode', header: this.translate.instant('LEADERBOARD.PLAYMODE'), sortable: true },
-      { field: 'playMode', header: this.translate.instant('LEADERBOARD.GAMETYPE'), sortable: true },
-      { field: 'level', header: this.translate.instant('LEADERBOARD.LEVEL'), sortable: true },
+      { field: 'userTypeTranslated', header: this.translate.instant('LEADERBOARD.USER'), sortable: true },
+      { field: 'playerModeTranslated', header: this.translate.instant('LEADERBOARD.PLAYMODE'), sortable: true },
+      { field: 'playModeTranslated', header: this.translate.instant('LEADERBOARD.GAMETYPE'), sortable: true },
+      { field: 'levelTranslated', header: this.translate.instant('LEADERBOARD.LEVEL'), sortable: true },
       { field: 'time', header: this.translate.instant('LEADERBOARD.PLAYINGTIME'), sortable: true },
       { field: 'date', header: this.translate.instant('LEADERBOARD.DATE'), sortable: true },
     ];
