@@ -119,6 +119,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       if (savedTimerKey === currentTimerKey) {
         loadStorage = true;
 
+        //initial board from localStorage
         const savedInitialBoardString = localStorage.getItem('initialBoard');
         let initialBoard: number[][] = [];
       
@@ -128,7 +129,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
         }
         this.initialBoard = this.gameStateService.getInitialBoard();
       
-        //solved board
+        //solved board from localStorage
         const savedSolvedBoardString = localStorage.getItem('solvedBoard');
         let solvedBoard: number[][] = [];
       
@@ -324,19 +325,22 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     }
   }
 
-  // onClickNewgame() {
-  //   this.localTimerService.stop(true);
-  //   this.sudokuService.generateSudoku(this.currentLevel);
-  //   this.initialBoard = this.sudokuService.initialBoard;
-  //   this.solvedBoard = this.sudokuService.solvedBoard;
+  onClickNewgame() {
+    this.localTimerService.stop(true);
+    this.sudokuService.generateSudoku(this.currentLevel);
+    this.gameStateService.setInitialBoard(this.sudokuService.initialBoard);
+    this.gameStateService.setSolvedBoard(this.sudokuService.solvedBoard);
 
-  //   const boardArray = this.createBoard();
-  //   this.form = this.fb.group({
-  //     board: this.fb.array(boardArray)
-  //   });
-  //   this.localTimerService.initialize(this.timerMode, this.timerValue);
-  //   this.showGameWonDialog = false;
-  // }
+    this.initialBoard = this.gameStateService.getInitialBoard();
+    this.solvedBoard = this.gameStateService.getSolvedBoard();
+
+    const boardArray = this.createBoard(this.initialBoard);
+    this.form = this.fb.group({
+      board: this.fb.array(boardArray)
+    });
+    this.localTimerService.initialize(this.timerMode, this.timerValue);
+    this.showGameWonDialog = false;
+  }
 
   onClickNextLevel() {
     this.localTimerService.stop(true);
