@@ -5,7 +5,7 @@ import { ReactiveFormsModule, FormBuilder, FormArray, FormControl, FormGroup, Va
 import { SudokuService } from '../../services/sudoku.service';
 import { TimerComponent } from "../timer/timer.component";
 import { ButtonModule } from 'primeng/button';
-import { Subject, takeUntil } from 'rxjs';
+import { filter, Subject, take, takeUntil } from 'rxjs';
 import { LocalTimerService } from '../../services/timer/local-timer.service';
 import { GameConfigService } from '../../services/game/gameconfig.service';
 import { DialogModule } from 'primeng/dialog';
@@ -68,65 +68,92 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       // this.currentPlayerMode = params.get('playermode') ?? 'single';
       // this.currentLevel = params.get('level') ?? 'easy';
       // this.currentPlayMode = params.get('playmode') ?? 'normal';
-      this.gameStateService.setPlayerMode(params.get('playermode')?? 'single');
-      this.gameStateService.setPlayMode(params.get('playmode')?? 'normal');
-      this.gameStateService.setLevel(params.get('level')?? 'easy');
+      this.gameStateService.setPlayerMode(params.get('playermode') ?? 'single');
+      this.gameStateService.setPlayMode(params.get('playmode') ?? 'normal');
+      this.gameStateService.setLevel(params.get('level') ?? 'easy');
 
       this.currentPlayerMode = this.gameStateService.getCurrentPlayerMode();
       this.currentPlayMode = this.gameStateService.getCurrentPlayMode();
       this.currentLevel = this.gameStateService.getCurrentLevel();
 
-      this.sudokuService.generateSudoku(this.currentLevel);
-      this.gameStateService.setInitialBoard(this.sudokuService.initialBoard);
-      this.gameStateService.setSolvedBoard(this.sudokuService.solvedBoard);
-      
-      this.initialBoard = this.gameStateService.getInitialBoard();
-      this.solvedBoard = this.gameStateService.getSolvedBoard();
       // Test Board (initialBoard)
-      this.initialBoard = [
-        [5, 3, 4, 6, 7, 8, 9, 1, 2],
-        [6, 7, 2, 1, 9, 5, 3, 4, 8],
-        [1, 9, 8, 3, 4, 2, 5, 6, 7],
-        [8, 5, 9, 7, 6, 1, 4, 2, 3],
-        [4, 2, 6, 8, 5, 3, 7, 9, 1],
-        [7, 1, 3, 9, 2, 4, 8, 5, 6],
-        [9, 6, 1, 5, 3, 7, 2, 8, 4],
-        [2, 8, 7, 4, 1, 9, 6, 3, 5],
-        [3, 4, 5, 2, 8, 6, 1, 7, 0]
-      ];
+      // this.initialBoard = [
+      //   [5, 3, 4, 6, 7, 8, 9, 1, 2],
+      //   [6, 7, 2, 1, 9, 5, 3, 4, 8],
+      //   [1, 9, 8, 3, 4, 2, 5, 6, 7],
+      //   [8, 5, 9, 7, 6, 1, 4, 2, 3],
+      //   [4, 2, 6, 8, 5, 3, 7, 9, 1],
+      //   [7, 1, 3, 9, 2, 4, 8, 5, 6],
+      //   [9, 6, 1, 5, 3, 7, 2, 8, 4],
+      //   [2, 8, 7, 4, 1, 9, 6, 3, 5],
+      //   [3, 4, 5, 2, 8, 6, 1, 7, 0]
+      // ];
 
-      // Solved Board (solvedBoard)
-      this.solvedBoard = [
-        [5, 3, 4, 6, 7, 8, 9, 1, 2],
-        [6, 7, 2, 1, 9, 5, 3, 4, 8],
-        [1, 9, 8, 3, 4, 2, 5, 6, 7],
-        [8, 5, 9, 7, 6, 1, 4, 2, 3],
-        [4, 2, 6, 8, 5, 3, 7, 9, 1],
-        [7, 1, 3, 9, 2, 4, 8, 5, 6],
-        [9, 6, 1, 5, 3, 7, 2, 8, 4],
-        [2, 8, 7, 4, 1, 9, 6, 3, 5],
-        [3, 4, 5, 2, 8, 6, 1, 7, 9]
-      ];
+      // // Solved Board (solvedBoard)
+      // this.solvedBoard = [
+      //   [5, 3, 4, 6, 7, 8, 9, 1, 2],
+      //   [6, 7, 2, 1, 9, 5, 3, 4, 8],
+      //   [1, 9, 8, 3, 4, 2, 5, 6, 7],
+      //   [8, 5, 9, 7, 6, 1, 4, 2, 3],
+      //   [4, 2, 6, 8, 5, 3, 7, 9, 1],
+      //   [7, 1, 3, 9, 2, 4, 8, 5, 6],
+      //   [9, 6, 1, 5, 3, 7, 2, 8, 4],
+      //   [2, 8, 7, 4, 1, 9, 6, 3, 5],
+      //   [3, 4, 5, 2, 8, 6, 1, 7, 9]
+      // ];
 
       this.timerMode = this.currentPlayMode === 'countdown' ? 'down' : 'up';
       this.timerValue = this.currentPlayMode === 'countdown' && this.currentLevel ? (this.gameConfigService.countdownTime.get(this.currentLevel) ?? 0) : 0;
 
+      //state(sudoku-board and timer) remaining after reload.
       const currentTimerKey = `${this.currentPlayerMode}|${this.currentPlayMode}|${this.currentLevel}`;
+      this.gameStateService.setTimerKey(currentTimerKey);
 
       const savedTimerKey = localStorage.getItem('timerKey');
+      console.log('ngOinit: ', currentTimerKey, savedTimerKey)
+
+      let boardArray : FormArray[] = [];
 
       let loadStorage = false;
+      //true: read localStorage, false: set localstorage
       if (savedTimerKey === currentTimerKey) {
         loadStorage = true;
-        this.localTimerService.initialize(this.timerMode, this.timerValue, true);
+
+        const savedInitialBoardString = localStorage.getItem('initialBoard');
+        let initialBoard: number[][] = [];
+      
+        if (savedInitialBoardString) {
+          initialBoard = JSON.parse(savedInitialBoardString) as number[][];
+          this.gameStateService.setInitialBoard(initialBoard);
+        }
+        this.initialBoard = this.gameStateService.getInitialBoard();
+      
+        //solved board
+        const savedSolvedBoardString = localStorage.getItem('solvedBoard');
+        let solvedBoard: number[][] = [];
+      
+        if (savedSolvedBoardString) {
+          solvedBoard = JSON.parse(savedSolvedBoardString) as number[][];
+          this.gameStateService.setSolvedBoard(solvedBoard);
+        }
+        this.solvedBoard = this.gameStateService.getSolvedBoard();
+
+        boardArray = this.createBoard(initialBoard);
+
       } else {
         loadStorage = false;
         localStorage.setItem('timerKey', currentTimerKey);
+
+        this.sudokuService.generateSudoku(this.currentLevel);
+        this.gameStateService.setInitialBoard(this.sudokuService.initialBoard);
+        this.gameStateService.setSolvedBoard(this.sudokuService.solvedBoard);
+
+        this.initialBoard = this.gameStateService.getInitialBoard();
+        this.solvedBoard = this.gameStateService.getSolvedBoard();
         this.localTimerService.initialize(this.timerMode, this.timerValue, false);
+        boardArray = this.createBoard(this.initialBoard);
       }
 
-      // wait util board loads
-      const boardArray = this.createBoard();
       this.form = this.fb.group({
         board: this.fb.array(boardArray)
       });
@@ -154,12 +181,12 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
   }
 
   //initialboard has value 0, in formcontrol 0 is present as null to show space in html
-  createBoard(): FormArray[] {
+  createBoard(initialBoard: number[][]): FormArray[] {
     const board: FormArray[] = [];
     for (let i = 0; i < 9; i++) {
       const row: FormArray = this.fb.array([]);
       for (let j = 0; j < 9; j++) {
-        const value = this.initialBoard[i][j];
+        const value = initialBoard[i][j];
         const cell: FormControl = value === 0 ? this.fb.control(null, [Validators.required, Validators.pattern(/[1-9]/)]) : this.fb.control(value);
         row.push(cell);
       }
@@ -182,8 +209,10 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
   }
 
   checkCellAnswer(row: number, col: number): boolean {
+    const savedSolvedBoard = this.gameStateService.getSolvedBoard();
+
     const userValue = this.getCell(row, col).value;
-    const correctValue = this.solvedBoard[row][col];
+    const correctValue = savedSolvedBoard[row][col];
 
     if (userValue === null || userValue === '' || isNaN(Number(userValue))) {
       return false;
@@ -218,8 +247,6 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
 
   //for registered user
   submitScoreLoggedIn() {
-    console.log("Submitting score (registered user)");
-
     const scoreData = {
       playerMode: this.currentPlayerMode,
       playMode: this.currentPlayMode,
@@ -233,8 +260,6 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
 
   //for guest
   submitScore() {
-    console.log("Submitting score (guest)");
-
     const scoreData = {
       nickname: this.nickname.trim(),
       playerMode: this.currentPlayerMode,
@@ -247,7 +272,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     this.postScore(scoreData);
   }
 
-
+  //todo translation
   private postScore(scoreData: any) {
     this.leaderboardService.submitScore(scoreData, this.isLoggedIn).subscribe({
       next: () => {
@@ -299,19 +324,19 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     }
   }
 
-  onClickNewgame() {
-    this.localTimerService.stop(true);
-    this.sudokuService.generateSudoku(this.currentLevel);
-    this.initialBoard = this.sudokuService.initialBoard;
-    this.solvedBoard = this.sudokuService.solvedBoard;
+  // onClickNewgame() {
+  //   this.localTimerService.stop(true);
+  //   this.sudokuService.generateSudoku(this.currentLevel);
+  //   this.initialBoard = this.sudokuService.initialBoard;
+  //   this.solvedBoard = this.sudokuService.solvedBoard;
 
-    const boardArray = this.createBoard();
-    this.form = this.fb.group({
-      board: this.fb.array(boardArray)
-    });
-    this.localTimerService.initialize(this.timerMode, this.timerValue);
-    this.showGameWonDialog = false;
-  }
+  //   const boardArray = this.createBoard();
+  //   this.form = this.fb.group({
+  //     board: this.fb.array(boardArray)
+  //   });
+  //   this.localTimerService.initialize(this.timerMode, this.timerValue);
+  //   this.showGameWonDialog = false;
+  // }
 
   onClickNextLevel() {
     this.localTimerService.stop(true);

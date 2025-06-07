@@ -20,46 +20,75 @@ export class GameStateService {
   private solvedBoardSubject = new BehaviorSubject<number[][]>([]);
   solvedBoard$ = this.solvedBoardSubject.asObservable();
 
+  private timerKeySubject = new BehaviorSubject<string>('');
+  timerKey$ = this.timerKeySubject.asObservable();
+
   // Setter
-  setPlayerMode(playermode: string){
+  setPlayerMode(playermode: string) {
     this.playerModeSubject.next(playermode);
   }
 
-  setPlayMode(playmode: string){
+  setPlayMode(playmode: string) {
     this.playModeSubject.next(playmode);
   }
 
-  setLevel(level: string){
+  setLevel(level: string) {
     this.levelSubject.next(level);
   }
 
-  setInitialBoard(initialBoard: number[][]){
-    this.initialBoardSubject.next(initialBoard);
+  setTimerKey(timerKey: string) {
+    this.timerKeySubject.next(timerKey);
   }
 
-  setSolvedBoard(solvedBoard: number[][]){
+  setInitialBoard(initialBoard: number[][]) {
+    this.initialBoardSubject.next(initialBoard);
+    localStorage.setItem('initialBoard', JSON.stringify(initialBoard));
+  }
+
+  setSolvedBoard(solvedBoard: number[][]) {
     this.solvedBoardSubject.next(solvedBoard);
+    localStorage.setItem('solvedBoard', JSON.stringify(solvedBoard));
   }
 
   // Getter
-  getCurrentPlayerMode():string{
+  getCurrentPlayerMode(): string {
     return this.playerModeSubject.getValue();
   }
-  
-  getCurrentPlayMode():string{
+
+  getCurrentPlayMode(): string {
     return this.playModeSubject.getValue();
   }
 
-  getCurrentLevel():string{
+  getCurrentLevel(): string {
     return this.levelSubject.getValue();
   }
 
-  getInitialBoard():number[][]{
+  getCurrentTimerKey(): string {
+    return this.timerKeySubject.getValue();
+  }
+
+  getInitialBoard(): number[][] {
     return this.initialBoardSubject.getValue();
   }
 
-  getSolvedBoard():number[][]{
+  getSolvedBoard(): number[][] {
     return this.solvedBoardSubject.getValue();
   }
 
+
+  //nitializer
+  initializeInitialBoardFromLocalStorage() {
+    const savedInitialBoardString = localStorage.getItem('initialBoard');
+    if (savedInitialBoardString) {
+      const savedBoard = JSON.parse(savedInitialBoardString) as number[][];
+      this.initialBoardSubject.next(savedBoard);
+    }
+  }
+  initializeSolvedBoardFromLocalStorage() {
+    const savedSolvedBoardString = localStorage.getItem('solvedBoard');
+    if (savedSolvedBoardString) {
+      const savedBoard = JSON.parse(savedSolvedBoardString) as number[][];
+      this.solvedBoardSubject.next(savedBoard);
+    }
+  }
 }
