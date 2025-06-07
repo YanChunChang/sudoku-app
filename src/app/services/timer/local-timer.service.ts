@@ -26,12 +26,14 @@ export class LocalTimerService {
       this.subscription = interval(1000).subscribe(() => {
         this.currentTime++;
         this.time$.next(this.currentTime);
+        localStorage.setItem('currentTime', this.currentTime.toString());
       });
     } else {
       this.subscription = interval(1000).subscribe(() => {
         if (this.currentTime > 0) {
           this.currentTime--;
           this.time$.next(this.currentTime);
+          localStorage.setItem('currentTime', this.currentTime.toString());
         } else {
           this.pause();
         }
@@ -54,13 +56,16 @@ export class LocalTimerService {
   }
 
   //Stop timer completely for winning the game
-  stop() {
+  stop(isAppNavigation: boolean) {
     if(this.subscription){
       this.subscription.unsubscribe();
       this.subscription = null;
     }
-    // this.currentTime = 0;
-    // this.time$.next(0);
+
+    //if route changed, then remove currentTime from localstorage
+    if (isAppNavigation) {
+      localStorage.removeItem('currentTime');
+    }
     this.pausedSubject.next(false);
   }
 
@@ -68,10 +73,14 @@ export class LocalTimerService {
     this.pausedSubject.next(state);
   }
 
-  initialize(mode: TimerMode, startFrom: number) {
-    this.stop();
-    this.currentTime = startFrom;
-    this.start(mode, startFrom);
+  initialize(mode: TimerMode, startFrom: number, loadStorage: boolean = false) {
+    if (loadStorage) {
+      const savedTime = localStorage.getItem('currentTime');
+      this.currentTime = savedTime !== null ? parseInt(savedTime, 10) : startFrom;
+    } else {
+      this.currentTime = startFrom;
+    }
+    this.start(mode, this.currentTime);
   }
   
   getCurrentTime(){

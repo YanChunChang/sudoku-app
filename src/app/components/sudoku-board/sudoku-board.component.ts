@@ -99,7 +99,23 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       this.timerMode = this.currentPlayMode === 'countdown' ? 'down' : 'up';
       this.timerValue = this.currentPlayMode === 'countdown' && this.currentLevel ? (this.gameConfigService.countdownTime.get(this.currentLevel) ?? 0) : 0;
 
-      this.localTimerService.initialize(this.timerMode, this.timerValue);
+    
+      const currentTimerKey = `${this.currentPlayerMode}|${this.currentPlayMode}|${this.currentLevel}`;
+      console.log('currentTimerKey: ', currentTimerKey)
+
+      const savedTimerKey = localStorage.getItem('timerKey');
+      console.log('savedTimerKey: ', savedTimerKey)
+
+
+      let loadStorage = false;
+      if (savedTimerKey === currentTimerKey) {
+        loadStorage = true;
+        this.localTimerService.initialize(this.timerMode, this.timerValue, true);
+      } else {
+        loadStorage = false;
+        localStorage.setItem('timerKey', currentTimerKey);
+        this.localTimerService.initialize(this.timerMode, this.timerValue, false);
+      }
 
       // wait util board loads
       const boardArray = this.createBoard();
@@ -108,20 +124,20 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       });
 
       //for winning game
-    this.form.valueChanges.subscribe(board => {
-      if (this.isSudokuCompleted()) {
-        setTimeout(() => {
-          if (this.isLoggedIn) {
-            // Registered users will be recorded directly
-            this.submitScoreLoggedIn();
-            this.showGameWonDialog = true;
-          } else {
-            // Guest will show the nickname dialog first
-            this.showNicknameDialog = true;
-          }
-        }, 100);
-      }
-    })
+      this.form.valueChanges.subscribe(board => {
+        if (this.isSudokuCompleted()) {
+          setTimeout(() => {
+            if (this.isLoggedIn) {
+              // Registered users will be recorded directly
+              this.submitScoreLoggedIn();
+              this.showGameWonDialog = true;
+            } else {
+              // Guest will show the nickname dialog first
+              this.showNicknameDialog = true;
+            }
+          }, 100);
+        }
+      })
     });
 
     this.localTimerService.isPausedObservable.subscribe(paused => {
@@ -187,15 +203,15 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
           return false;
         }
       }
-    }
-    this.localTimerService.stop();
+    } 9
+    this.localTimerService.stop(true);
     return true
   }
 
   //for registered user
   submitScoreLoggedIn() {
     console.log("Submitting score (registered user)");
-  
+
     const scoreData = {
       playerMode: this.currentPlayerMode,
       playMode: this.currentPlayMode,
@@ -203,14 +219,14 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       time: this.localTimerService.getCurrentTime(),
       date: new Date().toISOString()
     };
-  
+
     this.postScore(scoreData);
   }
 
   //for guest
   submitScore() {
     console.log("Submitting score (guest)");
-  
+
     const scoreData = {
       nickname: this.nickname.trim(),
       playerMode: this.currentPlayerMode,
@@ -219,10 +235,10 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       time: this.localTimerService.getCurrentTime(),
       date: new Date().toISOString()
     };
-  
+
     this.postScore(scoreData);
   }
-  
+
 
   private postScore(scoreData: any) {
     this.leaderboardService.submitScore(scoreData, this.isLoggedIn).subscribe({
@@ -253,7 +269,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       }
     });
   }
-  
+
 
   onSkip() {
     this.showNicknameDialog = false;
@@ -276,6 +292,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
   }
 
   onClickNewgame() {
+    this.localTimerService.stop(true);
     this.sudokuService.generateSudoku(this.currentLevel);
     this.initialBoard = this.sudokuService.initialBoard;
     this.solvedBoard = this.sudokuService.solvedBoard;
@@ -289,7 +306,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
   }
 
   onClickNextLevel() {
-
+    this.localTimerService.stop(true);
     if (this.currentLevel === 'easy') {
       this.currentLevel = 'medium';
     } else if (this.currentLevel === 'medium') {
@@ -307,10 +324,12 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       this.currentLevel
     ]);
 
+    this.localTimerService.initialize(this.timerMode, this.timerValue);
     this.showGameWonDialog = false;
   }
 
   onClickRandomGame() {
+    this.localTimerService.stop(true);
     const levels = ['easy', 'medium', 'hard', 'expert'];
     let randomLevel = levels[Math.floor(Math.random() * levels.length)];
 
@@ -326,10 +345,11 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       this.currentPlayMode,
       randomLevel
     ]);
+    this.localTimerService.initialize(this.timerMode, this.timerValue);
     this.showGameWonDialog = false;
   }
 
-  goToLeaderboard(){
+  goToLeaderboard() {
     this.router.navigate(['/leaderboard'], {
       queryParams: {
         playerMode: this.currentPlayerMode,
@@ -338,7 +358,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
         limit: 50
       }
     });
-  
+
     this.showGameWonDialog = false;
   }
 
@@ -419,7 +439,6 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     this.destroy$.next(); //infrom all takeUntil to unsubscribe
     this.destroy$.complete(); //closing subject(destroy$)
     this.sudokuService.clearBoards();
-    this.localTimerService.stop();
   }
 
 }
