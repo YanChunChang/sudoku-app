@@ -15,6 +15,7 @@ import { LeaderboardService } from '../../services/leaderboard/leaderboard-servi
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { AuthService } from '../../services/auth/auth.service';
+import { GameStateService } from '../../services/game/game-state.service';
 
 
 @Component({
@@ -54,7 +55,8 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     private leaderboardService: LeaderboardService,
     private translate: TranslateService,
     private authService: AuthService,
-    private messageService: MessageService) {
+    private messageService: MessageService,
+    private gameStateService: GameStateService) {
   }
 
   ngOnInit() {
@@ -63,13 +65,23 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
 
     // subscribe necessary for route changing
     this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
-      this.currentPlayerMode = params.get('playermode') ?? 'single';
-      this.currentLevel = params.get('level') ?? 'easy';
-      this.currentPlayMode = params.get('playmode') ?? 'normal';
+      // this.currentPlayerMode = params.get('playermode') ?? 'single';
+      // this.currentLevel = params.get('level') ?? 'easy';
+      // this.currentPlayMode = params.get('playmode') ?? 'normal';
+      this.gameStateService.setPlayerMode(params.get('playermode')?? 'single');
+      this.gameStateService.setPlayMode(params.get('playmode')?? 'normal');
+      this.gameStateService.setLevel(params.get('level')?? 'easy');
+
+      this.currentPlayerMode = this.gameStateService.getCurrentPlayerMode();
+      this.currentPlayMode = this.gameStateService.getCurrentPlayMode();
+      this.currentLevel = this.gameStateService.getCurrentLevel();
 
       this.sudokuService.generateSudoku(this.currentLevel);
-      this.initialBoard = this.sudokuService.initialBoard;
-      this.solvedBoard = this.sudokuService.solvedBoard;
+      this.gameStateService.setInitialBoard(this.sudokuService.initialBoard);
+      this.gameStateService.setSolvedBoard(this.sudokuService.solvedBoard);
+      
+      this.initialBoard = this.gameStateService.getInitialBoard();
+      this.solvedBoard = this.gameStateService.getSolvedBoard();
       // Test Board (initialBoard)
       this.initialBoard = [
         [5, 3, 4, 6, 7, 8, 9, 1, 2],
@@ -99,13 +111,9 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       this.timerMode = this.currentPlayMode === 'countdown' ? 'down' : 'up';
       this.timerValue = this.currentPlayMode === 'countdown' && this.currentLevel ? (this.gameConfigService.countdownTime.get(this.currentLevel) ?? 0) : 0;
 
-    
       const currentTimerKey = `${this.currentPlayerMode}|${this.currentPlayMode}|${this.currentLevel}`;
-      console.log('currentTimerKey: ', currentTimerKey)
 
       const savedTimerKey = localStorage.getItem('timerKey');
-      console.log('savedTimerKey: ', savedTimerKey)
-
 
       let loadStorage = false;
       if (savedTimerKey === currentTimerKey) {
