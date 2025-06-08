@@ -91,7 +91,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       //true: read localStorage, false: set localstorage
       if (savedTimerKey === currentTimerKey && !TEST_MODE) {
         loadStorage = true;
-
+        
         this.gameStateService.initializeInitialBoardFromLocalStorage();
         this.gameStateService.initializeSolvedBoardFromLocalStorage();
         this.initialBoard = this.gameStateService.getInitialBoard();
@@ -113,6 +113,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
         console.log('userBoard:', this.userBoard);
 
         boardArray = this.createBoard(this.initialBoard);
+        this.localTimerService.initialize(this.timerMode, this.timerValue, loadStorage);
 
       } else {
         loadStorage = false;
@@ -363,7 +364,6 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
 
     localStorage.removeItem('userBoard');
     this.userBoard = this.initialBoard.map(row => row.map(cell => cell === 0 ? null : cell));
-    console.log('RESET userBoard:', this.userBoard);
 
     const boardArray = this.createBoard(this.initialBoard);
     this.form = this.fb.group({
@@ -420,7 +420,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       this.currentPlayMode,
       randomLevel
     ]);
-    
+
     this.formSubscription?.unsubscribe();
     this.localTimerService.initialize(this.timerMode, this.timerValue);
     this.showGameWonDialog = false;
