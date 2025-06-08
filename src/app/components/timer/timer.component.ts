@@ -61,6 +61,5 @@ export class TimerComponent {
   ngOnDestroy() {
     this.timerSubscription.unsubscribe();
     this.localTimeService.pause();
-    this.localTimeService.stop();
   }
 }

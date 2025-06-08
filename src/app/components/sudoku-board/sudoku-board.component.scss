@@ -195,6 +195,14 @@
    }
  }
 
+ ::ng-deep html.darkmode .correct {
+   color: $correct-light !important;
+ }
+
+ ::ng-deep html.darkmode .incorrect {
+   color: $error-light !important;
+ }
+
  ::ng-deep a {
   color: $light-gray !important;
 

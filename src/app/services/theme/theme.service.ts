@@ -18,7 +18,13 @@ export class ThemeService {
 
   toggleDarkMode(isDarkMode: boolean) {
     const element = document.querySelector('html');
-    element!.classList.toggle('darkmode', isDarkMode);
+    if (isDarkMode) {
+      element!.classList.add('darkmode');
+      localStorage.setItem('theme', 'dark')
+    } else {
+      element!.classList.remove('darkmode');
+      localStorage.setItem('theme', 'light')
+    }
     this.darkModeSubject.next(isDarkMode);
     this.themeSubject.next(isDarkMode ? 'dark' : 'light');
   }
@@ -42,5 +48,9 @@ export class ThemeService {
 
   getCurrentSelectedTheme(): string {
     return this.themeSubject.getValue();
+  }
+
+  getCurrentDarkMode(): boolean{
+    return this.darkModeSubject.getValue();
   }
 }

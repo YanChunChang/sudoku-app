@@ -5,7 +5,7 @@ import { ReactiveFormsModule, FormBuilder, FormArray, FormControl, FormGroup, Va
 import { SudokuService } from '../../services/sudoku.service';
 import { TimerComponent } from "../timer/timer.component";
 import { ButtonModule } from 'primeng/button';
-import { Subject, takeUntil } from 'rxjs';
+import { filter, Subject, Subscription, take, takeUntil } from 'rxjs';
 import { LocalTimerService } from '../../services/timer/local-timer.service';
 import { GameConfigService } from '../../services/game/gameconfig.service';
 import { DialogModule } from 'primeng/dialog';
@@ -15,6 +15,7 @@ import { LeaderboardService } from '../../services/leaderboard/leaderboard-servi
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { AuthService } from '../../services/auth/auth.service';
+import { GameStateService } from '../../services/game/game-state.service';
 
 
 @Component({
@@ -43,6 +44,8 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
   currentUsername = '';
   currentPlayMode = '';
   currentPlayerMode = '';
+  userBoard: (number | null)[][] = [];
+  private formSubscription?: Subscription;
 
   constructor(
     private fb: FormBuilder,
@@ -54,7 +57,8 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     private leaderboardService: LeaderboardService,
     private translate: TranslateService,
     private authService: AuthService,
-    private messageService: MessageService) {
+    private messageService: MessageService,
+    private gameStateService: GameStateService) {
   }
 
   ngOnInit() {
@@ -63,65 +67,130 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
 
     // subscribe necessary for route changing
     this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
-      this.currentPlayerMode = params.get('playermode') ?? 'single';
-      this.currentLevel = params.get('level') ?? 'easy';
-      this.currentPlayMode = params.get('playmode') ?? 'normal';
+      this.gameStateService.setPlayerMode(params.get('playermode') ?? 'single');
+      this.gameStateService.setPlayMode(params.get('playmode') ?? 'normal');
+      this.gameStateService.setLevel(params.get('level') ?? 'easy');
 
-      this.sudokuService.generateSudoku(this.currentLevel);
-      this.initialBoard = this.sudokuService.initialBoard;
-      this.solvedBoard = this.sudokuService.solvedBoard;
-      // Test Board (initialBoard)
-      this.initialBoard = [
-        [5, 3, 4, 6, 7, 8, 9, 1, 2],
-        [6, 7, 2, 1, 9, 5, 3, 4, 8],
-        [1, 9, 8, 3, 4, 2, 5, 6, 7],
-        [8, 5, 9, 7, 6, 1, 4, 2, 3],
-        [4, 2, 6, 8, 5, 3, 7, 9, 1],
-        [7, 1, 3, 9, 2, 4, 8, 5, 6],
-        [9, 6, 1, 5, 3, 7, 2, 8, 4],
-        [2, 8, 7, 4, 1, 9, 6, 3, 5],
-        [3, 4, 5, 2, 8, 6, 1, 7, 0]
-      ];
-
-      // Solved Board (solvedBoard)
-      this.solvedBoard = [
-        [5, 3, 4, 6, 7, 8, 9, 1, 2],
-        [6, 7, 2, 1, 9, 5, 3, 4, 8],
-        [1, 9, 8, 3, 4, 2, 5, 6, 7],
-        [8, 5, 9, 7, 6, 1, 4, 2, 3],
-        [4, 2, 6, 8, 5, 3, 7, 9, 1],
-        [7, 1, 3, 9, 2, 4, 8, 5, 6],
-        [9, 6, 1, 5, 3, 7, 2, 8, 4],
-        [2, 8, 7, 4, 1, 9, 6, 3, 5],
-        [3, 4, 5, 2, 8, 6, 1, 7, 9]
-      ];
+      this.currentPlayerMode = this.gameStateService.getCurrentPlayerMode();
+      this.currentPlayMode = this.gameStateService.getCurrentPlayMode();
+      this.currentLevel = this.gameStateService.getCurrentLevel();
 
       this.timerMode = this.currentPlayMode === 'countdown' ? 'down' : 'up';
       this.timerValue = this.currentPlayMode === 'countdown' && this.currentLevel ? (this.gameConfigService.countdownTime.get(this.currentLevel) ?? 0) : 0;
 
-      this.localTimerService.initialize(this.timerMode, this.timerValue);
+      //state(sudoku-board and timer) remaining after reload.
+      const currentTimerKey = `${this.currentPlayerMode}|${this.currentPlayMode}|${this.currentLevel}`;
+      this.gameStateService.setTimerKey(currentTimerKey);
 
-      // wait util board loads
-      const boardArray = this.createBoard();
+      const savedTimerKey = localStorage.getItem('timerKey');
+      console.log('ngOinit: ', currentTimerKey, savedTimerKey)
+
+      const TEST_MODE = false;
+      let boardArray: FormArray[] = [];
+      let loadStorage = false;
+      //true: read localStorage, false: set localstorage
+      if (savedTimerKey === currentTimerKey && !TEST_MODE) {
+        loadStorage = true;
+        
+        this.gameStateService.initializeInitialBoardFromLocalStorage();
+        this.gameStateService.initializeSolvedBoardFromLocalStorage();
+        this.initialBoard = this.gameStateService.getInitialBoard();
+        this.solvedBoard = this.gameStateService.getSolvedBoard();
+
+        //user board from localStorage
+        console.log('initialBoard:', this.initialBoard);
+        const saveduserBoardString = localStorage.getItem('userBoard');
+        if (saveduserBoardString) {
+          try {
+            this.userBoard = JSON.parse(saveduserBoardString) as number[][];
+          } catch (error) {
+            console.warn("Invalid userBoard JSON → resetting userBoard.");
+            this.userBoard = this.initialBoard.map(row => row.map(cell => cell === 0 ? null : cell));
+          }
+        } else {
+          this.userBoard = this.initialBoard.map(row => row.map(cell => cell === 0 ? null : cell));
+        }
+        console.log('userBoard:', this.userBoard);
+
+        boardArray = this.createBoard(this.initialBoard);
+        this.localTimerService.initialize(this.timerMode, this.timerValue, loadStorage);
+
+      } else {
+        loadStorage = false;
+        localStorage.setItem('timerKey', currentTimerKey);
+
+        if (TEST_MODE) {
+          // 🚀 SET TEST BOARD!
+          const testInitialBoard = [
+            [5, 3, 4, 6, 7, 8, 9, 1, 2],
+            [6, 7, 2, 1, 9, 5, 3, 4, 8],
+            [1, 9, 8, 3, 4, 2, 5, 6, 7],
+            [8, 5, 9, 7, 6, 1, 4, 2, 3],
+            [4, 2, 6, 8, 5, 3, 7, 9, 1],
+            [7, 1, 3, 9, 2, 4, 8, 5, 6],
+            [9, 6, 1, 5, 3, 7, 2, 8, 4],
+            [2, 8, 7, 4, 1, 9, 6, 3, 5],
+            [3, 4, 5, 2, 8, 6, 1, 7, 0]
+          ];
+
+          const testSolvedBoard = [
+            [5, 3, 4, 6, 7, 8, 9, 1, 2],
+            [6, 7, 2, 1, 9, 5, 3, 4, 8],
+            [1, 9, 8, 3, 4, 2, 5, 6, 7],
+            [8, 5, 9, 7, 6, 1, 4, 2, 3],
+            [4, 2, 6, 8, 5, 3, 7, 9, 1],
+            [7, 1, 3, 9, 2, 4, 8, 5, 6],
+            [9, 6, 1, 5, 3, 7, 2, 8, 4],
+            [2, 8, 7, 4, 1, 9, 6, 3, 5],
+            [3, 4, 5, 2, 8, 6, 1, 7, 9]
+          ];
+          this.gameStateService.setInitialBoard(testInitialBoard);
+          this.gameStateService.setSolvedBoard(testSolvedBoard);
+
+          this.initialBoard = this.gameStateService.getInitialBoard();
+          this.solvedBoard = this.gameStateService.getSolvedBoard();
+
+          boardArray = this.createBoard(this.initialBoard);
+
+        } else {
+          this.sudokuService.generateSudoku(this.currentLevel);
+          this.gameStateService.setInitialBoard(this.sudokuService.initialBoard);
+          this.gameStateService.setSolvedBoard(this.sudokuService.solvedBoard);
+
+          this.initialBoard = this.gameStateService.getInitialBoard();
+          this.solvedBoard = this.gameStateService.getSolvedBoard();
+
+          console.log('NEW initialBoard:', this.initialBoard);
+          console.log('NEW solvedBoard:', this.solvedBoard);
+          localStorage.removeItem('userBoard');
+          this.userBoard = this.initialBoard.map(row => row.map(cell => cell === 0 ? null : cell));
+          this.localTimerService.initialize(this.timerMode, this.timerValue, false);
+          boardArray = this.createBoard(this.initialBoard);
+        }
+      }
+
       this.form = this.fb.group({
         board: this.fb.array(boardArray)
       });
 
       //for winning game
-    this.form.valueChanges.subscribe(board => {
-      if (this.isSudokuCompleted()) {
-        setTimeout(() => {
-          if (this.isLoggedIn) {
-            // Registered users will be recorded directly
-            this.submitScoreLoggedIn();
-            this.showGameWonDialog = true;
-          } else {
-            // Guest will show the nickname dialog first
-            this.showNicknameDialog = true;
-          }
-        }, 100);
-      }
-    })
+      this.formSubscription?.unsubscribe(); 
+      this.formSubscription = this.form.valueChanges.subscribe(boardValue => {
+        localStorage.setItem('userBoard', JSON.stringify(boardValue.board));
+
+        if (this.isSudokuCompleted()) {
+          setTimeout(() => {
+            if (this.isLoggedIn) {
+              // Registered users will be recorded directly
+              this.submitScoreLoggedIn();
+              this.showGameWonDialog = true;
+            } else {
+              // Guest will show the nickname dialog first
+              this.showNicknameDialog = true;
+            }
+          }, 100);
+        }
+      })
     });
 
     this.localTimerService.isPausedObservable.subscribe(paused => {
@@ -130,13 +199,24 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
   }
 
   //initialboard has value 0, in formcontrol 0 is present as null to show space in html
-  createBoard(): FormArray[] {
+  createBoard(initialBoard: number[][]): FormArray[] {
+    console.log('initialBoard create:', this.initialBoard);
+    console.log('userBoard create:', this.userBoard);
     const board: FormArray[] = [];
     for (let i = 0; i < 9; i++) {
       const row: FormArray = this.fb.array([]);
       for (let j = 0; j < 9; j++) {
-        const value = this.initialBoard[i][j];
-        const cell: FormControl = value === 0 ? this.fb.control(null, [Validators.required, Validators.pattern(/[1-9]/)]) : this.fb.control(value);
+        const value = initialBoard[i][j];
+        const userValue = this.userBoard[i][j];
+        let cell!: FormControl;
+        if (value !== 0) {
+          // Original value from initialBoard → fixed (readonly)
+          cell = this.fb.control(value);
+        } else {
+          // Editable cell → load userValue or null
+          cell = this.fb.control(userValue, [Validators.pattern(/[1-9]/)]);
+        }
+        // const cell: FormControl = value === 0 ? this.fb.control(null, [Validators.required, Validators.pattern(/[1-9]/)]) : this.fb.control(value);
         row.push(cell);
       }
       board.push(row);
@@ -158,8 +238,10 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
   }
 
   checkCellAnswer(row: number, col: number): boolean {
+    const savedSolvedBoard = this.gameStateService.getSolvedBoard();
+
     const userValue = this.getCell(row, col).value;
-    const correctValue = this.solvedBoard[row][col];
+    const correctValue = savedSolvedBoard[row][col];
 
     if (userValue === null || userValue === '' || isNaN(Number(userValue))) {
       return false;
@@ -187,15 +269,13 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
           return false;
         }
       }
-    }
-    this.localTimerService.stop();
+    } 9
+    this.localTimerService.stop(true);
     return true
   }
 
   //for registered user
   submitScoreLoggedIn() {
-    console.log("Submitting score (registered user)");
-  
     const scoreData = {
       playerMode: this.currentPlayerMode,
       playMode: this.currentPlayMode,
@@ -203,14 +283,12 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       time: this.localTimerService.getCurrentTime(),
       date: new Date().toISOString()
     };
-  
+
     this.postScore(scoreData);
   }
 
   //for guest
   submitScore() {
-    console.log("Submitting score (guest)");
-  
     const scoreData = {
       nickname: this.nickname.trim(),
       playerMode: this.currentPlayerMode,
@@ -219,11 +297,11 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       time: this.localTimerService.getCurrentTime(),
       date: new Date().toISOString()
     };
-  
+
     this.postScore(scoreData);
   }
-  
 
+  //todo translation
   private postScore(scoreData: any) {
     this.leaderboardService.submitScore(scoreData, this.isLoggedIn).subscribe({
       next: () => {
@@ -253,7 +331,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       }
     });
   }
-  
+
 
   onSkip() {
     this.showNicknameDialog = false;
@@ -276,20 +354,33 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
   }
 
   onClickNewgame() {
+    this.localTimerService.stop(true);
     this.sudokuService.generateSudoku(this.currentLevel);
-    this.initialBoard = this.sudokuService.initialBoard;
-    this.solvedBoard = this.sudokuService.solvedBoard;
+    this.gameStateService.setInitialBoard(this.sudokuService.initialBoard);
+    this.gameStateService.setSolvedBoard(this.sudokuService.solvedBoard);
 
-    const boardArray = this.createBoard();
+    this.initialBoard = this.gameStateService.getInitialBoard();
+    this.solvedBoard = this.gameStateService.getSolvedBoard();
+
+    localStorage.removeItem('userBoard');
+    this.userBoard = this.initialBoard.map(row => row.map(cell => cell === 0 ? null : cell));
+
+    const boardArray = this.createBoard(this.initialBoard);
     this.form = this.fb.group({
       board: this.fb.array(boardArray)
     });
+
+    this.formSubscription?.unsubscribe();
+    this.formSubscription = this.form.valueChanges.subscribe(boardValue => {
+      localStorage.setItem('userBoard', JSON.stringify(boardValue.board));
+    });
+
     this.localTimerService.initialize(this.timerMode, this.timerValue);
     this.showGameWonDialog = false;
   }
 
   onClickNextLevel() {
-
+    this.localTimerService.stop(true);
     if (this.currentLevel === 'easy') {
       this.currentLevel = 'medium';
     } else if (this.currentLevel === 'medium') {
@@ -307,10 +398,13 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       this.currentLevel
     ]);
 
+    this.formSubscription?.unsubscribe();
+    this.localTimerService.initialize(this.timerMode, this.timerValue);
     this.showGameWonDialog = false;
   }
 
   onClickRandomGame() {
+    this.localTimerService.stop(true);
     const levels = ['easy', 'medium', 'hard', 'expert'];
     let randomLevel = levels[Math.floor(Math.random() * levels.length)];
 
@@ -326,10 +420,13 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       this.currentPlayMode,
       randomLevel
     ]);
+
+    this.formSubscription?.unsubscribe();
+    this.localTimerService.initialize(this.timerMode, this.timerValue);
     this.showGameWonDialog = false;
   }
 
-  goToLeaderboard(){
+  goToLeaderboard() {
     this.router.navigate(['/leaderboard'], {
       queryParams: {
         playerMode: this.currentPlayerMode,
@@ -338,7 +435,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
         limit: 50
       }
     });
-  
+
     this.showGameWonDialog = false;
   }
 
@@ -419,7 +516,10 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     this.destroy$.next(); //infrom all takeUntil to unsubscribe
     this.destroy$.complete(); //closing subject(destroy$)
     this.sudokuService.clearBoards();
-    this.localTimerService.stop();
+    this.formSubscription?.unsubscribe();
+    // localStorage.removeItem('userBoard');
+    // localStorage.removeItem('initailBoard');
+    // localStorage.removeItem('solvedBoard');
   }
 
 }
