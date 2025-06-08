@@ -5,7 +5,7 @@ import { ReactiveFormsModule, FormBuilder, FormArray, FormControl, FormGroup, Va
 import { SudokuService } from '../../services/sudoku.service';
 import { TimerComponent } from "../timer/timer.component";
 import { ButtonModule } from 'primeng/button';
-import { filter, Subject, take, takeUntil } from 'rxjs';
+import { filter, Subject, Subscription, take, takeUntil } from 'rxjs';
 import { LocalTimerService } from '../../services/timer/local-timer.service';
 import { GameConfigService } from '../../services/game/gameconfig.service';
 import { DialogModule } from 'primeng/dialog';
@@ -44,7 +44,8 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
   currentUsername = '';
   currentPlayMode = '';
   currentPlayerMode = '';
-  userBoard: number[][] = [];
+  userBoard: (number | null)[][] = [];
+  private formSubscription?: Subscription;
 
   constructor(
     private fb: FormBuilder,
@@ -66,9 +67,6 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
 
     // subscribe necessary for route changing
     this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
-      // this.currentPlayerMode = params.get('playermode') ?? 'single';
-      // this.currentLevel = params.get('level') ?? 'easy';
-      // this.currentPlayMode = params.get('playmode') ?? 'normal';
       this.gameStateService.setPlayerMode(params.get('playermode') ?? 'single');
       this.gameStateService.setPlayMode(params.get('playmode') ?? 'normal');
       this.gameStateService.setLevel(params.get('level') ?? 'easy');
@@ -94,35 +92,25 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       if (savedTimerKey === currentTimerKey && !TEST_MODE) {
         loadStorage = true;
 
-        //initial board from localStorage
-        //const savedInitialBoardString = localStorage.getItem('initialBoard');
-        // let initialBoard: number[][] = [];
-
-        // if (savedInitialBoardString) {
-        //   initialBoard = JSON.parse(savedInitialBoardString) as number[][];
-        //   this.gameStateService.setInitialBoard(initialBoard);
-        // }
         this.gameStateService.initializeInitialBoardFromLocalStorage();
-        this.initialBoard = this.gameStateService.getInitialBoard();
-
-        //solved board from localStorage
-        //const savedSolvedBoardString = localStorage.getItem('solvedBoard');
-        // let solvedBoard: number[][] = [];
-
-        // if (savedSolvedBoardString) {
-        //   solvedBoard = JSON.parse(savedSolvedBoardString) as number[][];
-        //   this.gameStateService.setSolvedBoard(solvedBoard);
-        // }
         this.gameStateService.initializeSolvedBoardFromLocalStorage();
+        this.initialBoard = this.gameStateService.getInitialBoard();
         this.solvedBoard = this.gameStateService.getSolvedBoard();
 
         //user board from localStorage
-        // const saveduserBoardString = localStorage.getItem('userBoard');
-        // // let userBoard: number[][] = [];
-
-        // if (saveduserBoardString) {
-        //   this.userBoard = JSON.parse(saveduserBoardString) as number[][];
-        // }
+        console.log('initialBoard:', this.initialBoard);
+        const saveduserBoardString = localStorage.getItem('userBoard');
+        if (saveduserBoardString) {
+          try {
+            this.userBoard = JSON.parse(saveduserBoardString) as number[][];
+          } catch (error) {
+            console.warn("Invalid userBoard JSON → resetting userBoard.");
+            this.userBoard = this.initialBoard.map(row => row.map(cell => cell === 0 ? null : cell));
+          }
+        } else {
+          this.userBoard = this.initialBoard.map(row => row.map(cell => cell === 0 ? null : cell));
+        }
+        console.log('userBoard:', this.userBoard);
 
         boardArray = this.createBoard(this.initialBoard);
 
@@ -170,6 +158,11 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
 
           this.initialBoard = this.gameStateService.getInitialBoard();
           this.solvedBoard = this.gameStateService.getSolvedBoard();
+
+          console.log('NEW initialBoard:', this.initialBoard);
+          console.log('NEW solvedBoard:', this.solvedBoard);
+          localStorage.removeItem('userBoard');
+          this.userBoard = this.initialBoard.map(row => row.map(cell => cell === 0 ? null : cell));
           this.localTimerService.initialize(this.timerMode, this.timerValue, false);
           boardArray = this.createBoard(this.initialBoard);
         }
@@ -180,9 +173,10 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       });
 
       //for winning game
-      this.form.valueChanges.subscribe(boardValue => {
+      this.formSubscription?.unsubscribe(); 
+      this.formSubscription = this.form.valueChanges.subscribe(boardValue => {
         localStorage.setItem('userBoard', JSON.stringify(boardValue.board));
-        
+
         if (this.isSudokuCompleted()) {
           setTimeout(() => {
             if (this.isLoggedIn) {
@@ -205,21 +199,23 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
 
   //initialboard has value 0, in formcontrol 0 is present as null to show space in html
   createBoard(initialBoard: number[][]): FormArray[] {
+    console.log('initialBoard create:', this.initialBoard);
+    console.log('userBoard create:', this.userBoard);
     const board: FormArray[] = [];
     for (let i = 0; i < 9; i++) {
       const row: FormArray = this.fb.array([]);
       for (let j = 0; j < 9; j++) {
         const value = initialBoard[i][j];
-        // const userValue = this.userBoard[i][j];
-        // let cell!: FormControl;
-        // if(value === userValue){
-        //   cell = this.fb.control(value);
-        // }else if(!userValue && value === 0){
-        //   cell = this.fb.control(null, [Validators.required, Validators.pattern(/[1-9]/)])
-        // }else{
-        //   cell = this.fb.control(userValue);
-        // }
-        const cell: FormControl = value === 0 ? this.fb.control(null, [Validators.required, Validators.pattern(/[1-9]/)]) : this.fb.control(value);
+        const userValue = this.userBoard[i][j];
+        let cell!: FormControl;
+        if (value !== 0) {
+          // Original value from initialBoard → fixed (readonly)
+          cell = this.fb.control(value);
+        } else {
+          // Editable cell → load userValue or null
+          cell = this.fb.control(userValue, [Validators.pattern(/[1-9]/)]);
+        }
+        // const cell: FormControl = value === 0 ? this.fb.control(null, [Validators.required, Validators.pattern(/[1-9]/)]) : this.fb.control(value);
         row.push(cell);
       }
       board.push(row);
@@ -252,14 +248,6 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
 
     return Number(userValue) === correctValue;
   }
-
-  // saveUserAnswers(): number[][] {
-  //   this.form.valueChanges.subscribe(boardvalue => {
-  //     localStorage.setItem('userBoard', boardvalue.board);
-  //   });
-  //   const userBoard = JSON.parse(localStorage.getItem('DEIN_KEY') ?? '[]');
-  //   return []
-  // }
 
   getCellClass(row: number, col: number): string {
     const userValue = this.getCell(row, col).value;
@@ -373,10 +361,20 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     this.initialBoard = this.gameStateService.getInitialBoard();
     this.solvedBoard = this.gameStateService.getSolvedBoard();
 
+    localStorage.removeItem('userBoard');
+    this.userBoard = this.initialBoard.map(row => row.map(cell => cell === 0 ? null : cell));
+    console.log('RESET userBoard:', this.userBoard);
+
     const boardArray = this.createBoard(this.initialBoard);
     this.form = this.fb.group({
       board: this.fb.array(boardArray)
     });
+
+    this.formSubscription?.unsubscribe();
+    this.formSubscription = this.form.valueChanges.subscribe(boardValue => {
+      localStorage.setItem('userBoard', JSON.stringify(boardValue.board));
+    });
+
     this.localTimerService.initialize(this.timerMode, this.timerValue);
     this.showGameWonDialog = false;
   }
@@ -400,6 +398,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       this.currentLevel
     ]);
 
+    this.formSubscription?.unsubscribe();
     this.localTimerService.initialize(this.timerMode, this.timerValue);
     this.showGameWonDialog = false;
   }
@@ -421,6 +420,8 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       this.currentPlayMode,
       randomLevel
     ]);
+    
+    this.formSubscription?.unsubscribe();
     this.localTimerService.initialize(this.timerMode, this.timerValue);
     this.showGameWonDialog = false;
   }
@@ -515,6 +516,10 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     this.destroy$.next(); //infrom all takeUntil to unsubscribe
     this.destroy$.complete(); //closing subject(destroy$)
     this.sudokuService.clearBoards();
+    this.formSubscription?.unsubscribe();
+    // localStorage.removeItem('userBoard');
+    // localStorage.removeItem('initailBoard');
+    // localStorage.removeItem('solvedBoard');
   }
 
 }
