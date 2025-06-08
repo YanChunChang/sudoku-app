@@ -44,6 +44,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
   currentUsername = '';
   currentPlayMode = '';
   currentPlayerMode = '';
+  userBoard: number[][] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -94,26 +95,36 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
         loadStorage = true;
 
         //initial board from localStorage
-        const savedInitialBoardString = localStorage.getItem('initialBoard');
-        let initialBoard: number[][] = [];
+        //const savedInitialBoardString = localStorage.getItem('initialBoard');
+        // let initialBoard: number[][] = [];
 
-        if (savedInitialBoardString) {
-          initialBoard = JSON.parse(savedInitialBoardString) as number[][];
-          this.gameStateService.setInitialBoard(initialBoard);
-        }
+        // if (savedInitialBoardString) {
+        //   initialBoard = JSON.parse(savedInitialBoardString) as number[][];
+        //   this.gameStateService.setInitialBoard(initialBoard);
+        // }
+        this.gameStateService.initializeInitialBoardFromLocalStorage();
         this.initialBoard = this.gameStateService.getInitialBoard();
 
         //solved board from localStorage
-        const savedSolvedBoardString = localStorage.getItem('solvedBoard');
-        let solvedBoard: number[][] = [];
+        //const savedSolvedBoardString = localStorage.getItem('solvedBoard');
+        // let solvedBoard: number[][] = [];
 
-        if (savedSolvedBoardString) {
-          solvedBoard = JSON.parse(savedSolvedBoardString) as number[][];
-          this.gameStateService.setSolvedBoard(solvedBoard);
-        }
+        // if (savedSolvedBoardString) {
+        //   solvedBoard = JSON.parse(savedSolvedBoardString) as number[][];
+        //   this.gameStateService.setSolvedBoard(solvedBoard);
+        // }
+        this.gameStateService.initializeSolvedBoardFromLocalStorage();
         this.solvedBoard = this.gameStateService.getSolvedBoard();
 
-        boardArray = this.createBoard(initialBoard);
+        //user board from localStorage
+        // const saveduserBoardString = localStorage.getItem('userBoard');
+        // // let userBoard: number[][] = [];
+
+        // if (saveduserBoardString) {
+        //   this.userBoard = JSON.parse(saveduserBoardString) as number[][];
+        // }
+
+        boardArray = this.createBoard(this.initialBoard);
 
       } else {
         loadStorage = false;
@@ -169,7 +180,9 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       });
 
       //for winning game
-      this.form.valueChanges.subscribe(board => {
+      this.form.valueChanges.subscribe(boardValue => {
+        localStorage.setItem('userBoard', JSON.stringify(boardValue.board));
+        
         if (this.isSudokuCompleted()) {
           setTimeout(() => {
             if (this.isLoggedIn) {
@@ -197,6 +210,15 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       const row: FormArray = this.fb.array([]);
       for (let j = 0; j < 9; j++) {
         const value = initialBoard[i][j];
+        // const userValue = this.userBoard[i][j];
+        // let cell!: FormControl;
+        // if(value === userValue){
+        //   cell = this.fb.control(value);
+        // }else if(!userValue && value === 0){
+        //   cell = this.fb.control(null, [Validators.required, Validators.pattern(/[1-9]/)])
+        // }else{
+        //   cell = this.fb.control(userValue);
+        // }
         const cell: FormControl = value === 0 ? this.fb.control(null, [Validators.required, Validators.pattern(/[1-9]/)]) : this.fb.control(value);
         row.push(cell);
       }
@@ -230,6 +252,14 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
 
     return Number(userValue) === correctValue;
   }
+
+  // saveUserAnswers(): number[][] {
+  //   this.form.valueChanges.subscribe(boardvalue => {
+  //     localStorage.setItem('userBoard', boardvalue.board);
+  //   });
+  //   const userBoard = JSON.parse(localStorage.getItem('DEIN_KEY') ?? '[]');
+  //   return []
+  // }
 
   getCellClass(row: number, col: number): string {
     const userValue = this.getCell(row, col).value;
