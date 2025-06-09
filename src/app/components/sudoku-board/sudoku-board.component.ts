@@ -37,6 +37,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
   isPaused = false;
   showGameWonDialog = false;
   showNicknameDialog = false;
+  showGameLostDialog = false;
   nickname: string = '';
   message = '';
   error = '';
@@ -162,8 +163,6 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
           this.initialBoard = this.gameStateService.getInitialBoard();
           this.solvedBoard = this.gameStateService.getSolvedBoard();
 
-          console.log('NEW initialBoard:', this.initialBoard);
-          console.log('NEW solvedBoard:', this.solvedBoard);
           localStorage.removeItem('userBoard');
           this.userBoard = this.initialBoard.map(row => row.map(cell => cell === 0 ? null : cell));
           this.localTimerService.initialize(this.timerMode, this.timerValue, false);
@@ -173,6 +172,14 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
 
       this.form = this.fb.group({
         board: this.fb.array(boardArray)
+      });
+
+      //for losing game
+      this.localTimerService.gameLost$.pipe(takeUntil(this.destroy$)).subscribe(lost => {
+        if (lost) {
+          this.showGameLostDialog = true;
+          this.localTimerService.resetGameOver();
+        }
       });
 
       //for winning game
@@ -304,7 +311,6 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     this.postScore(scoreData);
   }
 
-  //todo translation
   private postScore(scoreData: any) {
     this.leaderboardService.submitScore(scoreData, this.isLoggedIn).subscribe({
       next: (res) => {
@@ -336,7 +342,6 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     });
   }
 
-
   onSkip() {
     this.showNicknameDialog = false;
     this.showGameWonDialog = true;
@@ -344,6 +349,22 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
 
   onClickReset() {
     if (this.isPaused) return;
+    for (let row = 0; row < 9; row++) {
+      for (let col = 0; col < 9; col++) {
+        const userValue = this.getCell(row, col);
+        let originalValue = this.initialBoard[row][col];
+        if (originalValue === 0) {
+          userValue.setValue(null);
+        } else {
+          userValue.setValue(originalValue);
+        }
+      }
+    }
+  }
+
+  onClickResetForLost() {
+    this.showGameLostDialog = false;
+    this.localTimerService.initialize(this.timerMode, this.timerValue);
     for (let row = 0; row < 9; row++) {
       for (let col = 0; col < 9; col++) {
         const userValue = this.getCell(row, col);
@@ -382,6 +403,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
 
     this.localTimerService.initialize(this.timerMode, this.timerValue);
     this.showGameWonDialog = false;
+    this.showGameLostDialog = false;
   }
 
   onClickNextLevel() {
@@ -406,6 +428,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     this.formSubscription?.unsubscribe();
     this.localTimerService.initialize(this.timerMode, this.timerValue);
     this.showGameWonDialog = false;
+    this.showGameLostDialog = false;
   }
 
   onClickRandomGame() {
@@ -429,6 +452,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     this.formSubscription?.unsubscribe();
     this.localTimerService.initialize(this.timerMode, this.timerValue);
     this.showGameWonDialog = false;
+    this.showGameLostDialog = false;
   }
 
   goToLeaderboard() {
@@ -522,9 +546,6 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     this.destroy$.complete(); //closing subject(destroy$)
     this.sudokuService.clearBoards();
     this.formSubscription?.unsubscribe();
-    // localStorage.removeItem('userBoard');
-    // localStorage.removeItem('initailBoard');
-    // localStorage.removeItem('solvedBoard');
   }
 
 }
