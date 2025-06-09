@@ -85,7 +85,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       const savedTimerKey = localStorage.getItem('timerKey');
       console.log('ngOinit: ', currentTimerKey, savedTimerKey)
 
-      const TEST_MODE = false;
+      const TEST_MODE = true;
       let boardArray: FormArray[] = [];
       let loadStorage = false;
       //true: read localStorage, false: set localstorage
@@ -149,7 +149,9 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
 
           this.initialBoard = this.gameStateService.getInitialBoard();
           this.solvedBoard = this.gameStateService.getSolvedBoard();
-
+          localStorage.removeItem('userBoard');
+          this.userBoard = this.initialBoard.map(row => row.map(cell => cell === 0 ? null : cell));
+          this.localTimerService.initialize(this.timerMode, this.timerValue, false);
           boardArray = this.createBoard(this.initialBoard);
 
         } else {
@@ -177,21 +179,10 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       this.formSubscription?.unsubscribe(); 
       this.formSubscription = this.form.valueChanges.subscribe(boardValue => {
         localStorage.setItem('userBoard', JSON.stringify(boardValue.board));
-
-        if (this.isSudokuCompleted()) {
-          setTimeout(() => {
-            if (this.isLoggedIn) {
-              // Registered users will be recorded directly
-              this.submitScoreLoggedIn();
-              this.showGameWonDialog = true;
-            } else {
-              // Guest will show the nickname dialog first
-              this.showNicknameDialog = true;
-            }
-          }, 100);
-        }
+        this.checkIfSudokuCompletedAndShowDialog();
       })
     });
+
 
     this.localTimerService.isPausedObservable.subscribe(paused => {
       this.isPaused = paused;
@@ -200,8 +191,6 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
 
   //initialboard has value 0, in formcontrol 0 is present as null to show space in html
   createBoard(initialBoard: number[][]): FormArray[] {
-    console.log('initialBoard create:', this.initialBoard);
-    console.log('userBoard create:', this.userBoard);
     const board: FormArray[] = [];
     for (let i = 0; i < 9; i++) {
       const row: FormArray = this.fb.array([]);
@@ -216,7 +205,6 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
           // Editable cell → load userValue or null
           cell = this.fb.control(userValue, [Validators.pattern(/[1-9]/)]);
         }
-        // const cell: FormControl = value === 0 ? this.fb.control(null, [Validators.required, Validators.pattern(/[1-9]/)]) : this.fb.control(value);
         row.push(cell);
       }
       board.push(row);
@@ -274,6 +262,21 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     return true
   }
 
+  checkIfSudokuCompletedAndShowDialog() {
+    if (this.isSudokuCompleted()) {
+      setTimeout(() => {
+        if (this.isLoggedIn) {
+          // Registered users will be recorded directly
+          this.submitScoreLoggedIn();
+          this.showGameWonDialog = true;
+        } else {
+          // Guest will show the nickname dialog first
+          this.showNicknameDialog = true;
+        }
+      }, 100);
+    }
+  }
+
   //for registered user
   submitScoreLoggedIn() {
     const scoreData = {
@@ -304,13 +307,14 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
   //todo translation
   private postScore(scoreData: any) {
     this.leaderboardService.submitScore(scoreData, this.isLoggedIn).subscribe({
-      next: () => {
+      next: (res) => {
         console.log('Score submitted!');
         this.showNicknameDialog = false;
+        this.message = this.translate.instant(res.messageKey);
         this.messageService.add({
           severity: 'success',
-          summary: 'Success',
-          detail: 'Your score has been saved!',
+          summary: this.translate.instant('DIALOG_NICKNAME.SUCCESS'),
+          detail: this.message,
           life: 3000
         });
         this.nickname = '';
@@ -320,11 +324,11 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       error: (err) => {
         this.showGameWonDialog = false;
         const messageKey = err.error?.messageKey;
-        this.error = this.translate.instant(messageKey || 'ERROR.UNKNOWN');
+        this.error = this.translate.instant(messageKey);
         this.messageService.add({
           severity: 'error',
-          summary: 'Error',
-          detail: 'Failed to save score. Please try again!',
+          summary: this.translate.instant('DIALOG_NICKNAME.ERROR'),
+          detail: this.error,
           life: 3000
         });
         this.message = '';
@@ -373,6 +377,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     this.formSubscription?.unsubscribe();
     this.formSubscription = this.form.valueChanges.subscribe(boardValue => {
       localStorage.setItem('userBoard', JSON.stringify(boardValue.board));
+      this.checkIfSudokuCompletedAndShowDialog();
     });
 
     this.localTimerService.initialize(this.timerMode, this.timerValue);

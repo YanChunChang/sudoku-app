@@ -108,7 +108,13 @@
     "HEADER": "你贏了🎉 請輸入名字",
     "TEXT": "名字",
     "SUBMIT": "提交",
-    "SKIP": "跳過"
+    "SKIP": "跳過",
+    "SUCCESS": "資料已儲存",
+    "SUCCESS_TEXT": "您的暱稱和分數已成功儲存",
+    "ERROR": "儲存資料時發生錯誤。",
+    "ERROR_TEXT": "儲存您的暱稱和分數時發生錯誤。",
+    "ERROR_USERNAME": "缺少使用者名稱。",
+    "ERROR_REQUIRED_FIELD": "網址錯誤。"
   },
   "LEADERBOARD": {
     "RANKING": "排名",

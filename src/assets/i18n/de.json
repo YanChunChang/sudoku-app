@@ -108,7 +108,13 @@
     "HEADER": "Gewonnen🎉 Name eingeben",
     "TEXT": "Name",
     "SUBMIT": "Eingeben",
-    "SKIP": "überspringen"
+    "SKIP": "überspringen",
+    "SUCCESS": "Daten gespeichert",
+    "SUCCESS_TEXT": "Dein Spitzname und Punktzahl wurden erfolgreich gespeichert",
+    "ERROR": "Fehler beim Speichern der Daten.",
+    "ERROR_TEXT": "Fehler beim Speichern deines Spitznamens und deiner Punktzahl.",
+    "ERROR_USERNAME": "Fehlende Benutzername.",
+    "ERROR_REQUIRED_FIELD": "Ungültige URL."
   },
   "LEADERBOARD": {
     "RANKING": "Ranglist",
