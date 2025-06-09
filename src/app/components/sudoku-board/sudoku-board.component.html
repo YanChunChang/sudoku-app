@@ -50,4 +50,14 @@
     <a (click)="goToLeaderboard()">{{ 'DIALOG.LEADERBOARD' | translate }}👀</a>
 </p-dialog>
 
+<p-dialog header="{{ 'DIALOG_LOST.HEADER' | translate }}" [(visible)]="showGameLostDialog" modal="true" [closable]="false">
+    <div class="p-text">
+        <p>{{ 'DIALOG_LOST.TEXT' | translate }}</p>
+    </div>
+    <a (click)="onClickResetForLost()">{{ 'DIALOG_LOST.BUTTON_RETRY' | translate }}</a>
+    <a (click)="onClickNewgame()">{{ 'DIALOG_LOST.BUTTON_NEXT_GAME' | translate }}</a>
+    <a (click)="onClickNextLevel()">{{ 'DIALOG_LOST.BUTTON_NEXT_LEVEL' | translate }}</a>
+    <a (click)="onClickRandomGame()">{{ 'DIALOG_LOST.BUTTON_RANDOM' | translate }}🔀</a>
+</p-dialog>
+
 <p-toast />

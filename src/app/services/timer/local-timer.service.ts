@@ -11,6 +11,8 @@ export class LocalTimerService {
   private currentTime: number = 0;
   private mode!: TimerMode;
   private pausedSubject = new BehaviorSubject<boolean>(false);
+  private gameLostSubject = new BehaviorSubject<boolean>(false);
+  gameLost$ = this.gameLostSubject.asObservable();
 
   start(mode: TimerMode, startFrom: number) {
     if (this.subscription?.closed === false) return;
@@ -36,6 +38,7 @@ export class LocalTimerService {
           localStorage.setItem('currentTime', this.currentTime.toString());
         } else {
           this.pause();
+          this.gameLostSubject.next(true);
         }
       });
     }
@@ -53,6 +56,10 @@ export class LocalTimerService {
     this.pause();
     this.currentTime = this.mode === 'up' ? 0 : this.currentTime;
     this.start(this.mode, this.currentTime);
+  }
+
+  resetGameOver(){
+    this.gameLostSubject.next(false);
   }
 
   //Stop timer completely for winning the game
