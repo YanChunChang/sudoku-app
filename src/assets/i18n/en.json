@@ -103,12 +103,19 @@
     "BUTTON_NEXT_LEVEL": "Next Level",
     "BUTTON_RANDOM": "Random",
     "LEADERBOARD": "Leaderboard"
+
   },
   "DIALOG_NICKNAME": {
     "HEADER": "You won 🎉 Enter your name",
     "TEXT": "Name",
     "SUBMIT": "Submit",
-    "SKIP": "Skip"
+    "SKIP": "Skip",
+    "SUCCESS": "Data saved",
+    "SUCCESS_TEXT": "Your nickname and score saved successfully",
+    "ERROR": "Error saving data.",
+    "ERROR_TEXT": "Error saving your nickname and score.",
+    "ERROR_USERNAME": "Missing username.",
+    "ERROR_REQUIRED_FIELD": "Invalid URL."
   },
   "LEADERBOARD": {
     "RANKING": "Ranking",

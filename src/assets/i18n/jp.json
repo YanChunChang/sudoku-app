@@ -108,7 +108,13 @@
     "HEADER": "勝利しました🎉 名前を入力してください",
     "TEXT": "名前",
     "SUBMIT": "送信",
-    "SKIP": "スキップ"
+    "SKIP": "スキップ",
+    "SUCCESS": "データが保存されました",
+    "SUCCESS_TEXT": "ニックネームとスコアが正常に保存されました",
+    "ERROR": "データの保存中にエラーが発生しました。",
+    "ERROR_TEXT": "ニックネームとスコアの保存中にエラーが発生しました。",
+    "ERROR_USERNAME": "ユーザー名が不足しています。",
+    "ERROR_REQUIRED_FIELD": "無効なURLです。"
   },
   "LEADERBOARD": {
     "RANKING": "ランキング",

@@ -304,13 +304,14 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
   //todo translation
   private postScore(scoreData: any) {
     this.leaderboardService.submitScore(scoreData, this.isLoggedIn).subscribe({
-      next: () => {
+      next: (res) => {
         console.log('Score submitted!');
         this.showNicknameDialog = false;
+        this.message = this.translate.instant(res.messageKey);
         this.messageService.add({
           severity: 'success',
-          summary: 'Success',
-          detail: 'Your score has been saved!',
+          summary: this.translate.instant('DIALOG_NICKNAME.SUCCESS'),
+          detail: this.message,
           life: 3000
         });
         this.nickname = '';
@@ -320,11 +321,11 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
       error: (err) => {
         this.showGameWonDialog = false;
         const messageKey = err.error?.messageKey;
-        this.error = this.translate.instant(messageKey || 'ERROR.UNKNOWN');
+        this.error = this.translate.instant(messageKey);
         this.messageService.add({
           severity: 'error',
-          summary: 'Error',
-          detail: 'Failed to save score. Please try again!',
+          summary: this.translate.instant('DIALOG_NICKNAME.ERROR'),
+          detail: this.error,
           life: 3000
         });
         this.message = '';
