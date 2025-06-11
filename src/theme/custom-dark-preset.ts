@@ -1,7 +1,7 @@
 import { definePreset } from '@primeng/themes';
-import Lara from '@primeng/themes/Lara';
+// import Lara from '@primeng/themes/Lara';
 
-export const CustomDarkPreset = definePreset(Lara, {
+export const CustomDarkPreset = definePreset('Lara', {
   semantic: {
       primary: {
           50: '{cyan.50}',

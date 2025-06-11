@@ -37,6 +37,8 @@
               }
             ],
             "styles": [
+              "node_modules/@primeng/themes/lara/lara-dark-blue.css",
+              "node_modules/primeng/resources/primeng.min.css",
               "node_modules/primeicons/primeicons.css",
               "src/styles/styles.scss"
             ],
@@ -107,6 +109,8 @@
               }
             ],
             "styles": [
+              "node_modules/@primeng/themes/lara/lara-dark-blue.css",
+              "node_modules/primeng/resources/primeng.min.css",
               "node_modules/primeicons/primeicons.css",
               "src/styles/styles.scss"
 
