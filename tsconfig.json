@@ -16,12 +16,20 @@
     "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2022",
-    "module": "ES2022"
+    "module": "esnext"
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true
+    "strictTemplates": true,
+    "files": [
+      "main.ts",
+      "polyfills.ts"
+    ],
+    "include": [
+      "src/**/*.d.ts",
+      "typings.d.ts"
+    ],
   }
 }
