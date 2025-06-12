@@ -18,3 +18,8 @@
 ::ng-deep .p-datatable-thead > tr > th.p-datatable-column-sorted{
     color: $light-gray !important; 
 }
+
+.table-wrapper {
+    width: 100%;
+    overflow-x: hidden;
+}
