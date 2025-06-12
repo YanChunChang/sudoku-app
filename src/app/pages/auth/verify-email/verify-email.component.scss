@@ -18,3 +18,17 @@
 ::ng-deep html.darkmode .container{
     color: $light-gray;
 }
+
+@media (max-width: 768px) {
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 60vh;
+        padding: 0 24px;
+        text-align: center;
+        color: $marine-dark;
+        box-sizing: border-box;
+      }
+}

@@ -4,7 +4,7 @@ form {
     display: flex;
     flex-direction: column;
     background-color: $light-gray;
-    justify-self: center;
+    justify-content: center;
     align-items: center;
     top: 50%;
     left: 50%;
@@ -19,7 +19,6 @@ form {
     border: $light-gray 1px solid;
     color: $marine-dark;
 }
-
 .wrapper{
     display: flex;
     align-items: center;
@@ -98,4 +97,34 @@ form {
 
 ::ng-deep html.darkmode .container{
     color: $light-gray;
+}
+
+
+@media (max-width: 768px) {
+    form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: $light-gray;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        width: 90%;
+        max-width: 500px;
+        min-width: 280px;
+        height: auto;
+        color: $marine-dark;
+        margin: auto;
+        box-sizing: border-box;
+      }
+    .middle{
+        text-align: center; 
+    }
+
+    .container{
+        margin-top: 50%;
+        padding: 0 24px;   
+        height: 60vh;
+    }
 }
