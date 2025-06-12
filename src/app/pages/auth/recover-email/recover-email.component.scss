@@ -19,6 +19,7 @@ form {
     border: $light-gray 1px solid;
     color: $marine-dark;
 }
+
 .wrapper{
     display: flex;
     align-items: center;
@@ -26,7 +27,6 @@ form {
     gap: 10px;
     width: 100%;
 }
-
 
 .wrapper .text {
     min-width: 50px;
@@ -47,6 +47,12 @@ form {
     margin-bottom: 8px;
     background-color: $marine-dark;
     border: none;
+    &:hover{
+        background-color: $marine-dark !important;
+        transform: translateY(0px);
+        border: none !important;
+        color: $light-gray !important;
+    }
 }
 
 
@@ -55,6 +61,13 @@ form {
     margin-bottom: 8px;
     background-color: $marine-dark;
     border: none;
+
+    &:hover{
+        background-color: $marine-dark !important;
+        transform: translateY(0px);
+        border: none !important;
+        color: $light-gray !important;
+    }
 }
 
 .spacing{
@@ -84,7 +97,7 @@ form {
 }
 
 ::ng-deep html.darkmode .p-button{
-    color: var(--text-color);
+    color: $light-gray;
     border: none;
     background-color: $marine-dark;
 }
