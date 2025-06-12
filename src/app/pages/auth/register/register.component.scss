@@ -58,8 +58,8 @@ input.invalid {
 ::ng-deep .p-button{
     background-color: $marine-dark !important;
     border: none !important;
+    width: 200px !important;;
 }
-
 //dark mode
 ::ng-deep html.darkmode form{
     background-color: var(--p-surface-500);
@@ -75,4 +75,17 @@ input.invalid {
     border: $light-gray;
 }
 
-
+@media (max-width: 768px) {
+    form {
+        display: flex;
+        flex-direction: column;
+        background-color: $light-gray;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        width: 90%;
+        max-width: 400px;
+        height: auto;
+        color: $marine-dark;
+      }
+}
