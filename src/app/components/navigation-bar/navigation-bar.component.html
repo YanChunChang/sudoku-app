@@ -4,7 +4,7 @@
         <a *ngIf="isDarkMode === true" routerLink="/"> <img src="assets/images/sudoku_logo_new_white.png" alt="Sudoku_logo" /></a>
     </div>
     <div class="navbar-links">
-        <a routerLink="/" routerLinkActive="active">{{ 'NAVBAR.LEVEL' | translate }}</a>
+        <!-- <a routerLink="/" routerLinkActive="active">{{ 'NAVBAR.LEVEL' | translate }}</a> -->
         <a routerLink="/leaderboard" routerLinkActive="active">{{ 'NAVBAR.LEADERBOARD' | translate }}</a>
         <p-toggleswitch [(ngModel)]="isDarkMode" (ngModelChange)="toggleDarkMode($event)">
             <ng-template #handle let-checked="checked">

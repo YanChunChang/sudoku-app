@@ -5,6 +5,7 @@
     padding: 20px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     border-bottom: 2px solid $marine;
 }
 
@@ -15,9 +16,8 @@
     }
   
     img {
-      height: 40px;
-      margin-left: 200px;
-      margin-right: 200px;
+        height: 40px;
+        margin: 0;
     }
 
     img:hover,
@@ -100,3 +100,26 @@
     }
 }
 
+
+  @media (max-width: 768px) {
+    .navbar {
+      flex-wrap: wrap;
+      justify-content: space-between;
+      padding: 10px;
+    }
+  
+    .navbar-logo img {
+      height: 30px;
+      margin: 0;
+    }
+  
+    .navbar-links {
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+  
+    ::ng-deep button.login {
+      margin-left: auto;
+      margin-top: 0;
+    }
+  }

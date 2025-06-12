@@ -3,9 +3,11 @@
 .verify-container{
     display: flex;
     flex-direction: column;
-    justify-self: center;
-    align-items: center;
-    margin-top: 25%;
+    justify-content: center;
+    align-items: center;    
+    padding: 0 24px;     
+    text-align: center; 
+    height: 60vh;
 }
 
 .text-success{
@@ -41,5 +43,21 @@ a {
 
     &:hover::after {
         transform: scaleX(1);
+    }
+}
+
+//darkmode
+::ng-deep html.darkmode .text-success{
+    color: $correct-light;
+}
+
+::ng-deep html.darkmode .text-danger{
+    color: $error-light;
+}
+
+::ng-deep html.darkmode a{
+    color: $light-gray;
+    &::after {
+        background-color: $light-gray;
     }
 }
