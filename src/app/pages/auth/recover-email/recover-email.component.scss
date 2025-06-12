@@ -1,24 +1,49 @@
 @use "styles/variables" as *;
 
 form {
+    // display: flex;
+    // flex-direction: column;
+    // background-color: $light-gray;
+    // justify-content: center;
+    // align-items: center;
+    // top: 50%;
+    // left: 50%;
+    // transform: translate(-50%, -50%);
+    // position: absolute;
+    // margin: auto;
+    // padding: 30px;
+    // border-radius: 10px;
+    // box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    // width: 40%;
+    // height: 25%;
+    // border: $light-gray 1px solid;
+    // color: $marine-dark;
+
     display: flex;
     flex-direction: column;
-    background-color: $light-gray;
     justify-content: center;
     align-items: center;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    position: absolute;
-    margin: auto;
+    background-color: $light-gray;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    width: 40%;
-    height: 25%;
-    border: $light-gray 1px solid;
+    width: 90%;
+    max-width: 400px;
+    min-width: 280px;
+    height: auto;
     color: $marine-dark;
+    box-sizing: border-box;
+    margin: auto;
 }
+
+.form-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 1rem;
+    box-sizing: border-box;
+  }
 
 .wrapper{
     display: flex;
@@ -26,6 +51,7 @@ form {
     justify-content: center;
     gap: 10px;
     width: 100%;
+    flex-wrap: wrap;
 }
 
 .wrapper .text {
@@ -84,9 +110,7 @@ form {
 .container{
     display: flex;
     flex-direction: column;
-    justify-self: center;
-    align-items: center;
-    margin-top: 25%;
+    text-align: center;
     color: $marine-dark;
 }
 
