@@ -2,8 +2,8 @@
 
  .board {
    justify-self: center;
-   height: 100vh;
-   margin-top: 5%;
+   height: 70vh;
+   margin-top: 10%;
  }
 
  .wrapper {
@@ -19,24 +19,28 @@
 
  .grid-container {
    display: grid;
-   grid-template-columns: repeat(9, 64px);
-   grid-template-rows: repeat(9, 64px);
+   grid-template-columns: repeat(9, minmax(30px, 1fr));
+   grid-template-rows: repeat(9, minmax(30px, 1fr));
    border: 2px solid $marine-dark;
    background-color: $marine-dark;
    border-radius: 8px;
-   width: fit-content;
+   width: 100%;
+   max-width: 576px;
+   aspect-ratio: 1 / 1;
+   margin: 0 auto;
  }
 
  .grid-item {
-   width: 61px;
-   height: 61px;
-   border: 1px solid $light-gray;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   background-color: $marine-dark;
-   border-radius: 4px;
-   margin: 1px;
+  //  width: 61px;
+  //  height: 61px;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid $light-gray;
+  background-color: $marine-dark;
+  border-radius: 4px;
+  margin: 1px;
  }
 
 
@@ -204,13 +208,24 @@
  }
 
  ::ng-deep html.darkmode a {
-  color: $light-gray !important;
+   color: $light-gray !important;
 
-  &::after {
-    background-color: $light-gray !important;
+   &::after {
+     background-color: $light-gray !important;
+   }
+ }
+
+ ::ng-deep html.darkmode .p-text {
+   color: $light-gray !important;
+ }
+
+ @media (max-width: 768px) {
+  .board {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 40px 16px;
+    box-sizing: border-box;
   }
-}
-
-::ng-deep html.darkmode .p-text {
-  color: $light-gray !important;
-}
+ }
