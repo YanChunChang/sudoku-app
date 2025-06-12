@@ -3,11 +3,17 @@
 .container{
     display: flex;
     flex-direction: column;
-    justify-self: center;
     align-items: center;
-    margin-top: 25%;
+    justify-content: flex-start; 
+    padding: 2rem 1rem;
+    margin-top: 20vh; 
+    max-height: 90vh; 
+    overflow: hidden; 
     color: $marine-dark;
+    text-align: center;
+    box-sizing: border-box;
 }
+
 ::ng-deep a{
     border-bottom: 2px;
     cursor: pointer;
