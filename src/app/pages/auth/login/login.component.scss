@@ -92,7 +92,7 @@ a {
 }
 
 ::ng-deep html.darkmode .p-button{
-    color: var(--text-color);
+    color: $light-gray !important;
 }
 
 ::ng-deep html.darkmode input {
