@@ -45,15 +45,18 @@
                 "src"
               ]
             },
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "sudoku-gen"
+            ]
           },
           "configurations": {
             "production": {
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "5mb",
+                  "maximumError": "15mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -109,7 +112,6 @@
             "styles": [
               "node_modules/primeicons/primeicons.css",
               "src/styles/styles.scss"
-
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
