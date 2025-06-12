@@ -203,7 +203,7 @@
    color: $error-light !important;
  }
 
- ::ng-deep a {
+ ::ng-deep html.darkmode a {
   color: $light-gray !important;
 
   &::after {
@@ -211,6 +211,6 @@
   }
 }
 
-::ng-deep .p-text {
+::ng-deep html.darkmode .p-text {
   color: $light-gray !important;
 }
