@@ -215,6 +215,18 @@
   }
 }
 
+
+::ng-deep .win-dialog{
+  width: 500px;
+  .p-text{
+    text-align: center;
+  }
+  .p-dialog-title {
+    width: 100%;
+    text-align: center;
+  }
+}
+
 ::ng-deep .lost-dialog{
   width: 500px;
   .p-text{
