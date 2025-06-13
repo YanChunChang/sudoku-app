@@ -47,6 +47,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
   currentPlayerMode = '';
   userBoard: (number | null)[][] = [];
   private formSubscription?: Subscription;
+  isSubmitted = false;
 
   constructor(
     private fb: FormBuilder,
@@ -326,6 +327,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
         this.nickname = '';
         this.error = '';
         this.showGameWonDialog = true;
+        this.isSubmitted = true;
       },
       error: (err) => {
         this.showGameWonDialog = false;
@@ -338,6 +340,9 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
           life: 3000
         });
         this.message = '';
+      },
+      complete: () => {
+        this.isSubmitted = false;
       }
     });
   }

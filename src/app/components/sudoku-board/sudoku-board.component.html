@@ -31,35 +31,44 @@
     </form>
 </div>
 
+<!-- Dialogs -->
 <p-dialog header="{{ 'DIALOG_NICKNAME.HEADER' | translate }}" [(visible)]="showNicknameDialog" [modal]="true" [closable]="false">
     <div class="p-fluid">
       <div class="p-field">
         <label>{{ 'DIALOG_NICKNAME.TEXT' | translate }}</label>
         <input type="text" [(ngModel)]="nickname" placeholder="King Otter" maxlength="20">
       </div>
-      <a (click)="submitScore()">{{ 'DIALOG_NICKNAME.SUBMIT' | translate }}</a>
-      <a (click)="onSkip()">{{ 'DIALOG_NICKNAME.SKIP' | translate }}</a>
+      <div class="dialog-buttons">
+        <p-button styleClass="dialog-button" [loading]="isSubmitted" [label]="'DIALOG_NICKNAME.SUBMIT' | translate" (click)="submitScore()"></p-button> 
+        <p-button styleClass="dialog-button" [label]="'DIALOG_NICKNAME.SKIP' | translate" (click)="onSkip()"></p-button>
+      </div> 
     </div>
 </p-dialog>
 
+<!-- won game -->
 <p-dialog header="{{ 'DIALOG.HEADER' | translate }}" [(visible)]="showGameWonDialog" modal="true" [closable]="false">
     <div class="p-text">
         <p>{{ 'DIALOG.TEXT' | translate }}</p>
     </div>
-    <a (click)="onClickNewgame()">{{ 'DIALOG.BUTTON_NEXT_GAME' | translate }}</a>
-    <a (click)="onClickNextLevel()">{{ 'DIALOG.BUTTON_NEXT_LEVEL' | translate }}</a>
-    <a (click)="onClickRandomGame()">{{ 'DIALOG.BUTTON_RANDOM' | translate }}🔀</a>
-    <a (click)="goToLeaderboard()">{{ 'DIALOG.LEADERBOARD' | translate }}👀</a>
+    <div class="dialog-buttons-column">
+        <p-button styleClass="dialog-button" [label]="'DIALOG.BUTTON_NEXT_GAME' | translate" (click)="onClickNewgame()"></p-button>
+        <p-button styleClass="dialog-button" [label]="'DIALOG.BUTTON_NEXT_LEVEL' | translate" (click)="onClickNextLevel()"></p-button>
+        <p-button styleClass="dialog-button" [label]="'DIALOG.BUTTON_RANDOM' | translate" (click)="onClickRandomGame()"></p-button>
+        <p-button styleClass="dialog-button" [label]="'DIALOG.LEADERBOARD' | translate" (click)="goToLeaderboard()"></p-button>
+    </div>
 </p-dialog>
 
-<p-dialog header="{{ 'DIALOG_LOST.HEADER' | translate }}" [(visible)]="showGameLostDialog" modal="true" [closable]="false">
+<!-- lost game -->
+<p-dialog styleClass="lost-dialog" header="{{ 'DIALOG_LOST.HEADER' | translate }}" [(visible)]="showGameLostDialog" modal="true" [closable]="false">
     <div class="p-text">
         <p>{{ 'DIALOG_LOST.TEXT' | translate }}</p>
     </div>
-    <a (click)="onClickResetForLost()">{{ 'DIALOG_LOST.BUTTON_RETRY' | translate }}</a>
-    <a (click)="onClickNewgame()">{{ 'DIALOG_LOST.BUTTON_NEXT_GAME' | translate }}</a>
-    <a (click)="onClickNextLevel()">{{ 'DIALOG_LOST.BUTTON_NEXT_LEVEL' | translate }}</a>
-    <a (click)="onClickRandomGame()">{{ 'DIALOG_LOST.BUTTON_RANDOM' | translate }}🔀</a>
+    <div class="dialog-buttons-column">
+        <p-button styleClass="dialog-button" [label]="'DIALOG_LOST.BUTTON_RETRY' | translate" (click)="onClickResetForLost()"></p-button>
+        <p-button styleClass="dialog-button" [label]="'DIALOG_LOST.BUTTON_NEXT_GAME' | translate" (click)="onClickNewgame()"></p-button>
+        <p-button styleClass="dialog-button" [label]="'DIALOG_LOST.BUTTON_NEXT_LEVEL' | translate" (click)="onClickNextLevel()"></p-button>
+        <p-button styleClass="dialog-button" [label]="'DIALOG_LOST.BUTTON_RANDOM' | translate" (click)="onClickRandomGame()"></p-button>
+    </div>
 </p-dialog>
 
 <p-toast />

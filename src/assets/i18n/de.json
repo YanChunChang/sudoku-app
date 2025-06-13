@@ -100,17 +100,17 @@
     "HEADER": "Glückwunsch!👏🏻👏🏻👏🏻",
     "TEXT": "Du hast das Sudoku erfolgreich gelöst! 🎉🎉🎉",
     "BUTTON_NEXT_GAME": "Nächstes Spiel",
-    "BUTTON_NEXT_LEVEL": "Nächster Level",
-    "BUTTON_RANDOM": "Zufällig",
-    "LEADERBOARD": "Rangliste"
+    "BUTTON_NEXT_LEVEL": "Nächstes Level",
+    "BUTTON_RANDOM": "Zufällig 🔀",
+    "LEADERBOARD": "Rangliste 👀"
   },
   "DIALOG_LOST": {
     "HEADER": "Spiel verloren! 😢",
     "TEXT": "Die Zeit ist abgelaufen. Versuche es erneut!",
     "BUTTON_RETRY": "Nochmal",
     "BUTTON_NEXT_GAME": "Nächstes Spiel",
-    "BUTTON_NEXT_LEVEL": "Nächster Level",
-    "BUTTON_RANDOM": "Zufällig"
+    "BUTTON_NEXT_LEVEL": "Nächstes Level",
+    "BUTTON_RANDOM": "Zufällig 🔀"
   },
   "DIALOG_NICKNAME": {
     "HEADER": "Gewonnen🎉 Name eingeben",

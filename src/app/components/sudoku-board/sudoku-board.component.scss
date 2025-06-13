@@ -175,6 +175,57 @@
    margin-bottom: 2rem;
  }
 
+ .dialog-buttons {
+   display: flex;
+   justify-content: center;
+   gap: 1rem;
+ }
+
+ ::ng-deep .dialog-buttons .dialog-button {
+   background-color: $marine !important;
+   color: $light-gray !important;
+
+   &:hover {
+     background-color: $marine-hover !important;
+     transform: translateY(0px);
+     border: none !important;
+     color: $light-gray !important;
+   }
+ }
+
+ .dialog-buttons-column{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+ }
+
+
+ ::ng-deep .dialog-buttons-column .dialog-button {
+  background-color: $marine !important;
+  color: $light-gray !important;
+  width: 200px;
+
+  &:hover {
+    background-color: $marine-hover !important;
+    transform: translateY(0px);
+    border: none !important;
+    color: $light-gray !important;
+  }
+}
+
+::ng-deep .lost-dialog{
+  width: 500px;
+  .p-text{
+    text-align: center;
+  }
+  .p-dialog-title {
+    width: 100%;
+    text-align: center;
+  }
+}
+
  //darkmode
  ::ng-deep html.darkmode input {
    background-color: transparent !important;
@@ -258,30 +309,31 @@
  }
 
  @media (min-width: 1500px) and (max-width: 5000px) {
-  .game-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: calc(100vh - 80px);
-  }
-  .board {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    padding: 0px 10px;
-    box-sizing: border-box;
-  }
+   .game-wrapper {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     min-height: calc(100vh - 80px);
+   }
 
-  .wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-    flex-wrap: nowrap;
-    max-width: 576px;
-    margin: 0 auto 1rem auto;
-    padding: 0 12px;
-    box-sizing: border-box;
-  }
+   .board {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     flex-direction: column;
+     padding: 0px 10px;
+     box-sizing: border-box;
+   }
+
+   .wrapper {
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     gap: 0.75rem;
+     flex-wrap: nowrap;
+     max-width: 576px;
+     margin: 0 auto 1rem auto;
+     padding: 0 12px;
+     box-sizing: border-box;
+   }
  }
