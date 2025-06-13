@@ -2,7 +2,8 @@
     <p-table #dt2 [columns]="selectedColumns" [value]="players" [paginator]="true" [rows]="10"
     [rowsPerPageOptions]="[5, 10, 30]"
     [globalFilterFields]="['nickname', 'userTypeTranslated', 'playerModeTranslated', 'playModeTranslated', 'levelTranslated', 'time', 'date']"
-    [tableStyle]="{ 'min-width': '50rem' }">
+    [tableStyle]="{ 'min-width': '50rem' }"
+    >
     <ng-template #caption>
         <div class="space">
             <p-multiselect display="chip" [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
@@ -29,23 +30,7 @@
         </tr>
     </ng-template>
     <ng-template #body let-player let-rowIndex="rowIndex" let-columns="columns">
-        <tr>
-            <!-- <td>{{ player.ranking }}</td>
-            <td *ngFor="let col of columns">
-
-                <ng-container *ngIf="col.field === 'time'; else notTime">
-                    {{ formattTime(player[col.field]) }}
-                </ng-container>
-
-                <ng-template #notTime>
-                    <ng-container *ngIf="col.field === 'date'; else normalField">
-                        {{ player[col.field] | date:'medium' }}
-                    </ng-container>
-
-                    <ng-template #normalField>
-                        {{ player[col.field] }}
-                    </ng-template>
-                </ng-template> -->
+        <tr [ngClass]="{ 'highlight-row': player.isCurrentUser}">
             <td>{{ player.ranking }}</td>
 
            <!-- Dynamische Spalten -->

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
@@ -24,21 +24,17 @@ import { InputIconModule } from 'primeng/inputicon';
 export class LeaderboardComponent {
   @ViewChild('dt2') dt2: any;
   players: any[] = [];
-  cols: { field: string, header: string; sortable: boolean}[] = [];
+  cols: { field: string, header: string; sortable: boolean }[] = [];
   selectedColumns: { field: string; header: string; }[] = [];
+  isCurrentUser: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private leaderboardService: LeaderboardService,
-    private cd: ChangeDetectorRef,
     private translate: TranslateService) { }
 
 
   ngOnInit() {
-    // this.productService.getProductsMini().then((data) => {
-    //     this.products = data;
-    //     this.cd.markForCheck();
-    // });
     this.route.queryParams.subscribe(params => {
       const playerMode = params['playerMode'] || '';
       const playMode = params['playMode'] || '';
@@ -48,7 +44,6 @@ export class LeaderboardComponent {
       console.log('Loading leaderboard with:', playerMode, playMode, level, limit);
 
       this.leaderboardService.getLeaderboard(playerMode, playMode, level, limit).subscribe(data => {
-        console.log(data)
         this.players = data.map((player, index) => ({
           ...player,
           ranking: index + 1,
@@ -57,6 +52,28 @@ export class LeaderboardComponent {
           playModeTranslated: this.translate.instant('LEADERBOARD.' + (player.playMode || '').toUpperCase()),
           levelTranslated: this.translate.instant('LEADERBOARD.' + (player.level || '').toUpperCase()),
         }));
+        const currentUserScore = JSON.parse(localStorage.getItem('lastScore')!);
+        console.log('Current user score:', currentUserScore);
+        console.log('Players loaded:', this.players);
+        const currentUser = this.players.find(player => player._id === currentUserScore.id);
+        if (currentUser) {
+          console.log('Current user found:', currentUser);
+          currentUser.isCurrentUser = true;
+        }
+
+        const index = this.players.findIndex(player => player._id === currentUserScore.id);
+        if (index !== -1) {
+          const pageSize = this.dt2.rows;
+          const pageIndex = Math.floor(index / pageSize); // Seite berechnen
+        
+          setTimeout(() => {
+            this.dt2.first = pageIndex * pageSize; // Springt zur richtigen Seite
+          }, 0);
+        
+          //this.players[index].isCurrentUser = true;
+        } else {
+          console.warn('Current user not found in leaderboard');
+        }
       });
     });
 
@@ -73,7 +90,11 @@ export class LeaderboardComponent {
     this.selectedColumns = [...this.cols];
   }
 
-  formattTime(seconds: number): string{
+  getRowClass(player: any): string {
+    return player.isCurrentUser ? 'highlight-row' : '';
+  }
+
+  formattTime(seconds: number): string {
     return formattedTime(seconds);
   }
 
@@ -81,5 +102,5 @@ export class LeaderboardComponent {
     const value = (event.target as HTMLInputElement).value;
     this.dt2.filterGlobal(value, 'contains');
   }
-  
+
 }

@@ -316,14 +316,26 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     this.leaderboardService.submitScore(scoreData, this.isLoggedIn).subscribe({
       next: (res) => {
         console.log('Score submitted!');
+        console.log('res data', res);
         this.showNicknameDialog = false;
         this.message = this.translate.instant(res.messageKey);
+
         this.messageService.add({
           severity: 'success',
           summary: this.translate.instant('DIALOG_NICKNAME.SUCCESS'),
           detail: this.message,
           life: 3000
         });
+        
+        let scoreWithId;
+          scoreWithId = {
+            ...scoreData,
+            id: res.id
+          };
+        console.log('scoreWithId:', scoreWithId);
+        localStorage.setItem('lastScore', JSON.stringify(scoreWithId));
+        console.log('lastScore:', JSON.parse(localStorage.getItem('lastScore')!));
+
         this.nickname = '';
         this.error = '';
         this.showGameWonDialog = true;
