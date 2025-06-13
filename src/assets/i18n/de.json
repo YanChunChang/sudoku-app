@@ -143,7 +143,9 @@
     "MULTI": "Mehrspieler",
     "NORMAL": "Normal",
     "COUNTDOWN": "Countdown",
-    "CHALLENGE": "Herausforderung"
+    "CHALLENGE": "Herausforderung",
+    "NOTFOUND": "Keine Rangliste gefunden.",
+    "NOTFOUNDDETAIL": "Sie sind noch nicht in der Rangliste."
   },
   "GENERAL": {
     "BACK": "Zurück",

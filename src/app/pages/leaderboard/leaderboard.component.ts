@@ -12,6 +12,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
+import { MessageService } from 'primeng/api';
 
 
 @Component({
@@ -19,7 +20,8 @@ import { InputIconModule } from 'primeng/inputicon';
   standalone: true,
   imports: [TableModule, ButtonModule, CommonModule, FormsModule, MultiSelectModule, TranslateModule, InputTextModule, SelectModule, IconFieldModule, InputIconModule],
   templateUrl: './leaderboard.component.html',
-  styleUrl: './leaderboard.component.scss'
+  styleUrl: './leaderboard.component.scss',
+  providers: [MessageService]
 })
 export class LeaderboardComponent {
   @ViewChild('dt2') dt2: any;
@@ -31,7 +33,8 @@ export class LeaderboardComponent {
   constructor(
     private route: ActivatedRoute,
     private leaderboardService: LeaderboardService,
-    private translate: TranslateService) { }
+    private translate: TranslateService,
+    private messageService: MessageService,) { }
 
 
   ngOnInit() {
@@ -69,10 +72,13 @@ export class LeaderboardComponent {
           setTimeout(() => {
             this.dt2.first = pageIndex * pageSize; // Springt zur richtigen Seite
           }, 0);
-        
-          //this.players[index].isCurrentUser = true;
         } else {
-          console.warn('Current user not found in leaderboard');
+          this.messageService.add({
+            severity: 'error',
+            summary: this.translate.instant('LEADERBOARD.NOTFOUND'),
+            detail: this.translate.instant('LEADERBOARD..NOTFOUNDDETAIL'),
+            life: 3000
+          });
         }
       });
     });

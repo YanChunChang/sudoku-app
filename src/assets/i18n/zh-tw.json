@@ -143,7 +143,9 @@
     "MULTI": "多人遊戲",
     "NORMAL": "一般",
     "COUNTDOWN": "倒數計時",
-    "CHALLENGE": "挑戰"
+    "CHALLENGE": "挑戰",
+    "NOTFOUND": "找不到排行榜。",
+    "NOTFOUNDDETAIL": "您尚未進入排行榜。"
   },
   "GENERAL": {
     "BACK": "返回",

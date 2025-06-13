@@ -143,7 +143,9 @@
     "MULTI": "Multiplayer",
     "NORMAL": "Normal",
     "COUNTDOWN": "Countdown",
-    "CHALLENGE": "Challenge"
+    "CHALLENGE": "Challenge",
+    "NOTFOUND": "No leaderboard found.",
+    "NOTFOUNDDETAIL": "You are not on the leaderboard yet."
   },
   "GENERAL": {
     "BACK": "Back",

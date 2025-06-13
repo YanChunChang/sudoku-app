@@ -143,7 +143,9 @@
     "MULTI": "マルチプレイヤー",
     "NORMAL": "ノーマル",
     "COUNTDOWN": "カウントダウン",
-    "CHALLENGE": "チャレンジ"
+    "CHALLENGE": "チャレンジ",
+    "NOTFOUND": "ランキングが見つかりません。",
+    "NOTFOUNDDETAIL": "まだランキングに載っていません。"
   },
   "GENERAL": {
     "BACK": "戻る",
