@@ -101,8 +101,16 @@
     "TEXT": "你成功完成了數獨！ 🎉🎉🎉",
     "BUTTON_NEXT_GAME": "下一局",
     "BUTTON_NEXT_LEVEL": "下個等級",
-    "BUTTON_RANDOM": "隨機",
-    "LEADERBOARD": "排行榜"
+    "BUTTON_RANDOM": "隨機 🔀",
+    "LEADERBOARD": "排行榜👀"
+  },
+  "DIALOG_LOST": {
+    "HEADER": "遊戲結束！😢",
+    "TEXT": "時間到了，請再試一次！",
+    "BUTTON_RETRY": "重試",
+    "BUTTON_NEXT_GAME": "下一局",
+    "BUTTON_NEXT_LEVEL": "下一關",
+    "BUTTON_RANDOM": "隨機 🔀"
   },
   "DIALOG_NICKNAME": {
     "HEADER": "你贏了🎉 請輸入名字",

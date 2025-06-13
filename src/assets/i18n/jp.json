@@ -101,8 +101,16 @@
     "TEXT": "数独をクリアしました！ 🎉🎉🎉",
     "BUTTON_NEXT_GAME": "次のゲーム",
     "BUTTON_NEXT_LEVEL": "次のレベル",
-    "BUTTON_RANDOM": "ランダム",
-    "LEADERBOARD": "リーダーボード"
+    "BUTTON_RANDOM": "ランダム 🔀",
+    "LEADERBOARD": "リーダーボード 👀"
+  },
+  "DIALOG_LOST": {
+    "HEADER": "ゲームオーバー！😢",
+    "TEXT": "時間切れです。もう一度挑戦しましょう！",
+    "BUTTON_RETRY": "再挑戦",
+    "BUTTON_NEXT_GAME": "次のゲーム",
+    "BUTTON_NEXT_LEVEL": "次のレベル",
+    "BUTTON_RANDOM": "ランダム 🔀"
   },
   "DIALOG_NICKNAME": {
     "HEADER": "勝利しました🎉 名前を入力してください",

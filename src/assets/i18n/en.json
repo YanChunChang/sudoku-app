@@ -101,9 +101,16 @@
     "TEXT": "You have successfully completed the Sudoku! 🎉🎉🎉",
     "BUTTON_NEXT_GAME": "Next Game",
     "BUTTON_NEXT_LEVEL": "Next Level",
-    "BUTTON_RANDOM": "Random",
-    "LEADERBOARD": "Leaderboard"
-
+    "BUTTON_RANDOM": "Random 🔀",
+    "LEADERBOARD": "Leaderboard 👀"
+  },
+  "DIALOG_LOST": {
+    "HEADER": "Game Over! 😢",
+    "TEXT": "Time is up. Try again!",
+    "BUTTON_RETRY": "Retry",
+    "BUTTON_NEXT_GAME": "Next Game",
+    "BUTTON_NEXT_LEVEL": "Next Level",
+    "BUTTON_RANDOM": "Random 🔀"
   },
   "DIALOG_NICKNAME": {
     "HEADER": "You won 🎉 Enter your name",
