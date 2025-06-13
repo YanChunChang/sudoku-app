@@ -13,12 +13,12 @@ import { SelectModule } from 'primeng/select';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { MessageService } from 'primeng/api';
-
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-leaderboard',
   standalone: true,
-  imports: [TableModule, ButtonModule, CommonModule, FormsModule, MultiSelectModule, TranslateModule, InputTextModule, SelectModule, IconFieldModule, InputIconModule],
+  imports: [TableModule, ButtonModule, CommonModule, FormsModule, MultiSelectModule, TranslateModule, InputTextModule, SelectModule, IconFieldModule, InputIconModule, ToastModule],
   templateUrl: './leaderboard.component.html',
   styleUrl: './leaderboard.component.scss',
   providers: [MessageService]
@@ -73,10 +73,11 @@ export class LeaderboardComponent {
             this.dt2.first = pageIndex * pageSize; // Springt zur richtigen Seite
           }, 0);
         } else {
+          console.warn('Current user not found in leaderboard:', currentUserScore.id);
           this.messageService.add({
             severity: 'error',
             summary: this.translate.instant('LEADERBOARD.NOTFOUND'),
-            detail: this.translate.instant('LEADERBOARD..NOTFOUNDDETAIL'),
+            detail: this.translate.instant('LEADERBOARD.NOTFOUNDDETAIL'),
             life: 3000
           });
         }
