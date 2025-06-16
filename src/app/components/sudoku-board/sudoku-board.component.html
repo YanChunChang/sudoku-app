@@ -3,8 +3,8 @@
         <div class="wrapper">
             <app-timer [mode]="timerMode" [startFrom]="timerValue"></app-timer>
             <div class="right">
-                <p-button icon="pi pi-eraser" (click)="onClickReset()"></p-button>
-                <p-button icon="pi pi-chevron-right" (click)="onClickNewgame()"></p-button>
+                <p-button styleClass="gameButton" icon="pi pi-eraser" (click)="onClickReset()"></p-button>
+                <p-button styleClass="gameButton" icon="pi pi-chevron-right" (click)="onClickNewgame()"></p-button>
             </div>
         </div>
         <div class="board-wrapper">
@@ -33,7 +33,7 @@
 
 <!-- Dialogs -->
 <p-dialog header="{{ 'DIALOG_NICKNAME.HEADER' | translate }}" [(visible)]="showNicknameDialog" [modal]="true" [closable]="false">
-    <div class="p-fluid">
+    <div>
       <div class="p-field">
         <label>{{ 'DIALOG_NICKNAME.TEXT' | translate }}</label>
         <input type="text" [(ngModel)]="nickname" placeholder="King Otter" maxlength="20">

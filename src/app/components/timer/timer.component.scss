@@ -8,28 +8,27 @@
     color: $marine-dark !important;
 }
 
-::ng-deep p-button .pi{
+::ng-deep .p-button .pi{
     color:  $marine-dark !important;
     font-size: 28px;
 }
 
 ::ng-deep .clock{
-    cursor: default !important;
-}
-
-
-::ng-deep .p-button{
-    border: none !important;
-    background-color: $white !important;
     color: $marine-dark !important;
-}
-
-::ng-deep .p-button:hover {
-    background-color: var(--primary-color) !important;
+    background: transparent !important;
     border: none !important;
+    font-size: 28px;
+    cursor: default;
 }
 
-//darkmode
+::ng-deep .timer-button{
+    color: $marine-dark !important;
+    background: transparent !important;
+    border: none !important;
+    font-size: 28px;
+}
+
+//darkmode☺
 
 ::ng-deep html.darkmode .timer-display {
     color: var(--text-color) !important;
@@ -37,14 +36,26 @@
 
 ::ng-deep html.darkmode .clock:hover{
     cursor: default;
-    color: var(--text-color) !important;
+    color: $light-gray !important;
 }
 
-::ng-deep html.darkmode .p-button{
+::ng-deep html.darkmode .timer-button{
     background-color: var(--p-surface-700) !important;
-    color: var(--text-color) !important;
+    color: $light-gray !important;
 }
 
-::ng-deep html.darkmode p-button .pi{
-    color: var(--text-color) !important;
+::ng-deep html.darkmode .pi.pi-pause{
+    color: $light-gray !important;
+}
+
+::ng-deep html.darkmode .timer-button .pi.pi-play{
+    color: $light-gray !important;
+}
+
+::ng-deep html.darkmode .pi.pi-stopwatch{
+    color: $light-gray !important;
+}
+
+::ng-deep html.darkmode .pi.pi-refresh{
+    color: $light-gray !important;
 }

@@ -4,6 +4,7 @@
 
     <ng-container *ngIf="!isRunning; else pauseButton">
         <p-button 
+          styleClass="timer-button"
           icon="pi pi-play" 
           (click)="startTimer()" 
           pTooltip="Start">
@@ -12,12 +13,13 @@
 
     <ng-template #pauseButton>
         <p-button 
+          styleClass="timer-button"
           icon="pi pi-pause" 
           (click)="stopTimer()" 
           pTooltip="Pause">
         </p-button>
     </ng-template>
 
-    <p-button *ngIf="!isChallengeMode" icon="pi pi-refresh" (click)="resetTimer()" >
+    <p-button styleClass="timer-button" *ngIf="!isChallengeMode" icon="pi pi-refresh" (click)="resetTimer()" >
     </p-button>
 </div>
