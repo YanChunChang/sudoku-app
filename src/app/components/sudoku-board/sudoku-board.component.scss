@@ -114,41 +114,24 @@
    border-radius: 8px;
  }
 
- .resume-button {
+ ::ng-deep .resume-button {
    font-size: 2rem;
    width: 60px;
    height: 60px;
    border-radius: 50%;
+   color: $light-gray !important;
  }
 
- a {
-   position: relative;
-   text-decoration: none;
-   font-size: 16px;
-   color: $marine-dark;
-   font-weight: 500;
-   padding-bottom: 5px;
-   justify-self: space-between;
-   margin-left: 20px;
-   cursor: pointer;
 
-   &::after {
-     content: "";
-     position: absolute;
-     left: 0;
-     bottom: 0;
-     height: 3px;
-     width: 100%;
-     background-color: $marine-dark;
-     transform: scaleX(0);
-     transform-origin: left;
-     transition: transform 0.3s ease;
-   }
-
-   &:hover::after {
-     transform: scaleX(1);
-   }
+ ::ng-deep .gameButton {
+   color: $marine-dark !important;
+   background: transparent !important;
+   border: none !important;
  }
+
+ ::ng-deep .resume-button .pi.pi-play{
+  color: $light-gray !important;
+}
 
  ::ng-deep .p-dialog-title {
    color: $deep-blue !important;
@@ -184,6 +167,7 @@
  ::ng-deep .dialog-buttons .dialog-button {
    background-color: $marine !important;
    color: $light-gray !important;
+   border: none !important;
 
    &:hover {
      background-color: $marine-hover !important;
@@ -193,50 +177,54 @@
    }
  }
 
- .dialog-buttons-column{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
+ .dialog-buttons-column {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   gap: 1rem;
  }
 
 
  ::ng-deep .dialog-buttons-column .dialog-button {
-  background-color: $marine !important;
-  color: $light-gray !important;
-  width: 200px;
+   background-color: $marine !important;
+   color: $light-gray !important;
+   border: none !important;
+   width: 200px;
 
-  &:hover {
-    background-color: $marine-hover !important;
-    transform: translateY(0px);
-    border: none !important;
-    color: $light-gray !important;
-  }
-}
+   &:hover {
+     background-color: $marine-hover !important;
+     transform: translateY(0px);
+     border: none !important;
+     color: $light-gray !important;
+   }
+ }
 
+ ::ng-deep .win-dialog {
+   width: 500px;
 
-::ng-deep .win-dialog{
-  width: 500px;
-  .p-text{
-    text-align: center;
-  }
-  .p-dialog-title {
-    width: 100%;
-    text-align: center;
-  }
-}
+   .p-text {
+     text-align: center;
+   }
 
-::ng-deep .lost-dialog{
-  width: 500px;
-  .p-text{
-    text-align: center;
-  }
-  .p-dialog-title {
-    width: 100%;
-    text-align: center;
-  }
-}
+   .p-dialog-title {
+     width: 100%;
+     text-align: center;
+   }
+ }
+
+ ::ng-deep .lost-dialog {
+   width: 500px;
+
+   .p-text {
+     text-align: center;
+   }
+
+   .p-dialog-title {
+     width: 100%;
+     text-align: center;
+   }
+ }
 
  //darkmode
  ::ng-deep html.darkmode input {
@@ -277,6 +265,18 @@
    }
  }
 
+ ::ng-deep html.darkmode .pi.pi-eraser {
+   color: $light-gray !important;
+ }
+
+ ::ng-deep html.darkmode .pi.pi-chevron-right {
+   color: $light-gray !important;
+ }
+
+  ::ng-deep html.darkmode .resume-button .pi.pi-play{
+    color: $marine-dark !important;
+  }
+
  ::ng-deep html.darkmode .correct {
    color: $correct-light !important;
  }
@@ -285,13 +285,6 @@
    color: $error-light !important;
  }
 
- ::ng-deep html.darkmode a {
-   color: $light-gray !important;
-
-   &::after {
-     background-color: $light-gray !important;
-   }
- }
 
  ::ng-deep html.darkmode .p-text {
    color: $light-gray !important;

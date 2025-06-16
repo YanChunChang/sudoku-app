@@ -42,7 +42,7 @@ export class LeaderboardComponent {
       const playerMode = params['playerMode'] || '';
       const playMode = params['playMode'] || '';
       const level = params['level'] || '';
-      const limit = parseInt(params['limit']) || 50;
+      const limit = parseInt(params['limit']) || 1000;
 
       console.log('Loading leaderboard with:', playerMode, playMode, level, limit);
 
@@ -55,32 +55,34 @@ export class LeaderboardComponent {
           playModeTranslated: this.translate.instant('LEADERBOARD.' + (player.playMode || '').toUpperCase()),
           levelTranslated: this.translate.instant('LEADERBOARD.' + (player.level || '').toUpperCase()),
         }));
-        const currentUserScore = JSON.parse(localStorage.getItem('lastScore')!);
+        const currentUserScore = JSON.parse(localStorage.getItem('lastScore') || '{}');
         console.log('Current user score:', currentUserScore);
         console.log('Players loaded:', this.players);
-        const currentUser = this.players.find(player => player._id === currentUserScore.id);
-        if (currentUser) {
-          console.log('Current user found:', currentUser);
-          currentUser.isCurrentUser = true;
-        }
 
-        const index = this.players.findIndex(player => player._id === currentUserScore.id);
-        if (index !== -1) {
-          const pageSize = this.dt2.rows;
-          const pageIndex = Math.floor(index / pageSize); // Seite berechnen
-        
-          setTimeout(() => {
-            this.dt2.first = pageIndex * pageSize; // Springt zur richtigen Seite
-          }, 0);
-        } else {
-          console.warn('Current user not found in leaderboard:', currentUserScore.id);
-          this.messageService.add({
-            severity: 'error',
-            summary: this.translate.instant('LEADERBOARD.NOTFOUND'),
-            detail: this.translate.instant('LEADERBOARD.NOTFOUNDDETAIL'),
-            life: 3000
-          });
-        }
+        if (currentUserScore) {
+          const currentUser = this.players.find(player => player._id === currentUserScore.id);
+          if (currentUser) {
+            currentUser.isCurrentUser = true;
+
+            const index = this.players.findIndex(player => player._id === currentUserScore.id);
+            if (index !== -1) {
+              const pageSize = this.dt2.rows;
+              const pageIndex = Math.floor(index / pageSize); // Seite berechnen
+
+              setTimeout(() => {
+                this.dt2.first = pageIndex * pageSize; // Springt zur richtigen Seite
+              }, 0);
+            } else {
+              console.warn('Current user not found in leaderboard:', currentUserScore.id);
+              this.messageService.add({
+                severity: 'error',
+                summary: this.translate.instant('LEADERBOARD.NOTFOUND'),
+                detail: this.translate.instant('LEADERBOARD.NOTFOUNDDETAIL'),
+                life: 3000
+              });
+            }
+          }
+        };
       });
     });
 
@@ -110,4 +112,7 @@ export class LeaderboardComponent {
     this.dt2.filterGlobal(value, 'contains');
   }
 
+  ngOnDestroy() {
+    localStorage.removeItem('lastScore');
+  }
 }
