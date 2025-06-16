@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule, Router } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -16,6 +16,8 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { AuthService } from '../../services/auth/auth.service';
 import { GameStateService } from '../../services/game/game-state.service';
+import { BoardService } from '../../services/game/board.service';
+import { GameControlService } from '../../services/game/game-control.service';
 
 
 @Component({
@@ -27,27 +29,17 @@ import { GameStateService } from '../../services/game/game-state.service';
   providers: [MessageService]
 })
 export class SudokuBoardComponent implements OnInit, OnDestroy {
-  form!: FormGroup;
-  initialBoard!: number[][];
-  solvedBoard!: number[][];
-  currentLevel = '';
-  private destroy$ = new Subject<void>();
-  timerMode: 'up' | 'down' = 'up';
-  timerValue: number = 0;
-  isPaused = false;
-  showGameWonDialog = false;
-  showNicknameDialog = false;
-  showGameLostDialog = false;
-  nickname: string = '';
-  message = '';
-  error = '';
-  isLoggedIn = false;
-  currentUsername = '';
-  currentPlayMode = '';
-  currentPlayerMode = '';
-  userBoard: (number | null)[][] = [];
-  private formSubscription?: Subscription;
-  isSubmitted = false;
+  @Output() newGameClicked = new EventEmitter<void>();
+  @Output() resetClicked = new EventEmitter<void>();
+  @Output() resumeClicked = new EventEmitter<void>();
+  @Input() form!: FormGroup;
+  @Input() initialBoard!: number[][];
+  @Input() isPaused = false;
+  @Input() solvedBoard!: number[][];
+  @Input() userBoard!: (number | null)[][];
+  @Input() timerMode: 'up' | 'down' = 'up';
+  @Input() timerValue: number = 0;
+
 
   constructor(
     private fb: FormBuilder,
@@ -60,165 +52,188 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private authService: AuthService,
     private messageService: MessageService,
-    private gameStateService: GameStateService) {
+    private gameStateService: GameStateService,
+    private boardService: BoardService,
+    private gameControlService: GameControlService
+  ) {
+    this.form = this.fb.group({
+      board: this.fb.array([])
+    }); 
   }
 
   ngOnInit() {
-    this.isLoggedIn = this.authService.isLoggedIn();
-    this.currentUsername = this.authService.getUsername() ?? '';
+    // this.isLoggedIn = this.authService.isLoggedIn();
+    // this.currentUsername = this.authService.getUsername() ?? '';
 
-    // subscribe necessary for route changing
-    this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
-      this.gameStateService.setPlayerMode(params.get('playermode') ?? 'single');
-      this.gameStateService.setPlayMode(params.get('playmode') ?? 'normal');
-      this.gameStateService.setLevel(params.get('level') ?? 'easy');
+    // // subscribe necessary for route changing
+    // this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
+    //   this.gameStateService.setPlayerMode(params.get('playermode') ?? 'single');
+    //   this.gameStateService.setPlayMode(params.get('playmode') ?? 'normal');
+    //   this.gameStateService.setLevel(params.get('level') ?? 'easy');
 
-      this.currentPlayerMode = this.gameStateService.getCurrentPlayerMode();
-      this.currentPlayMode = this.gameStateService.getCurrentPlayMode();
-      this.currentLevel = this.gameStateService.getCurrentLevel();
+    //   this.currentPlayerMode = this.gameStateService.getCurrentPlayerMode();
+    //   this.currentPlayMode = this.gameStateService.getCurrentPlayMode();
+    //   this.currentLevel = this.gameStateService.getCurrentLevel();
 
-      this.timerMode = this.currentPlayMode === 'countdown' ? 'down' : 'up';
-      this.timerValue = this.currentPlayMode === 'countdown' && this.currentLevel ? (this.gameConfigService.countdownTime.get(this.currentLevel) ?? 0) : 0;
+    //   this.timerMode = this.currentPlayMode === 'countdown' ? 'down' : 'up';
+    //   this.timerValue = this.currentPlayMode === 'countdown' && this.currentLevel ? (this.gameConfigService.countdownTime.get(this.currentLevel) ?? 0) : 0;
 
       //state(sudoku-board and timer) remaining after reload.
-      const currentTimerKey = `${this.currentPlayerMode}|${this.currentPlayMode}|${this.currentLevel}`;
-      this.gameStateService.setTimerKey(currentTimerKey);
+      // const currentTimerKey = `${this.currentPlayerMode}|${this.currentPlayMode}|${this.currentLevel}`;
+      // this.gameStateService.setTimerKey(currentTimerKey);
 
-      const savedTimerKey = localStorage.getItem('timerKey');
-      console.log('ngOinit: ', currentTimerKey, savedTimerKey)
+      // const savedTimerKey = localStorage.getItem('timerKey');
+      // console.log('ngOinit: ', currentTimerKey, savedTimerKey)
 
-      const TEST_MODE = true;
-      let boardArray: FormArray[] = [];
-      let loadStorage = false;
-      //true: read localStorage, false: set localstorage
-      if (savedTimerKey === currentTimerKey && !TEST_MODE) {
-        loadStorage = true;
-        
-        this.gameStateService.initializeInitialBoardFromLocalStorage();
-        this.gameStateService.initializeSolvedBoardFromLocalStorage();
-        this.initialBoard = this.gameStateService.getInitialBoard();
-        this.solvedBoard = this.gameStateService.getSolvedBoard();
+      // const TEST_MODE = true;
+      // const result = this.boardService.setupGameBoard(this.currentLevel, currentTimerKey, TEST_MODE);
+      // this.form = result.form;
+      // this.initialBoard = result.initialBoard;
+      // this.solvedBoard = result.solvedBoard;
+      // this.userBoard = result.userBoard;
+      // const loadStorage = result.loadStorage;
 
-        //user board from localStorage
-        console.log('initialBoard:', this.initialBoard);
-        const saveduserBoardString = localStorage.getItem('userBoard');
-        if (saveduserBoardString) {
-          try {
-            this.userBoard = JSON.parse(saveduserBoardString) as number[][];
-          } catch (error) {
-            console.warn("Invalid userBoard JSON → resetting userBoard.");
-            this.userBoard = this.initialBoard.map(row => row.map(cell => cell === 0 ? null : cell));
-          }
-        } else {
-          this.userBoard = this.initialBoard.map(row => row.map(cell => cell === 0 ? null : cell));
-        }
-        console.log('userBoard:', this.userBoard);
+      // console.log('initialBoard:', this.initialBoard);
+      // console.log('solvedBoard:', this.solvedBoard);
+      // console.log('userBoard:', this.userBoard);
+      // console.log('loadStorage:', loadStorage);
+      // this.localTimerService.initialize(this.timerMode, this.timerValue, loadStorage);
 
-        boardArray = this.createBoard(this.initialBoard);
-        this.localTimerService.initialize(this.timerMode, this.timerValue, loadStorage);
+      // let boardArray: FormArray[] = [];
+      // let loadStorage = false;
+      // //true: read localStorage, false: set localstorage
+      // if (savedTimerKey === currentTimerKey && !TEST_MODE) {
+      //   loadStorage = true;
 
-      } else {
-        loadStorage = false;
-        localStorage.setItem('timerKey', currentTimerKey);
+      //   this.gameStateService.initializeInitialBoardFromLocalStorage();
+      //   this.gameStateService.initializeSolvedBoardFromLocalStorage();
+      //   this.initialBoard = this.gameStateService.getInitialBoard();
+      //   this.solvedBoard = this.gameStateService.getSolvedBoard();
 
-        if (TEST_MODE) {
-          // 🚀 SET TEST BOARD!
-          const testInitialBoard = [
-            [5, 3, 4, 6, 7, 8, 9, 1, 2],
-            [6, 7, 2, 1, 9, 5, 3, 4, 8],
-            [1, 9, 8, 3, 4, 2, 5, 6, 7],
-            [8, 5, 9, 7, 6, 1, 4, 2, 3],
-            [4, 2, 6, 8, 5, 3, 7, 9, 1],
-            [7, 1, 3, 9, 2, 4, 8, 5, 6],
-            [9, 6, 1, 5, 3, 7, 2, 8, 4],
-            [2, 8, 7, 4, 1, 9, 6, 3, 5],
-            [3, 4, 5, 2, 8, 6, 1, 7, 0]
-          ];
+      //   //user board from localStorage
+      //   console.log('initialBoard:', this.initialBoard);
+      //   const saveduserBoardString = localStorage.getItem('userBoard');
+      //   if (saveduserBoardString) {
+      //     try {
+      //       this.userBoard = JSON.parse(saveduserBoardString) as number[][];
+      //     } catch (error) {
+      //       console.warn("Invalid userBoard JSON → resetting userBoard.");
+      //       this.userBoard = this.initialBoard.map(row => row.map(cell => cell === 0 ? null : cell));
+      //     }
+      //   } else {
+      //     this.userBoard = this.initialBoard.map(row => row.map(cell => cell === 0 ? null : cell));
+      //   }
+      //   console.log('userBoard:', this.userBoard);
 
-          const testSolvedBoard = [
-            [5, 3, 4, 6, 7, 8, 9, 1, 2],
-            [6, 7, 2, 1, 9, 5, 3, 4, 8],
-            [1, 9, 8, 3, 4, 2, 5, 6, 7],
-            [8, 5, 9, 7, 6, 1, 4, 2, 3],
-            [4, 2, 6, 8, 5, 3, 7, 9, 1],
-            [7, 1, 3, 9, 2, 4, 8, 5, 6],
-            [9, 6, 1, 5, 3, 7, 2, 8, 4],
-            [2, 8, 7, 4, 1, 9, 6, 3, 5],
-            [3, 4, 5, 2, 8, 6, 1, 7, 9]
-          ];
-          this.gameStateService.setInitialBoard(testInitialBoard);
-          this.gameStateService.setSolvedBoard(testSolvedBoard);
+      //   boardArray = this.createBoard(this.initialBoard);
+      //   this.localTimerService.initialize(this.timerMode, this.timerValue, loadStorage);
 
-          this.initialBoard = this.gameStateService.getInitialBoard();
-          this.solvedBoard = this.gameStateService.getSolvedBoard();
-          localStorage.removeItem('userBoard');
-          this.userBoard = this.initialBoard.map(row => row.map(cell => cell === 0 ? null : cell));
-          this.localTimerService.initialize(this.timerMode, this.timerValue, false);
-          boardArray = this.createBoard(this.initialBoard);
+      // } else {
+      //   loadStorage = false;
+      //   localStorage.setItem('timerKey', currentTimerKey);
 
-        } else {
-          this.sudokuService.generateSudoku(this.currentLevel);
-          this.gameStateService.setInitialBoard(this.sudokuService.initialBoard);
-          this.gameStateService.setSolvedBoard(this.sudokuService.solvedBoard);
+      //   if (TEST_MODE) {
+      //     // 🚀 SET TEST BOARD!
+      //     const testInitialBoard = [
+      //       [5, 3, 4, 6, 7, 8, 9, 1, 2],
+      //       [6, 7, 2, 1, 9, 5, 3, 4, 8],
+      //       [1, 9, 8, 3, 4, 2, 5, 6, 7],
+      //       [8, 5, 9, 7, 6, 1, 4, 2, 3],
+      //       [4, 2, 6, 8, 5, 3, 7, 9, 1],
+      //       [7, 1, 3, 9, 2, 4, 8, 5, 6],
+      //       [9, 6, 1, 5, 3, 7, 2, 8, 4],
+      //       [2, 8, 7, 4, 1, 9, 6, 3, 5],
+      //       [3, 4, 5, 2, 8, 6, 1, 7, 0]
+      //     ];
 
-          this.initialBoard = this.gameStateService.getInitialBoard();
-          this.solvedBoard = this.gameStateService.getSolvedBoard();
+      //     const testSolvedBoard = [
+      //       [5, 3, 4, 6, 7, 8, 9, 1, 2],
+      //       [6, 7, 2, 1, 9, 5, 3, 4, 8],
+      //       [1, 9, 8, 3, 4, 2, 5, 6, 7],
+      //       [8, 5, 9, 7, 6, 1, 4, 2, 3],
+      //       [4, 2, 6, 8, 5, 3, 7, 9, 1],
+      //       [7, 1, 3, 9, 2, 4, 8, 5, 6],
+      //       [9, 6, 1, 5, 3, 7, 2, 8, 4],
+      //       [2, 8, 7, 4, 1, 9, 6, 3, 5],
+      //       [3, 4, 5, 2, 8, 6, 1, 7, 9]
+      //     ];
+      //     this.gameStateService.setInitialBoard(testInitialBoard);
+      //     this.gameStateService.setSolvedBoard(testSolvedBoard);
 
-          localStorage.removeItem('userBoard');
-          this.userBoard = this.initialBoard.map(row => row.map(cell => cell === 0 ? null : cell));
-          this.localTimerService.initialize(this.timerMode, this.timerValue, false);
-          boardArray = this.createBoard(this.initialBoard);
-        }
-      }
+      //     this.initialBoard = this.gameStateService.getInitialBoard();
+      //     this.solvedBoard = this.gameStateService.getSolvedBoard();
 
-      this.form = this.fb.group({
-        board: this.fb.array(boardArray)
-      });
+      //     localStorage.removeItem('userBoard');
+      //     this.userBoard = this.initialBoard.map(row => row.map(cell => cell === 0 ? null : cell));
+      //     this.localTimerService.initialize(this.timerMode, this.timerValue, false);
+      //     boardArray = this.createBoard(this.initialBoard);
+
+      //   } else {
+      //     this.sudokuService.generateSudoku(this.currentLevel);
+
+      //     this.gameStateService.setInitialBoard(this.sudokuService.initialBoard);
+      //     this.gameStateService.setSolvedBoard(this.sudokuService.solvedBoard);
+
+      //     this.initialBoard = this.gameStateService.getInitialBoard();
+      //     this.solvedBoard = this.gameStateService.getSolvedBoard();
+
+      //     localStorage.removeItem('userBoard');
+      //     this.userBoard = this.initialBoard.map(row => row.map(cell => cell === 0 ? null : cell));
+      //     this.localTimerService.initialize(this.timerMode, this.timerValue, false);
+      //     boardArray = this.createBoard(this.initialBoard);
+      //   }
+      // }
+
+      // this.form = this.fb.group({
+      //   board: this.fb.array(boardArray)
+      // });
 
       //for losing game
-      this.localTimerService.gameLost$.pipe(takeUntil(this.destroy$)).subscribe(lost => {
-        if (lost) {
-          this.showGameLostDialog = true;
-          this.localTimerService.resetGameOver();
-        }
-      });
+      // this.localTimerService.gameLost$.pipe(takeUntil(this.destroy$)).subscribe(lost => {
+      //   if (lost) {
+      //     this.showGameLostDialog = true;
+      //     this.localTimerService.resetGameOver();
+      //   }
+      // });
 
       //for winning game
-      this.formSubscription?.unsubscribe(); 
-      this.formSubscription = this.form.valueChanges.subscribe(boardValue => {
-        localStorage.setItem('userBoard', JSON.stringify(boardValue.board));
-        this.checkIfSudokuCompletedAndShowDialog();
-      })
-    });
+      // this.formSubscription?.unsubscribe();
+      // this.formSubscription = this.form.valueChanges.subscribe(boardValue => {
+      //   console.log('boardValue:', boardValue);
+      //   localStorage.setItem('userBoard', JSON.stringify(boardValue.board));
+      //   this.checkIfSudokuCompletedAndShowDialog();
+      // })
+    // });
 
 
-    this.localTimerService.isPausedObservable.subscribe(paused => {
-      this.isPaused = paused;
-    });
+    // this.localTimerService.isPausedObservable.subscribe(paused => {
+    //   this.isPaused = paused;
+    // });
   }
+
 
   //initialboard has value 0, in formcontrol 0 is present as null to show space in html
-  createBoard(initialBoard: number[][]): FormArray[] {
-    const board: FormArray[] = [];
-    for (let i = 0; i < 9; i++) {
-      const row: FormArray = this.fb.array([]);
-      for (let j = 0; j < 9; j++) {
-        const value = initialBoard[i][j];
-        const userValue = this.userBoard[i][j];
-        let cell!: FormControl;
-        if (value !== 0) {
-          // Original value from initialBoard → fixed (readonly)
-          cell = this.fb.control(value);
-        } else {
-          // Editable cell → load userValue or null
-          cell = this.fb.control(userValue, [Validators.pattern(/[1-9]/)]);
-        }
-        row.push(cell);
-      }
-      board.push(row);
-    }
-    return board;
-  }
+  // createBoard(initialBoard: number[][]): FormArray[] {
+  //   const board: FormArray[] = [];
+  //   for (let i = 0; i < 9; i++) {
+  //     const row: FormArray = this.fb.array([]);
+  //     for (let j = 0; j < 9; j++) {
+  //       const value = initialBoard[i][j];
+  //       const userValue = this.userBoard[i][j];
+  //       let cell!: FormControl;
+  //       if (value !== 0) {
+  //         // Original value from initialBoard → fixed (readonly)
+  //         cell = this.fb.control(value);
+  //       } else {
+  //         // Editable cell → load userValue or null
+  //         cell = this.fb.control(userValue, [Validators.pattern(/[1-9]/)]);
+  //       }
+  //       row.push(cell);
+  //     }
+  //     board.push(row);
+  //   }
+  //   return board;
+  // }
 
   get board(): FormArray {
     return this.form.get('board') as FormArray;
@@ -234,16 +249,8 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
   }
 
   checkCellAnswer(row: number, col: number): boolean {
-    const savedSolvedBoard = this.gameStateService.getSolvedBoard();
-
-    const userValue = this.getCell(row, col).value;
-    const correctValue = savedSolvedBoard[row][col];
-
-    if (userValue === null || userValue === '' || isNaN(Number(userValue))) {
-      return false;
-    }
-
-    return Number(userValue) === correctValue;
+    const isCorrect = this.boardService.checkCellAnswer(this.form, row, col);
+    return isCorrect;
   }
 
   getCellClass(row: number, col: number): string {
@@ -258,232 +265,304 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
     }
   }
 
-  isSudokuCompleted(): boolean {
-    for (let row = 0; row < 9; row++) {
-      for (let col = 0; col < 9; col++) {
-        if (!this.checkCellAnswer(row, col)) {
-          return false;
-        }
-      }
-    } 9
-    this.localTimerService.stop(true);
-    return true
+  onClickReset() {
+    this.resetClicked.emit();
   }
 
-  checkIfSudokuCompletedAndShowDialog() {
-    if (this.isSudokuCompleted()) {
-      setTimeout(() => {
-        if (this.isLoggedIn) {
-          // Registered users will be recorded directly
-          this.submitScoreLoggedIn();
-          this.showGameWonDialog = true;
-        } else {
-          // Guest will show the nickname dialog first
-          this.showNicknameDialog = true;
-        }
-      }, 100);
-    }
+  onClickNewGame() {
+    this.newGameClicked.emit(); 
   }
+
+  // isSudokuCompleted(): boolean {
+  //   for (let row = 0; row < 9; row++) {
+  //     for (let col = 0; col < 9; col++) {
+  //       if (!this.checkCellAnswer(row, col)) {
+  //         return false;
+  //       }
+  //     }
+  //   } 9
+  //   this.localTimerService.stop(true);
+  //   return true
+  // }
+
+  // checkIfSudokuCompletedAndShowDialog() {
+  //   if (this.isSudokuCompleted()) {
+  //     setTimeout(() => {
+  //       if (this.isLoggedIn) {
+  //         // Registered users will be recorded directly
+  //         this.submitScoreLoggedIn();
+  //         this.showGameWonDialog = true;
+  //       } else {
+  //         // Guest will show the nickname dialog first
+  //         this.showNicknameDialog = true;
+  //       }
+  //     }, 100);
+  //   }
+  // }
 
   //for registered user
-  submitScoreLoggedIn() {
-    const scoreData = {
-      playerMode: this.currentPlayerMode,
-      playMode: this.currentPlayMode,
-      level: this.currentLevel,
-      time: this.localTimerService.getCurrentTime(),
-      date: new Date().toISOString()
-    };
+  // submitScoreLoggedIn() {
+  //   const scoreData = {
+  //     playerMode: this.currentPlayerMode,
+  //     playMode: this.currentPlayMode,
+  //     level: this.currentLevel,
+  //     time: this.localTimerService.getCurrentTime(),
+  //     date: new Date().toISOString()
+  //   };
 
-    this.postScore(scoreData);
-  }
+  //   this.postScore(scoreData);
+  // }
 
   //for guest
-  submitScore() {
-    const scoreData = {
-      nickname: this.nickname.trim(),
-      playerMode: this.currentPlayerMode,
-      playMode: this.currentPlayMode,
-      level: this.currentLevel,
-      time: this.localTimerService.getCurrentTime(),
-      date: new Date().toISOString()
-    };
+  // submitScore() {
+  //   const scoreData = {
+  //     nickname: this.nickname.trim(),
+  //     playerMode: this.currentPlayerMode,
+  //     playMode: this.currentPlayMode,
+  //     level: this.currentLevel,
+  //     time: this.localTimerService.getCurrentTime(),
+  //     date: new Date().toISOString()
+  //   };
 
-    this.postScore(scoreData);
-  }
+  //   this.postScore(scoreData);
+  // }
 
-  private postScore(scoreData: any) {
-    this.leaderboardService.submitScore(scoreData, this.isLoggedIn).subscribe({
-      next: (res) => {
-        console.log('Score submitted!');
-        console.log('res data', res);
-        this.showNicknameDialog = false;
-        this.message = this.translate.instant(res.messageKey);
+  // private postScore(scoreData: any) {
+  //   this.leaderboardService.submitScore(scoreData, this.isLoggedIn).subscribe({
+  //     next: (res) => {
+  //       console.log('Score submitted!');
+  //       console.log('res data', res);
+  //       this.showNicknameDialog = false;
+  //       this.message = this.translate.instant(res.messageKey);
 
-        this.messageService.add({
-          severity: 'success',
-          summary: this.translate.instant('DIALOG_NICKNAME.SUCCESS'),
-          detail: this.message,
-          life: 3000
-        });
-        
-        let scoreWithId;
-          scoreWithId = {
-            ...scoreData,
-            id: res.id
-          };
-        console.log('scoreWithId:', scoreWithId);
-        localStorage.setItem('lastScore', JSON.stringify(scoreWithId));
-        console.log('lastScore:', JSON.parse(localStorage.getItem('lastScore')!));
+  //       this.messageService.add({
+  //         severity: 'success',
+  //         summary: this.translate.instant('DIALOG_NICKNAME.SUCCESS'),
+  //         detail: this.message,
+  //         life: 3000
+  //       });
 
-        this.nickname = '';
-        this.error = '';
-        this.showGameWonDialog = true;
-        this.isSubmitted = true;
-      },
-      error: (err) => {
-        this.showGameWonDialog = false;
-        const messageKey = err.error?.messageKey;
-        this.error = this.translate.instant(messageKey);
-        this.messageService.add({
-          severity: 'error',
-          summary: this.translate.instant('DIALOG_NICKNAME.ERROR'),
-          detail: this.error,
-          life: 3000
-        });
-        this.message = '';
-      },
-      complete: () => {
-        this.isSubmitted = false;
-      }
-    });
-  }
+  //       let scoreWithId;
+  //       scoreWithId = {
+  //         ...scoreData,
+  //         id: res.id
+  //       };
+  //       localStorage.setItem('lastScore', JSON.stringify(scoreWithId));
 
-  onSkip() {
-    this.showNicknameDialog = false;
-    this.showGameWonDialog = true;
-  }
+  //       this.nickname = '';
+  //       this.error = '';
+  //       this.showGameWonDialog = true;
+  //       this.isSubmitted = true;
+  //     },
+  //     error: (err) => {
+  //       this.showGameWonDialog = false;
+  //       const messageKey = err.error?.messageKey;
+  //       this.error = this.translate.instant(messageKey);
+  //       this.messageService.add({
+  //         severity: 'error',
+  //         summary: this.translate.instant('DIALOG_NICKNAME.ERROR'),
+  //         detail: this.error,
+  //         life: 3000
+  //       });
+  //       this.message = '';
+  //     },
+  //     complete: () => {
+  //       this.isSubmitted = false;
+  //     }
+  //   });
+  // }
 
-  onClickReset() {
-    if (this.isPaused) return;
-    for (let row = 0; row < 9; row++) {
-      for (let col = 0; col < 9; col++) {
-        const userValue = this.getCell(row, col);
-        let originalValue = this.initialBoard[row][col];
-        if (originalValue === 0) {
-          userValue.setValue(null);
-        } else {
-          userValue.setValue(originalValue);
-        }
-      }
-    }
-  }
+  // onSkip() {
+  //   this.showNicknameDialog = false;
+  //   this.showGameWonDialog = true;
+  // }
 
-  onClickResetForLost() {
-    this.showGameLostDialog = false;
-    this.localTimerService.initialize(this.timerMode, this.timerValue);
-    for (let row = 0; row < 9; row++) {
-      for (let col = 0; col < 9; col++) {
-        const userValue = this.getCell(row, col);
-        let originalValue = this.initialBoard[row][col];
-        if (originalValue === 0) {
-          userValue.setValue(null);
-        } else {
-          userValue.setValue(originalValue);
-        }
-      }
-    }
-  }
+  // onClickReset() {
+  //   if (this.isPaused) return;
+  //   for (let row = 0; row < 9; row++) {
+  //     for (let col = 0; col < 9; col++) {
+  //       const userValue = this.getCell(row, col);
+  //       let originalValue = this.initialBoard[row][col];
+  //       if (originalValue === 0) {
+  //         userValue.setValue(null);
+  //       } else {
+  //         userValue.setValue(originalValue);
+  //       }
+  //     }
+  //   }
+  // }
 
-  onClickNewgame() {
-    this.localTimerService.stop(true);
-    this.sudokuService.generateSudoku(this.currentLevel);
-    this.gameStateService.setInitialBoard(this.sudokuService.initialBoard);
-    this.gameStateService.setSolvedBoard(this.sudokuService.solvedBoard);
+  // onClickResetForLost() {
+  //   this.showGameLostDialog = false;
+  //   this.localTimerService.initialize(this.timerMode, this.timerValue);
+  //   for (let row = 0; row < 9; row++) {
+  //     for (let col = 0; col < 9; col++) {
+  //       const userValue = this.getCell(row, col);
+  //       let originalValue = this.initialBoard[row][col];
+  //       if (originalValue === 0) {
+  //         userValue.setValue(null);
+  //       } else {
+  //         userValue.setValue(originalValue);
+  //       }
+  //     }
+  //   }
+  // }
 
-    this.initialBoard = this.gameStateService.getInitialBoard();
-    this.solvedBoard = this.gameStateService.getSolvedBoard();
+  // onClickNewgame() {
+  //   this.localTimerService.stop(true);
+  //   const result = this.gameControlService.startNewGame(this.currentLevel);
 
-    localStorage.removeItem('userBoard');
-    this.userBoard = this.initialBoard.map(row => row.map(cell => cell === 0 ? null : cell));
+  //   this.initialBoard = result.initialBoard;
+  //   this.solvedBoard = result.solvedBoard;
+  //   this.userBoard = result.userBoard;
 
-    const boardArray = this.createBoard(this.initialBoard);
-    this.form = this.fb.group({
-      board: this.fb.array(boardArray)
-    });
+  //   const boardArray = this.boardService.createBoard(this.initialBoard, this.userBoard);
+  //   this.form = this.fb.group({
+  //     board: this.fb.array(boardArray)
+  //   });
 
-    this.formSubscription?.unsubscribe();
-    this.formSubscription = this.form.valueChanges.subscribe(boardValue => {
-      localStorage.setItem('userBoard', JSON.stringify(boardValue.board));
-      this.checkIfSudokuCompletedAndShowDialog();
-    });
+  //   this.formSubscription?.unsubscribe();
+  //   this.formSubscription = this.form.valueChanges.subscribe(boardValue => {
+  //     localStorage.setItem('userBoard', JSON.stringify(boardValue.board));
+  //     this.checkIfSudokuCompletedAndShowDialog();
+  //   });
 
-    this.localTimerService.initialize(this.timerMode, this.timerValue);
-    this.showGameWonDialog = false;
-    this.showGameLostDialog = false;
-  }
+  //   this.localTimerService.initialize(this.timerMode, this.timerValue);
+  //   this.showGameWonDialog = false;
+  //   this.showGameLostDialog = false;
+  // }
 
-  onClickNextLevel() {
-    this.localTimerService.stop(true);
-    if (this.currentLevel === 'easy') {
-      this.currentLevel = 'medium';
-    } else if (this.currentLevel === 'medium') {
-      this.currentLevel = 'hard';
-    } else if (this.currentLevel === 'hard') {
-      this.currentLevel = 'expert';
-    } else {
-      this.currentLevel = 'easy';
-    }
+  // onClickNextLevel() {
+  //   this.localTimerService.stop(true);
+  //   this.currentLevel = this.gameControlService.goToNextLevel(this.currentLevel);
 
-    this.router.navigate([
-      '/sudoku',
-      this.currentPlayerMode,
-      this.currentPlayMode,
-      this.currentLevel
-    ]);
+  //   this.gameControlService.navigateToGame(
+  //     this.currentPlayerMode,
+  //     this.currentPlayMode,
+  //     this.currentLevel
+  //   );
 
-    this.formSubscription?.unsubscribe();
-    this.localTimerService.initialize(this.timerMode, this.timerValue);
-    this.showGameWonDialog = false;
-    this.showGameLostDialog = false;
-  }
+  //   this.formSubscription?.unsubscribe();
+  //   this.localTimerService.initialize(this.timerMode, this.timerValue);
+  //   this.showGameWonDialog = false;
+  //   this.showGameLostDialog = false;
+  // }
 
-  onClickRandomGame() {
-    this.localTimerService.stop(true);
-    const levels = ['easy', 'medium', 'hard', 'expert'];
-    let randomLevel = levels[Math.floor(Math.random() * levels.length)];
+  // onClickRandomGame() {
+  //   this.localTimerService.stop(true);
+  //   let randomLevel = this.gameControlService.startRandomGame(this.currentLevel);
 
-    //make sure that randomlevel will be changed 
-    // -> better and avoid timer wont be resseted because ngOinit wont be reload if url doesnt change
-    while (randomLevel === this.currentLevel) {
-      randomLevel = levels[Math.floor(Math.random() * levels.length)];
-    }
+  //   this.gameControlService.navigateToGame(
+  //     this.currentPlayerMode,
+  //     this.currentPlayMode,
+  //     randomLevel
+  //   );
 
-    this.router.navigate([
-      '/sudoku',
-      this.currentPlayerMode,
-      this.currentPlayMode,
-      randomLevel
-    ]);
+  //   this.formSubscription?.unsubscribe();
+  //   this.localTimerService.initialize(this.timerMode, this.timerValue);
+  //   this.showGameWonDialog = false;
+  //   this.showGameLostDialog = false;
+  // }
 
-    this.formSubscription?.unsubscribe();
-    this.localTimerService.initialize(this.timerMode, this.timerValue);
-    this.showGameWonDialog = false;
-    this.showGameLostDialog = false;
-  }
+  // goToLeaderboard() {
+  //   this.gameControlService.goToLeaderboard(
+  //     this.currentPlayerMode,
+  //     this.currentPlayMode,
+  //     this.currentLevel
+  //   );
 
-  goToLeaderboard() {
-    this.router.navigate(['/leaderboard'], {
-      queryParams: {
-        playerMode: this.currentPlayerMode,
-        playMode: this.currentPlayMode,
-        level: this.currentLevel,
-        limit: 50
-      }
-    });
+  //   this.showGameWonDialog = false;
+  // }
 
-    this.showGameWonDialog = false;
-  }
+  // onClickNewgame() {
+  //   this.localTimerService.stop(true);
+  //   this.sudokuService.generateSudoku(this.currentLevel);
+  //   this.gameStateService.setInitialBoard(this.sudokuService.initialBoard);
+  //   this.gameStateService.setSolvedBoard(this.sudokuService.solvedBoard);
+
+  //   this.initialBoard = this.gameStateService.getInitialBoard();
+  //   this.solvedBoard = this.gameStateService.getSolvedBoard();
+
+  //   localStorage.removeItem('userBoard');
+  //   this.userBoard = this.initialBoard.map(row => row.map(cell => cell === 0 ? null : cell));
+
+  //   const boardArray = this.boardService.createBoard(this.initialBoard, this.userBoard);
+  //   this.form = this.fb.group({
+  //     board: this.fb.array(boardArray)
+  //   });
+
+  //   this.formSubscription?.unsubscribe();
+  //   this.formSubscription = this.form.valueChanges.subscribe(boardValue => {
+  //     localStorage.setItem('userBoard', JSON.stringify(boardValue.board));
+  //     this.checkIfSudokuCompletedAndShowDialog();
+  //   });
+
+  //   this.localTimerService.initialize(this.timerMode, this.timerValue);
+  //   this.showGameWonDialog = false;
+  //   this.showGameLostDialog = false;
+  // }
+
+  // onClickNextLevel() {
+  //   this.localTimerService.stop(true);
+  //   if (this.currentLevel === 'easy') {
+  //     this.currentLevel = 'medium';
+  //   } else if (this.currentLevel === 'medium') {
+  //     this.currentLevel = 'hard';
+  //   } else if (this.currentLevel === 'hard') {
+  //     this.currentLevel = 'expert';
+  //   } else {
+  //     this.currentLevel = 'easy';
+  //   }
+
+  //   this.router.navigate([
+  //     '/sudoku',
+  //     this.currentPlayerMode,
+  //     this.currentPlayMode,
+  //     this.currentLevel
+  //   ]);
+
+  //   this.formSubscription?.unsubscribe();
+  //   this.localTimerService.initialize(this.timerMode, this.timerValue);
+  //   this.showGameWonDialog = false;
+  //   this.showGameLostDialog = false;
+  // }
+
+  // onClickRandomGame() {
+  //   this.localTimerService.stop(true);
+  //   const levels = ['easy', 'medium', 'hard', 'expert'];
+  //   let randomLevel = levels[Math.floor(Math.random() * levels.length)];
+
+  //   //make sure that randomlevel will be changed 
+  //   // -> better and avoid timer wont be resseted because ngOinit wont be reload if url doesnt change
+  //   while (randomLevel === this.currentLevel) {
+  //     randomLevel = levels[Math.floor(Math.random() * levels.length)];
+  //   }
+
+  //   this.router.navigate([
+  //     '/sudoku',
+  //     this.currentPlayerMode,
+  //     this.currentPlayMode,
+  //     randomLevel
+  //   ]);
+
+  //   this.formSubscription?.unsubscribe();
+  //   this.localTimerService.initialize(this.timerMode, this.timerValue);
+  //   this.showGameWonDialog = false;
+  //   this.showGameLostDialog = false;
+  // }
+
+  // goToLeaderboard() {
+  //   this.router.navigate(['/leaderboard'], {
+  //     queryParams: {
+  //       playerMode: this.currentPlayerMode,
+  //       playMode: this.currentPlayMode,
+  //       level: this.currentLevel,
+  //       limit: 50
+  //     }
+  //   });
+
+  //   this.showGameWonDialog = false;
+  // }
 
   //Validator in Angular only check the value like e.g. control.invalid 
   //todo chinese still can be typed in cell because of composition event
@@ -548,8 +627,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
   }
 
   onResume() {
-    this.localTimerService.setPaused(false);
-    this.localTimerService.start(this.timerMode, this.timerValue);
+    this.resumeClicked.emit(); 
   }
 
   getBlockClass(i: number, j: number): 'a' | 'b' {
@@ -559,10 +637,7 @@ export class SudokuBoardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next(); //infrom all takeUntil to unsubscribe
-    this.destroy$.complete(); //closing subject(destroy$)
     this.sudokuService.clearBoards();
-    this.formSubscription?.unsubscribe();
   }
 
 }

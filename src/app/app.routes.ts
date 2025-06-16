@@ -9,6 +9,7 @@ import { VerifyEmailComponent } from './pages/auth/verify-email/verify-email.com
 import { RecoverEmailComponent } from './pages/auth/recover-email/recover-email.component';
 import { ResetPasswordComponent } from './pages/auth/reset-password/reset-password.component';
 import { LeaderboardComponent } from './pages/leaderboard/leaderboard.component';
+import { SudokuBoardSingle } from './components/sudoku-board-single/sudoku-board-single';
 
 export const routes: Routes = [
   {
@@ -34,7 +35,7 @@ export const routes: Routes = [
   },
   {
     path: 'sudoku/:playermode/:playmode/:level',
-    component: SudokuBoardComponent
+    component: SudokuBoardSingle
   },
   {
     path: 'login',
@@ -63,7 +64,7 @@ export const routes: Routes = [
   {
     path: 'leaderboard',
     component: LeaderboardComponent
-  },
+  }
   // {
   //   path: 'sudoku',
   //   component: WelcomePageComponent,
