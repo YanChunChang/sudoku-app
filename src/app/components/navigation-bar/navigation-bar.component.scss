@@ -100,6 +100,15 @@
     }
 }
 
+::ng-deep html.darkmode .pi.pi-sign-in {
+    color: $light-gray !important;
+}
+
+
+::ng-deep html.darkmode .pi.pi-sign-out {
+    color: $light-gray !important;
+}
+
 
   @media (max-width: 768px) {
     .navbar {

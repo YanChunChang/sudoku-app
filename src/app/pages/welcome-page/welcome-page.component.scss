@@ -35,19 +35,20 @@ h1{
     font-size: 25px;
   }
 
-::ng-deep p-button .pi{
+::ng-deep .p-button .pi-stopwatch{
     font-size: 20px;
     margin-right: 5px;
+    color: $light-gray !important;
 }
 
-::ng-deep .p-button{
+::ng-deep .label{
     background-color: $marine !important;
     border: none !important;
     width: 270px;
     margin-bottom: 15px;
 }
 
-::ng-deep .p-button:hover {
+::ng-deep .label:hover {
     background-color: $marine-hover !important;
     transform: translateY(-5px);
     border: none !important;
@@ -63,9 +64,10 @@ h1{
 }
 
 ::ng-deep html.darkmode .label {
-    color: var(--text-color);
+    color: $light-gray !important;
+    background-color: $marine !important;
 }
 
-::ng-deep html.darkmode .p-button:hover {
-    color: var(--text-color) !important;
+::ng-deep html.darkmode .label:hover {
+    color: $light-gray !important;
   }

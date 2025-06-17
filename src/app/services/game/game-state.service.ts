@@ -38,6 +38,7 @@ export class GameStateService {
 
   setTimerKey(timerKey: string) {
     this.timerKeySubject.next(timerKey);
+    //localStorage.setItem('timerKey', timerKey);
   }
 
   setInitialBoard(initialBoard: number[][]) {
@@ -76,7 +77,7 @@ export class GameStateService {
   }
 
 
-  //nitializer
+  //initializer
   initializeInitialBoardFromLocalStorage() {
     const savedInitialBoardString = localStorage.getItem('initialBoard');
     if (savedInitialBoardString) {

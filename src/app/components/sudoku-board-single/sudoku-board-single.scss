@@ -1,0 +1,351 @@
+@use "styles/variables" as *;
+
+.board {
+  //  justify-self: center;
+  //  height: 70vh;
+  //  margin-top: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 2rem;
+  min-height: calc(100vh - 80px);
+  box-sizing: border-box;
+}
+
+.wrapper {
+  //  display: flex;
+  //  justify-content: space-between;
+  //  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 576px; // z. B. gleich wie Sudoku-Grid
+  margin: 0 auto 1rem auto;
+  gap: 1rem;
+  box-sizing: border-box;
+  padding: 0 16px;
+}
+
+.right {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(30px, 1fr));
+  grid-template-rows: repeat(9, minmax(30px, 1fr));
+  border: 2px solid $marine-dark;
+  background-color: $marine-dark;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 576px;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+}
+
+.grid-item {
+  //  width: 61px;
+  //  height: 61px;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid $light-gray;
+  background-color: $marine-dark;
+  border-radius: 4px;
+  margin: 1px;
+}
+
+
+.grid-item input {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  border: none;
+  color: $marine-dark;
+  font-size: 25px;
+  border-radius: 2px;
+}
+
+/* for thick  blockline */
+.border-right-bold {
+  border-right: 2px solid $marine-dark !important;
+}
+
+.border-bottom-bold {
+  border-bottom: 2px solid $marine-dark !important;
+}
+
+input[readonly] {
+  background-color: $light-gray;
+  border: none;
+  pointer-events: none;
+  text-align: center;
+  font-weight: bold;
+}
+
+.correct {
+  background-color: $correct;
+  color: $correct-text !important;
+}
+
+.incorrect {
+  background-color: $error;
+  color: $error-text !important;
+}
+
+.board-wrapper {
+  position: relative;
+}
+
+.covered {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: $ultra-black;
+  opacity: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+
+.resume-button {
+  font-size: 2rem;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+a {
+  position: relative;
+  text-decoration: none;
+  font-size: 16px;
+  color: $marine-dark;
+  font-weight: 500;
+  padding-bottom: 5px;
+  justify-self: space-between;
+  margin-left: 20px;
+  cursor: pointer;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 100%;
+    background-color: $marine-dark;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover::after {
+    transform: scaleX(1);
+  }
+}
+
+::ng-deep .p-dialog-title {
+  color: $deep-blue !important;
+}
+
+.p-field {
+  font-weight: 500;
+  color: $deep-blue;
+  margin-bottom: 20px;
+
+  input {
+    width: 70%;
+    padding: 5px;
+    margin-left: 2rem;
+    border-radius: 5px;
+    border: $marine-dark 1px solid;
+    font-size: 16px;
+  }
+}
+
+.p-text {
+  font-weight: 500;
+  color: $deep-blue;
+  margin-bottom: 2rem;
+}
+
+.dialog-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+::ng-deep .dialog-buttons .dialog-button {
+  background-color: $marine !important;
+  color: $light-gray !important;
+
+  &:hover {
+    background-color: $marine-hover !important;
+    transform: translateY(0px);
+    border: none !important;
+    color: $light-gray !important;
+  }
+}
+
+.dialog-buttons-column{
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   gap: 1rem;
+}
+
+
+::ng-deep .dialog-buttons-column .dialog-button {
+ background-color: $marine !important;
+ color: $light-gray !important;
+ width: 200px;
+
+ &:hover {
+   background-color: $marine-hover !important;
+   transform: translateY(0px);
+   border: none !important;
+   color: $light-gray !important;
+ }
+}
+
+
+::ng-deep .win-dialog{
+ width: 500px;
+ .p-text{
+   text-align: center;
+ }
+ .p-dialog-title {
+   width: 100%;
+   text-align: center;
+ }
+}
+
+::ng-deep .lost-dialog{
+ width: 500px;
+ .p-text{
+   text-align: center;
+ }
+ .p-dialog-title {
+   width: 100%;
+   text-align: center;
+ }
+}
+
+//darkmode
+::ng-deep html.darkmode input {
+  background-color: transparent !important;
+  color: var(--p-zinc-200) !important;
+}
+
+::ng-deep html.darkmode .grid-item.block-a {
+  background-color: var(--p-surface-800) !important;
+}
+
+::ng-deep html.darkmode .grid-item.block-b {
+  background-color: var(--p-surface-600) !important;
+}
+
+::ng-deep html.darkmode .grid-container {
+  border: 2px solid var(--p-surface-800);
+  background-color: var(--p-surface-800);
+}
+
+::ng-deep html.darkmode .border-right-bold {
+  border-right: none !important;
+}
+
+::ng-deep html.darkmode .border-bottom-bold {
+  border-bottom: none !important;
+}
+
+::ng-deep html.darkmode .p-dialog-title {
+  color: $light-gray !important;
+}
+
+::ng-deep html.darkmode .p-field {
+  color: $light-gray !important;
+
+  input {
+    border: $light-gray 1px solid !important;
+  }
+}
+
+::ng-deep html.darkmode .correct {
+  color: $correct-light !important;
+}
+
+::ng-deep html.darkmode .incorrect {
+  color: $error-light !important;
+}
+
+::ng-deep html.darkmode a {
+  color: $light-gray !important;
+
+  &::after {
+    background-color: $light-gray !important;
+  }
+}
+
+::ng-deep html.darkmode .p-text {
+  color: $light-gray !important;
+}
+
+@media (max-width: 768px) {
+  .board {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 0px 10px;
+    box-sizing: border-box;
+  }
+
+  .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: nowrap;
+    max-width: 576px;
+    margin: 0 auto 1rem auto;
+    padding: 0 12px;
+    box-sizing: border-box;
+  }
+}
+
+@media (min-width: 1500px) and (max-width: 5000px) {
+  .game-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 80px);
+  }
+
+  .board {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 0px 10px;
+    box-sizing: border-box;
+  }
+
+  .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: nowrap;
+    max-width: 576px;
+    margin: 0 auto 1rem auto;
+    padding: 0 12px;
+    box-sizing: border-box;
+  }
+}
