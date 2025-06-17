@@ -56,12 +56,13 @@ export class LeaderboardComponent {
           levelTranslated: this.translate.instant('LEADERBOARD.' + (player.level || '').toUpperCase()),
         }));
         const currentUserScore = JSON.parse(localStorage.getItem('lastScore') || '{}');
-        console.log('Current user score:', currentUserScore);
-        console.log('Players loaded:', this.players);
 
         if (currentUserScore) {
+          console.warn('Current user score found in localStorage:', currentUserScore);
           const currentUser = this.players.find(player => player._id === currentUserScore.id);
+          console.log('currentUser', currentUser);
           if (currentUser) {
+            console.warn('Current user found in leaderboard:', currentUser);
             currentUser.isCurrentUser = true;
 
             const index = this.players.findIndex(player => player._id === currentUserScore.id);
@@ -72,7 +73,9 @@ export class LeaderboardComponent {
               setTimeout(() => {
                 this.dt2.first = pageIndex * pageSize; // Springt zur richtigen Seite
               }, 0);
-            } else {
+            } 
+            }else {
+              if(currentUserScore.id) {
               console.warn('Current user not found in leaderboard:', currentUserScore.id);
               this.messageService.add({
                 severity: 'error',
@@ -80,7 +83,7 @@ export class LeaderboardComponent {
                 detail: this.translate.instant('LEADERBOARD.NOTFOUNDDETAIL'),
                 life: 3000
               });
-            }
+              };
           }
         };
       });
