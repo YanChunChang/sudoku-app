@@ -90,7 +90,7 @@ export class SudokuBoardSingle {
       console.log('currentTimerKey:', currentTimerKey);
       this.gameStateService.setTimerKey(currentTimerKey);
 
-      const TEST_MODE = true;
+      const TEST_MODE = false;
       const result = this.boardService.setupGameBoard(this.currentLevel, currentTimerKey, TEST_MODE);
       this.form = result.form;
       this.initialBoard = result.initialBoard;
