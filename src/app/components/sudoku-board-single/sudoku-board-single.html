@@ -1,0 +1,54 @@
+<app-sudoku-board
+[form]="form"
+[initialBoard]="initialBoard"
+[userBoard]="userBoard"
+[solvedBoard]="solvedBoard"
+[timerMode]="timerMode"
+[timerValue]="timerValue"
+[isPaused]="isPaused"
+(newGameClicked)="onClickNewGame()"
+(resetClicked)="onClickReset()"
+(resumeClicked)="onResume()"
+></app-sudoku-board>
+
+<!-- Dialogs -->
+<p-dialog header="{{ 'DIALOG_NICKNAME.HEADER' | translate }}" [(visible)]="showNicknameDialog" [modal]="true" [closable]="false">
+    <div class="p-fluid">
+      <div class="p-field">
+        <label>{{ 'DIALOG_NICKNAME.TEXT' | translate }}</label>
+        <input type="text" [(ngModel)]="nickname" placeholder="King Otter" maxlength="20">
+      </div>
+      <div class="dialog-buttons">
+        <p-button styleClass="dialog-button" [loading]="isSubmitted" [label]="'DIALOG_NICKNAME.SUBMIT' | translate" (click)="submitScore()"></p-button> 
+        <p-button styleClass="dialog-button" [label]="'DIALOG_NICKNAME.SKIP' | translate" (click)="onSkip()"></p-button>
+      </div> 
+    </div>
+</p-dialog>
+
+<!-- won game -->
+<p-dialog styleClass="win-dialog" header="{{ 'DIALOG.HEADER' | translate }}" [(visible)]="showGameWonDialog" modal="true" [closable]="false">
+    <div class="p-text">
+        <p>{{ 'DIALOG.TEXT' | translate }}</p>
+    </div>
+    <div class="dialog-buttons-column">
+        <p-button styleClass="dialog-button" [label]="'DIALOG.BUTTON_NEXT_GAME' | translate" (click)="onClickNewGame()"></p-button>
+        <p-button styleClass="dialog-button" [label]="'DIALOG.BUTTON_NEXT_LEVEL' | translate" (click)="onClickNextLevel()"></p-button>
+        <p-button styleClass="dialog-button" [label]="'DIALOG.BUTTON_RANDOM' | translate" (click)="onClickRandomGame()"></p-button>
+        <p-button styleClass="dialog-button" [label]="'DIALOG.LEADERBOARD' | translate" (click)="goToLeaderboard()"></p-button>
+    </div>
+</p-dialog>
+
+<!-- lost game -->
+<p-dialog styleClass="lost-dialog" header="{{ 'DIALOG_LOST.HEADER' | translate }}" [(visible)]="showGameLostDialog" modal="true" [closable]="false">
+    <div class="p-text">
+        <p>{{ 'DIALOG_LOST.TEXT' | translate }}</p>
+    </div>
+    <div class="dialog-buttons-column">
+        <p-button styleClass="dialog-button" [label]="'DIALOG_LOST.BUTTON_RETRY' | translate" (click)="onClickResetForLost()"></p-button>
+        <p-button styleClass="dialog-button" [label]="'DIALOG_LOST.BUTTON_NEXT_GAME' | translate" (click)="onClickNewGame()"></p-button>
+        <p-button styleClass="dialog-button" [label]="'DIALOG_LOST.BUTTON_NEXT_LEVEL' | translate" (click)="onClickNextLevel()"></p-button>
+        <p-button styleClass="dialog-button" [label]="'DIALOG_LOST.BUTTON_RANDOM' | translate" (click)="onClickRandomGame()"></p-button>
+    </div>
+</p-dialog>
+
+<p-toast />
