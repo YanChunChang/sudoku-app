@@ -8,7 +8,7 @@ export class GameConfigService {
   public selectedChallenge: 'normal' | 'countdown' | null = null;
   public selectedLevel: 'easy' | 'medium' | 'hard' | 'expert' | null = null;
   public countdownTime = new Map<string, number> ([
-    ['easy', 3],
+    ['easy', 600],
     ['medium', 1200],
     ['hard', 1800],
     ['expert', 2400],
