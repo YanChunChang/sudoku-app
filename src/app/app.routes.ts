@@ -10,6 +10,7 @@ import { RecoverEmailComponent } from './pages/auth/recover-email/recover-email.
 import { ResetPasswordComponent } from './pages/auth/reset-password/reset-password.component';
 import { LeaderboardComponent } from './pages/leaderboard/leaderboard.component';
 import { SudokuBoardSingle } from './components/sudoku-board-single/sudoku-board-single';
+import { SudokuBoardCoop } from './components/sudoku-board-coop/sudoku-board-coop';
 
 export const routes: Routes = [
   {
@@ -34,8 +35,12 @@ export const routes: Routes = [
     component: WelcomePageComponent
   },
   {
-    path: 'sudoku/:playermode/:playmode/:level',
+    path: 'sudoku/single/:playmode/:level',
     component: SudokuBoardSingle
+  },
+  {
+    path: 'sudoku/multi/:playmode/:level',
+    component: SudokuBoardCoop
   },
   {
     path: 'login',

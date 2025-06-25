@@ -1,0 +1,12 @@
+<app-sudoku-board
+[form]="form"
+[initialBoard]="initialBoard"
+[userBoard]="userBoard"
+[solvedBoard]="solvedBoard"
+[timerMode]="timerMode"
+[timerValue]="timerValue"
+[isPaused]="isPaused"
+(newGameClicked)="onClickNewGame()"
+(resetClicked)="onClickReset()"
+(resumeClicked)="onResume()"
+></app-sudoku-board>
