@@ -72,9 +72,13 @@ export class WelcomePageComponent {
 
   goToGame(level: 'easy' | 'medium' | 'hard' | 'expert') {
     this.gameConfigService.selectedLevel = level;
-
-    this.router.navigate(['/sudoku', this.gameConfigService.selectedMode, this.gameConfigService.selectedChallenge,
-    this.gameConfigService.selectedLevel]);
+    if (this.gameConfigService.selectedMode === 'multi') {
+      this.router.navigate(['/sudoku',this.gameConfigService.selectedMode, this.gameConfigService.selectedChallenge, 
+        this.gameConfigService.selectedLevel, 'lobby']);
+    } else{
+      this.router.navigate(['/sudoku', this.gameConfigService.selectedMode, this.gameConfigService.selectedChallenge, 
+        this.gameConfigService.selectedLevel]);
+    }
 
   }
   

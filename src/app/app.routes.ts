@@ -11,6 +11,7 @@ import { ResetPasswordComponent } from './pages/auth/reset-password/reset-passwo
 import { LeaderboardComponent } from './pages/leaderboard/leaderboard.component';
 import { SudokuBoardSingle } from './components/sudoku-board-single/sudoku-board-single';
 import { SudokuBoardCoop } from './components/sudoku-board-coop/sudoku-board-coop';
+import { LobbyComponent } from './pages/lobby/lobby.component';
 
 export const routes: Routes = [
   {
@@ -39,7 +40,11 @@ export const routes: Routes = [
     component: SudokuBoardSingle
   },
   {
-    path: 'sudoku/multi/:playmode/:level',
+    path: 'sudoku/multi/:playmode/:level/lobby',
+    component: LobbyComponent
+  },
+  {
+    path: 'sudoku/multi/:playmode/:level/game',
     component: SudokuBoardCoop
   },
   {

@@ -1,0 +1,90 @@
+@use "styles/variables" as *;
+
+.lobby-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    border: $light-gray 1px solid;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    padding: 1rem;
+    max-width: 400px;
+    margin: 30vh auto;
+    box-sizing: border-box;
+    background-color: $light-gray;
+
+
+    h1 {
+        margin-bottom: 1rem;
+        color: $marine-dark;
+    }
+
+    p {
+        margin-bottom: 1.5rem;
+        max-width: 400px;
+        font-size: 20px;
+        color: $marine-dark;
+        ;
+    }
+
+    input {
+        width: 100%;
+        max-width: 300px;
+        padding: 0.5rem;
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+        border-radius: 5px;
+        border: 1px solid $marine-dark;
+        box-sizing: border-box;
+    }
+
+    .button-group {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        border: none;
+
+        ::ng-deep .lobby-button {
+            background-color: $marine !important;
+            color: $light-gray;
+            border: none;
+            padding: 0.8rem 1rem;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+
+            &:hover {
+                transform: translateY(-5px);
+                background-color: $marine-hover !important;
+            }
+        }
+    }
+}
+
+::ng-deep html.darkmode .lobby-container {
+    background-color: var(--p-surface-500);
+    border: $marine 2px solid !important; 
+
+    h1 {
+        color: $light-gray !important;
+    }
+
+    p {
+        color: $light-gray !important;
+    }
+
+    input {
+        background-color: var(--p-surface-400);
+        color: $light-gray;
+        border: $light-gray 1px solid !important;
+    }
+
+    .button-group button {
+        background-color: $marine;
+        color: $light-gray;
+        border: none;
+    }
+}
