@@ -14,12 +14,10 @@ export class LobbyComponent {
   roomId = '';
 
   createRoom() {
-    // Logic to create a room
     console.log('Creating room with ID:', this.roomId);
   }
 
   joinRoom() {
-    // Logic to join a room
     console.log('Joining room with ID:', this.roomId);
   }
 }
