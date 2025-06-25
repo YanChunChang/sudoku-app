@@ -3,7 +3,7 @@
     <p>Willkommen in der Lobby! Hier kannst du Räume erstellen oder bestehenden Räumen beitreten.</p>
     <input [(ngModel)]="roomId" placeholder="Room ID" />
     <div class="button-group">
-      <p-button styleClass="lobby-button" label="Raum erstellen"></p-button>
-      <p-button styleClass="lobby-button" label="Raum beitreten"></p-button>
+      <p-button styleClass="lobby-button" (click)="createRoom()" label="Raum erstellen"></p-button>
+      <p-button styleClass="lobby-button" (click)="joinRoom()"label="Raum beitreten"></p-button>
     </div>
   </div>
