@@ -44,7 +44,7 @@ export const routes: Routes = [
     component: LobbyComponent
   },
   {
-    path: 'sudoku/multi/:playmode/:level/game',
+    path: 'sudoku/multi/:playmode/:level/:roomId',
     component: SudokuBoardCoop
   },
   {

@@ -15,7 +15,11 @@ export class BoardService {
     private sudokuService: SudokuService,
     private localTimerService: LocalTimerService) { }
 
-  setupGameBoard(currentLevel: string, currentTimerKey: string, testMode = false): { form: FormGroup, initialBoard: number[][], solvedBoard: number[][], userBoard: (number | null)[][], loadStorage: boolean } {
+  setupGameBoard(
+    currentLevel: string, 
+    currentTimerKey: string, 
+    testMode = false,
+    externalBoardData?: { initialBoard: number[][], solvedBoard: number[][] }): { form: FormGroup, initialBoard: number[][], solvedBoard: number[][], userBoard: (number | null)[][], loadStorage: boolean } {
     const savedTimerKey = localStorage.getItem('timerKey');
     const loadStorage = savedTimerKey === currentTimerKey && !testMode;
     console.log('savedTimerKey:', savedTimerKey);
@@ -43,7 +47,20 @@ export class BoardService {
         userBoard = initialBoard.map(row => row.map(cell => cell === 0 ? null : cell));
       }
 
-    } else if (testMode) {
+    } else if (externalBoardData) {
+      console.log("externalBoardData");
+      localStorage.setItem('timerKey', currentTimerKey);
+
+      initialBoard = externalBoardData.initialBoard;
+      solvedBoard = externalBoardData.solvedBoard;
+    
+      this.gameStateService.setInitialBoard(initialBoard);
+      this.gameStateService.setSolvedBoard(solvedBoard);
+    
+      localStorage.removeItem('userBoard');
+    
+      userBoard = initialBoard.map(row => row.map(cell => cell === 0 ? null : cell));
+    }else if (testMode) {
       // test board
       initialBoard = this.TEST_BOARD_INITIAL;
       solvedBoard = this.TEST_BOARD_SOLVED;

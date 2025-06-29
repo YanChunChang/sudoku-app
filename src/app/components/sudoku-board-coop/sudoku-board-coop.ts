@@ -14,11 +14,14 @@ import { GameStateService } from '../../services/game/game-state.service';
 import { GameConfigService } from '../../services/game/gameconfig.service';
 import { LeaderboardService } from '../../services/leaderboard/leaderboard-service.service';
 import { SudokuService } from '../../services/sudoku.service';
+import { SocketService } from '../../services/socket/socket.service';
+import { CommonModule } from '@angular/common';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-sudoku-board-coop',
   standalone: true,
-  imports: [SudokuBoardComponent, ReactiveFormsModule, FormsModule],
+  imports: [SudokuBoardComponent, ReactiveFormsModule, FormsModule, CommonModule, ToastModule],
   templateUrl: './sudoku-board-coop.html',
   styleUrl: './sudoku-board-coop.scss',
   providers: [MessageService]
@@ -45,6 +48,8 @@ export class SudokuBoardCoop {
   nickname: string = '';
   message = '';
   error = '';
+  roomId = '';
+  userId ='';
 
 
   constructor(
@@ -60,63 +65,86 @@ export class SudokuBoardCoop {
     private messageService: MessageService,
     private gameStateService: GameStateService,
     private gameControlService: GameControlService,
-    private boardService: BoardService
-  ) { 
+    private boardService: BoardService,
+    private socketService: SocketService
+  ) {
   }
+ 
+  ngOnInit() {
+    this.isLoggedIn = this.authService.isLoggedIn();
+    this.currentUsername = this.authService.getUsername() ?? '';
+    this.userId = this.authService.getUserId() ?? '';
+    this.socketService.loadBoard(); 
 
-    ngOnInit() {
-      this.isLoggedIn = this.authService.isLoggedIn();
-      this.currentUsername = this.authService.getUsername() ?? '';
-  
-  
-      this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
-        this.gameStateService.setPlayerMode(params.get('single') ?? 'multi');
-        this.gameStateService.setPlayMode(params.get('playmode') ?? 'normal');
-        this.gameStateService.setLevel(params.get('level') ?? 'easy');
-  
-        this.currentPlayerMode = this.gameStateService.getCurrentPlayerMode();
-        this.currentPlayMode = this.gameStateService.getCurrentPlayMode();
-        this.currentLevel = this.gameStateService.getCurrentLevel();
-        console.log('currentPlayerMode:', params);
-  
-        this.timerMode = this.currentPlayMode === 'countdown' ? 'down' : 'up';
-        this.timerValue = this.currentPlayMode === 'countdown' && this.currentLevel ? (this.gameConfigService.countdownTime.get(this.currentLevel) ?? 0) : 0;
-  
-        //state(sudoku-board and timer) remaining after reload.
-        const currentTimerKey = `${this.currentPlayerMode}|${this.currentPlayMode}|${this.currentLevel}`;
-        console.log('currentTimerKey:', currentTimerKey);
-        this.gameStateService.setTimerKey(currentTimerKey);
-  
+    this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
+      this.gameStateService.setPlayerMode(params.get('single') ?? 'multi');
+      this.gameStateService.setPlayMode(params.get('playmode') ?? 'normal');
+      this.gameStateService.setLevel(params.get('level') ?? 'easy');
+
+      this.currentPlayerMode = this.gameStateService.getCurrentPlayerMode();
+      this.currentPlayMode = this.gameStateService.getCurrentPlayMode();
+      this.currentLevel = this.gameStateService.getCurrentLevel();
+
+      this.roomId = params.get('roomId') ?? 'defaultRoom';
+
+      this.timerMode = this.currentPlayMode === 'countdown' ? 'down' : 'up';
+      this.timerValue = this.currentPlayMode === 'countdown' && this.currentLevel ? (this.gameConfigService.countdownTime.get(this.currentLevel) ?? 0) : 0;
+
+      if (this.userId && this.roomId && !this.socketService.isConnected()) {
+        this.socketService.reconnect(this.roomId, this.userId, this.currentLevel, this.currentUsername);
+      }
+
+      //state(sudoku-board and timer) remaining after reload.
+      const currentTimerKey = `${this.currentPlayerMode}|${this.currentPlayMode}|${this.currentLevel}|${this.roomId}`;
+      console.log('currentTimerKey:', currentTimerKey);
+      this.gameStateService.setTimerKey(currentTimerKey);
+
+      this.socketService.board$.subscribe(externalboard => {
+        if (!externalboard) return;
+
+        console.log('Board empfangen', externalboard);
         const TEST_MODE = false;
-        const result = this.boardService.setupGameBoard(this.currentLevel, currentTimerKey, TEST_MODE);
+        const result = this.boardService.setupGameBoard(this.currentLevel, currentTimerKey, TEST_MODE, externalboard);
         this.form = result.form;
         this.initialBoard = result.initialBoard;
         this.solvedBoard = result.solvedBoard;
         this.userBoard = result.userBoard;
         const loadStorage = result.loadStorage;
-  
         this.localTimerService.initialize(this.timerMode, this.timerValue, loadStorage);
-  
-        //for winning game
-        this.formSubscription?.unsubscribe();
-        this.formSubscription = this.form.valueChanges.subscribe(boardValue => {
-          localStorage.setItem('userBoard', JSON.stringify(boardValue.board));
-          this.checkIfSudokuCompletedAndShowDialog();
-        })
-  
-        //for losing game
-        this.localTimerService.gameLost$.pipe(takeUntil(this.destroy$)).subscribe(lost => {
-          if (lost) {
-            this.showGameLostDialog = true;
-            this.localTimerService.resetGameOver();
-          }
-        });
-  
-        this.localTimerService.isPausedObservable.subscribe(paused => {
-          this.isPaused = paused;
-        });
+
       });
-    }
+
+      //for winning game
+      this.formSubscription?.unsubscribe();
+      this.formSubscription = this.form?.valueChanges.subscribe(boardValue => {
+        localStorage.setItem('userBoard', JSON.stringify(boardValue.board));
+        this.checkIfSudokuCompletedAndShowDialog();
+      })
+
+      //for losing game
+      this.localTimerService.gameLost$.pipe(takeUntil(this.destroy$)).subscribe(lost => {
+        if (lost) {
+          this.showGameLostDialog = true;
+          this.localTimerService.resetGameOver();
+        }
+      });
+
+      this.localTimerService.isPausedObservable.subscribe(paused => {
+        this.isPaused = paused;
+      });
+    });
+
+    this.socketService.onPlayerLeft((username) => {
+      console.warn('Spieler hat das Spiel verlassen:', username);
+      
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Spiel verlassen',
+        detail: username + ' verlässrt das Spiel',
+        life: 7000
+      });
+    });
+  }
 
   onClickNewGame() {
     this.localTimerService.stop(true);
@@ -226,6 +254,9 @@ export class SudokuBoardCoop {
     this.localTimerService.setPaused(false);
     this.localTimerService.start(this.timerMode, this.timerValue);
   }
+  
+  ngOnDestroy() {
 
+  }
 
 }

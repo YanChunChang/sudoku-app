@@ -33,6 +33,7 @@ export class AuthService {
       .pipe(tap(res => {
         localStorage.setItem('token', res.token);
         localStorage.setItem('username', res.user.name);
+        localStorage.setItem('userId', res.user.id);
         this.loggedIn.next(true);
       }));
   }
@@ -53,6 +54,10 @@ export class AuthService {
     return localStorage.getItem('username');
   }
 
+  getUserId(): string | null {
+    return localStorage.getItem('userId');
+  }
+
   isLoggedIn(): boolean {
     return localStorage.getItem('token') ? true : false;
  }
@@ -60,9 +65,8 @@ export class AuthService {
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
+    localStorage.removeItem('userId');
     this.loggedIn.next(false);
     this.router.navigate(['/']);
   }
-
-
 }
