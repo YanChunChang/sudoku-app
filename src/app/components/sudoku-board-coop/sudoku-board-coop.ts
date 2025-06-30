@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener, ViewEncapsulation } from '@angular/core';
 import { TimerMode } from '../../utils/utils';
 import { Subject, Subscription, takeUntil } from 'rxjs';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -24,7 +24,8 @@ import { ToastModule } from 'primeng/toast';
   imports: [SudokuBoardComponent, ReactiveFormsModule, FormsModule, CommonModule, ToastModule],
   templateUrl: './sudoku-board-coop.html',
   styleUrl: './sudoku-board-coop.scss',
-  providers: [MessageService]
+  providers: [MessageService],
+  encapsulation: ViewEncapsulation.None,
 })
 export class SudokuBoardCoop {
   private destroy$ = new Subject<void>();
@@ -49,7 +50,8 @@ export class SudokuBoardCoop {
   message = '';
   error = '';
   roomId = '';
-  userId ='';
+  userId = '';
+  previousBoardValue: number[][] = [];
 
 
   constructor(
@@ -69,12 +71,12 @@ export class SudokuBoardCoop {
     private socketService: SocketService
   ) {
   }
- 
+
   ngOnInit() {
     this.isLoggedIn = this.authService.isLoggedIn();
     this.currentUsername = this.authService.getUsername() ?? '';
     this.userId = this.authService.getUserId() ?? '';
-    this.socketService.loadBoard(); 
+    this.socketService.loadBoard();
 
     this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe(params => {
       this.gameStateService.setPlayerMode(params.get('single') ?? 'multi');
@@ -112,14 +114,71 @@ export class SudokuBoardCoop {
         const loadStorage = result.loadStorage;
         this.localTimerService.initialize(this.timerMode, this.timerValue, loadStorage);
 
-      });
+        this.socketService.onReceiveFocusUpdate((username, row, col) => {
+          const prev = document.querySelector(`.focus-other-player`);
+          if (prev) {
+            prev.classList.remove('focus-other-player');
+            prev.removeAttribute('data-user');
+          }
 
-      //for winning game
-      this.formSubscription?.unsubscribe();
-      this.formSubscription = this.form?.valueChanges.subscribe(boardValue => {
-        localStorage.setItem('userBoard', JSON.stringify(boardValue.board));
-        this.checkIfSudokuCompletedAndShowDialog();
-      })
+          const cell = document.getElementById(`cell-${row}-${col}`);
+          if (cell) {
+            cell.classList.add('focus-other-player');
+            cell.setAttribute('data-user', username);
+          } else {
+            console.warn('Zelle nicht gefunden:', `cell-${row}-${col}`);
+          }
+        });
+
+        this.socketService.onReceiveCellUpdate((row, col, value) => {
+          this.form.get(['board', row, col])?.setValue(value, { emitEvent: false });
+          // LocalStorage manuell aktualisieren
+          const savedBoardString = localStorage.getItem('userBoard');
+          let userBoard: (number | null)[][] = [];
+
+          if (savedBoardString) {
+            userBoard = JSON.parse(savedBoardString);
+          } else {
+            userBoard = this.initialBoard.map(row => row.map(cell => cell === 0 ? null : cell));
+          }
+
+          userBoard[row][col] = value;
+          localStorage.setItem('userBoard', JSON.stringify(userBoard));
+        });
+
+        //for winning game
+        this.previousBoardValue = this.form.value.board;
+        this.formSubscription?.unsubscribe();
+        this.formSubscription = this.form?.valueChanges.subscribe(newboardValue => {
+          //cell update, visible for another player
+          const newBoard = newboardValue.board;
+          for (let row = 0; row < 9; row++) {
+            for (let col = 0; col < 9; col++) {
+              const newVal = newBoard[row][col];
+              const oldVal = this.previousBoardValue?.[row]?.[col];
+
+              if (newVal !== oldVal) {
+                console.log(`Zelle geändert: [${row}, ${col}] = ${newVal}`);
+                this.socketService.sendCellUpdate(this.roomId, row, col, newVal);
+              }
+            }
+          }
+          this.previousBoardValue = newBoard;
+          localStorage.setItem('userBoard', JSON.stringify(newboardValue.board));
+
+          //focus feld, sending message
+          document.querySelector('.grid-container')?.addEventListener('focusin', (event: any) => {
+            const target = event.target as HTMLElement;
+            const id = target?.id;
+
+            if (id?.startsWith('cell-')) {
+              const [_, row, col] = id.split('-');
+              this.socketService.sendCellFocus(this.roomId, this.currentUsername, Number(row), Number(col));
+            }
+          });
+          this.checkIfSudokuCompletedAndShowDialog();
+        })
+      });
 
       //for losing game
       this.localTimerService.gameLost$.pipe(takeUntil(this.destroy$)).subscribe(lost => {
@@ -134,9 +193,16 @@ export class SudokuBoardCoop {
       });
     });
 
-    this.socketService.onPlayerLeft((username) => {
+    //player leaves
+    this.socketService.onPlayerLeft((username, userId) => {
       console.warn('Spieler hat das Spiel verlassen:', username);
-      
+
+      const cursorEl = document.getElementById(`cursor-${userId}`);
+      if (cursorEl) {
+        console.log('Entferne Cursor von', username);
+        cursorEl.remove();
+      }
+
       this.messageService.add({
         severity: 'error',
         summary: 'Spiel verlassen',
@@ -144,6 +210,32 @@ export class SudokuBoardCoop {
         life: 7000
       });
     });
+  }
+
+  ngAfterViewInit() {
+    this.socketService.onReceiveMousePosition((data) => {
+      const { userId, username, x, y } = data;
+      let cursorEl = document.getElementById(`cursor-${userId}`);
+      if (!cursorEl) {
+        cursorEl = document.createElement('div');
+        cursorEl.id = `cursor-${userId}`;
+        cursorEl.classList.add('remote-cursor');
+        cursorEl.innerText = username;
+        document.body.appendChild(cursorEl);
+      }
+
+      cursorEl.style.left = x + 'px';
+      cursorEl.style.top = y + 'px';
+    });
+  }
+
+  @HostListener('document:mousemove', ['$event'])
+  onMouseMove(event: MouseEvent) {
+    if (this.socketService.isConnected()) {
+      const mouseX = event.clientX;
+      const mouseY = event.clientY;
+      this.socketService.sendMousePosition(this.roomId, this.userId, this.currentUsername, mouseX, mouseY);
+    }
   }
 
   onClickNewGame() {
@@ -254,9 +346,21 @@ export class SudokuBoardCoop {
     this.localTimerService.setPaused(false);
     this.localTimerService.start(this.timerMode, this.timerValue);
   }
-  
-  ngOnDestroy() {
 
+  private cleanupRemoteCursors(): void {
+    console.log('Cursor-Cleanup');
+    document.querySelectorAll('.remote-cursor').forEach(el => {
+      console.log('Entferne:', el);
+      el.remove();
+    });
+  }
+
+  ngOnDestroy() {
+    console.log('SudokuBoardCoop wird zerstört.');
+    this.socketService.disconnect();
+    this.cleanupRemoteCursors();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 }

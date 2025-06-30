@@ -16,10 +16,10 @@
                         'block-a': getBlockClass(r, c) === 'a',
                         'block-b': getBlockClass(r, c) === 'b'
                       }">
-                        <input id="cell-{{r}}-{{c}}" autocomplete="off" [readonly]=" this.initialBoard[r][c] !== 0"
+                        <input [id]="'cell-' + r + '-' + c" autocomplete="off" [readonly]=" this.initialBoard[r][c] !== 0"
                             [attr.tabindex]="this.initialBoard[r][c] !== 0 ? -1 : 0" [formControl]="getCell(r, c)"
                             (input)="checkCellAnswer(r, c)" [ngClass]="getCellClass(r, c)" maxlength="1"
-                            (keydown)="onKeyDown($event, r, c)" />
+                            (keydown)="onKeyDown($event, r, c)"/>
                     </div>
                 </ng-container>
             </div>

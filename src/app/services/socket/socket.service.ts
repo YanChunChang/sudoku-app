@@ -64,8 +64,45 @@ export class SocketService {
     });
   }
 
-  onPlayerLeft(callback: (username: string) => void) {
-    this.socket.on('player-left', callback);
+  sendCellUpdate(roomId:string, i: number, j: number, newValue: number) {
+    if (this.socket) {
+      this.socket.emit('cell-update', {
+        roomId: roomId,
+        row: i,
+        col: j,
+        value: newValue
+      });
+    }
+  } 
+
+  onReceiveCellUpdate(callback: (row: number, col: number, value: number) => void){
+    this.socket.on('cell-update', ({ row, col, value }) => {
+      callback(row, col, value);
+    });
+  }
+
+  sendCellFocus(roomId: string, username: string, row: number, col: number) {
+    this.socket.emit('cell-focus', { roomId, username, row, col });
+  }
+
+  onReceiveFocusUpdate(callback: (username: string, row: number, col: number) => void) {
+    this.socket.on('cell-focus-update', ({ username, row, col }) => {
+      callback(username, row, col);
+    });
+  }
+
+  sendMousePosition(roomId: string, userId: string, username: string, x: number, y: number) {
+    this.socket.emit('mouse-position', { roomId, userId, username, x, y });
+  }
+
+  onReceiveMousePosition(callback: (data: { userId: string, username: string, x: number, y: number }) => void) {
+    this.socket.on('mouse-update', callback);
+  }
+
+  onPlayerLeft(callback: (username: string, userId: string) => void) {
+    this.socket.on('player-left', ({ username, userId }) => {
+      callback(username, userId);
+    });
   }
 
   isConnected(): boolean {
