@@ -24,7 +24,7 @@ Ziel war es, zu lernen, wie ein komplettes Webprojekt entsteht: von der Frontend
 - Responsive Design (für Desktop & Mobile)
 
 ## Live-Demo & API
-👉 [Live-Demo auf Nestify](https://sudoku-chun.netlify.app/sudoku)
+👉 [Live-Demo auf Netlify](https://sudoku-chun.netlify.app/sudoku)
 **Hinweis:** Das Backend läuft auf Render.com (Free Tier). Beim ersten Laden (z. B. Leaderboard) kann es daher zu kurzer Wartezeit kommen.
 
 
